@@ -1,7 +1,11 @@
 package cn.pingweb.career.applicant;
 
+import cn.pingweb.career.model.Skill;
+import cn.pingweb.career.service.SkillService;
 import cn.pingweb.career.vo.VO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,22 +20,25 @@ import java.util.Map;
 @RequestMapping("/resume/skill")
 public class SkillController {
 
-    @RequestMapping("/keyword")
-    @ResponseBody
-    public VO getKeyWords(@RequestParam("param1") String kw){
-        List<Map<String,String>> result = new ArrayList<>();
-        Map<String, String>map = new HashMap<>();
-        map.put("node_name", "test1");
-        result.add(map);
-        result.add(map);
-        return new VO(result);
-
-    }
+    @Autowired
+    private SkillService skillService;
 
     @RequestMapping("/save")
     @ResponseBody
-    public VO saveSkill(@RequestParam("param1") String kw, @RequestAttribute("userId")String userId){
-        System.out.println(kw);
+    public VO saveSkill(@RequestParam("param1") String content, @RequestAttribute("userId")String userId){
+        if(StringUtils.isEmpty(content)) {
+            return new VO(4003, "信息不完整", null);
+        }
+        Skill skill = new Skill(userId, content);
+        skillService.save(skill);
+        return VO.SUCCESS;
+
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public VO saveSkill(@RequestAttribute("userId")String userId){
+        skillService.remove(userId);
         return VO.SUCCESS;
 
     }

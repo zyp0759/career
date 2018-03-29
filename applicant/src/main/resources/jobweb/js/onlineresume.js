@@ -328,7 +328,43 @@ $(function() {
 				myfun();
 			});
 
-	// 自我描述默认
+	// 专业技能
+    $('#zyjn3 .default').live("click", function() {
+        $('#zyjn3').hide();
+        $('#zyjn2').show();
+        myfun();
+    });
+    // 鼠标滑过点击出现
+    $('#zyjn1').live('mouseover', function() {
+        $('#zyjn1 .span_edit').show();
+        $('#zyjn1 .span_del').show();
+    });
+
+    $('#zyjn1').live('mouseout', function() {
+        $('#zyjn1 .span_edit').hide();
+        $('#zyjn1 .span_del').hide();
+    });
+    // 技能编辑
+    $('#zyjn1 .span_edit').live("click", function() {
+        var text = $("#self_des").html().replace(reg2, '\n');
+        $('#my_skill').val(text);
+        $('#zyjn1').hide();
+        $('#zyjn2').show();
+        myfun();
+    });
+    // 删除
+    $('#zyjn1 .span_del').live("click", function() {
+        $('#zyjn3').show();
+        $('#zyjn1').hide();
+        $('.skill_content').html('');
+        $('#my_skill').val('');
+
+        deleteSkill();
+        // $('#dragDiv6').remove();
+    });
+
+
+    // 自我描述默认
 	$('#self_description3 .default').live("click", function() {
 		$('#self_description3').hide();
 		$('#self_description2').show();

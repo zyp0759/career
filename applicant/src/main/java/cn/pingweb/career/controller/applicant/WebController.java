@@ -38,6 +38,9 @@ public class WebController {
     private ProjectExperienceService projectExperienceService;
 
     @Autowired
+    private SkillService skillService;
+
+    @Autowired
     private SelfDescriptionService selfDescriptionService;
 
     @Autowired
@@ -99,6 +102,7 @@ public class WebController {
         model.addAttribute("workExperience", WorkExperienceDto.getDtos(workExperienceService.findByUserId(userId)));
         model.addAttribute("projectExperience", ProjectExperienceDto.getDtos(projectExperienceService.findByUserId(userId)));
         model.addAttribute("selfDescription", selfDescriptionService.getSelfDescription(userId));
+        model.addAttribute("skill", skillService.getSkillContent(userId));
         return "resume";
     }
 

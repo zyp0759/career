@@ -37,7 +37,7 @@ public class ProjectExprienceController {
         ProjectExperience projectExperience = new ProjectExperience(id, userId, company, position, start, end, desc);
         projectExperienceService.save(projectExperience);
         Map<String, String> map = new HashMap<>();
-        map.put("project_id", projectExperience.getId());
+        map.put("id", projectExperience.getId());
         return new VO(map);
 
     }

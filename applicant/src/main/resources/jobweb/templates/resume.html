@@ -349,7 +349,7 @@
                     url: '/resume/projectExperience/delete',
                     data: param,
                     success: function(data){
-                        if(data.ret == 0)
+                        if(data.status == "200")
                         {
                             $('.xmjy_div .'+projectExperienceId).remove();
                             if(document.getElementById('xmjy_div').innerHTML.replace(/(^\s*)|(\s*$)/g,"") == ""){
@@ -1476,6 +1476,7 @@
 
             $('.zwms_cancel').live("click",function(){
 
+
                 var str = $("#self_des").text();
                 if(str == ""){
                     $('#self_description2').hide();
@@ -1491,46 +1492,46 @@
             //保存专业技能
             $(".zyjn_save").live("click",function(){
                 var param = new Object();
-                param.param1 = "";
+                param.param1 = $("#my_skill").val().replace(reg,"<br>");
 
-                var allNodes = document.getElementById("add").getElementsByTagName("i");
-                for(var i=0; i<allNodes.length ;i++){
-                    if(i == 0){
-                        param.param1 = allNodes.item(i).innerHTML.replace(/(^\s*)|(\s*$)/g,"");
-                    }else{
-                        param.param1 = param.param1 +"," +  allNodes.item(i).innerHTML.replace(/(^\s*)|(\s*$)/g,"");
-                    }
+                //验证自我描述
+                if(param.param1.length > 500){
+                    alert("专业技能不能超过500个字符");
+                    return;
                 }
                 jQuery.ajax({
                     type: 'post',
-
                     dataType: 'json',
-                    url: '/ro/skeyword',
-                    data: JSON.stringify(param),
+                    url: '/resume/skill/save',
+                    data: param,
                     success: function(data){
-                        if(data.ret == 0)
+                        if(data.status == "200")
                         {
-                            if(param.param1.replace(/(^\s*)|(\s*$)/g,"") == ""){
-                                $('.jineng_div').html('');
-                                $('#zyjn2').hide();
-                                $('#zyjn3').show();
-                                myfun();
-                                return;
-                            }
-                            $(".jineng_div").html("");
-                            for(var i=0; i<allNodes.length ;i++){
-                                $(".jineng_div").append("<div class='jineng_label'><label>"+allNodes.item(i).innerHTML.replace(/(^\s*)|(\s*$)/g,'')+"</label><i></i></div>");
-                            }
-
-                            updatebar();
-
+                            $('#skill_content').html(param.param1);
                             $('#zyjn2').hide();
                             $('#zyjn1').show();
+
+                            updatebar();
                             myfun();
                         }
                     }
                 });
             })
+
+            $('.zyjn_cancel').live("click",function(){
+
+
+                var str = $("#skill_content").text();
+                if(str == ""){
+                    $('#zyjn2').hide();
+                    $('#zyjn3').show();
+                    $('#my_skill').val("");
+                }else{
+                    $('#zyjn2').hide();
+                    $('#zyjn1').show();
+                }
+                myfun();
+            });
 
 
             // 上传作品删除
@@ -1566,7 +1567,7 @@
 
             })
             $('.zyjn_cancel').live('click',function(){
-                var h = $('.jineng_div').html();
+                var h = $('.skill_content').html();
                 if(h.replace(/(^\s*)|(\s*$)/g,"") == ""){
                     $('#zyjn2').hide();
                     $('#zyjn3').show();
@@ -2032,20 +2033,21 @@
             });
         }
 
-        function deletes(flag){
+        function deleteSkill(flag){
             var param = new Object();
-            param.param1 = flag;
             jQuery.ajax({
                 type: 'post',
                 dataType: 'json',
-                url: '/ro/deletes',
-                data: JSON.stringify(param),
-                success: function(date){
-                    if(date.ret == 0)
+                url: '/resume/skill/delete',
+                success: function(data){
+                    if(data.status == "200")
                     {
                         updatebar();
                         myfun();
                     }
+                },
+                error: function(data) {
+                    console.info(data);
                 }
             });
         }
@@ -2094,59 +2096,59 @@
                 }
             })
 
-            $(document).keyup(function(event){
-                selectItem(event);
-            })
+//            $(document).keyup(function(event){
+//                selectItem(event);
+//            })
 
             //关键字查询部分
-            var oldContent = "";//文本变化前的内容，使用它和新内容对比，发生了变化才发送ajax请求
-            $('#add_ci').keyup(function(event){
-                if ((event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 13)) {
-                    return;
-                }
-                var content = $("#input_str").val().replace(/(^\s*)|(\s*$)/g,"");
-                if(content == "" || (oldContent == "" && content == oldContent))
-                {
-                    oldContent = "";
-                    $('.search_ul').hide();
-                    return;//没有输入内容或者文本内容没有发生变化时就返回
-                }
-                oldContent = content;
-
-                var param = new Object();
-                param.param1 = $("#input_str").val().replace(/(^\s*)|(\s*$)/g,"");
-                jQuery.ajax({
-                    type: 'post',
-
-                    dataType: 'json',
-                    url: '/ajax/selectKw.do',
-                    data: JSON.stringify(param),
-                    success: function(data){
-                        if(data.ret == "0")
-                        {
-                            if(data.keywords.length > 0){
-
-                                $('.tab_list').hide();
-
-                                $('.keys').slideDown();
-                                $('.search_ul').html("");
-                                $('.search_ul').show();
-                                var length = data.keywords.length;
-                                if(length > 10){
-                                    length = 10;
-                                }
-                                for(var i=0;i<length;i++){
-                                    $('.search_ul').append("<li id='li_"+i+"'><span>"+data.keywords[i].node_name+"</span><label>"+data.keywords[i].p_name+"</label></li>");
-                                }
-                            }else{
-                                $('.tab_list').hide();
-                                $('.keys').slideDown();
-                                $('.search_ul').hide();
-                            }
-                        }
-                    }
-                });
-            })
+//            var oldContent = "";//文本变化前的内容，使用它和新内容对比，发生了变化才发送ajax请求
+//            $('#add_ci').keyup(function(event){
+//                if ((event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 13)) {
+//                    return;
+//                }
+//                var content = $("#input_str").val().replace(/(^\s*)|(\s*$)/g,"");
+//                if(content == "" || (oldContent == "" && content == oldContent))
+//                {
+//                    oldContent = "";
+//                    $('.search_ul').hide();
+//                    return;//没有输入内容或者文本内容没有发生变化时就返回
+//                }
+//                oldContent = content;
+//
+//                var param = new Object();
+//                param.param1 = $("#input_str").val().replace(/(^\s*)|(\s*$)/g,"");
+//                jQuery.ajax({
+//                    type: 'post',
+//
+//                    dataType: 'json',
+//                    url: '/ajax/selectKw.do',
+//                    data: JSON.stringify(param),
+//                    success: function(data){
+//                        if(data.ret == "0")
+//                        {
+//                            if(data.keywords.length > 0){
+//
+//                                $('.tab_list').hide();
+//
+//                                $('.keys').slideDown();
+//                                $('.search_ul').html("");
+//                                $('.search_ul').show();
+//                                var length = data.keywords.length;
+//                                if(length > 10){
+//                                    length = 10;
+//                                }
+//                                for(var i=0;i<length;i++){
+//                                    $('.search_ul').append("<li id='li_"+i+"'><span>"+data.keywords[i].node_name+"</span><label>"+data.keywords[i].p_name+"</label></li>");
+//                                }
+//                            }else{
+//                                $('.tab_list').hide();
+//                                $('.keys').slideDown();
+//                                $('.search_ul').hide();
+//                            }
+//                        }
+//                    }
+//                });
+//            })
 
             $('.tab_li span').click(function(){
                 $(this).addClass('active').siblings('span').removeClass('active');
@@ -2361,69 +2363,69 @@
             });
         }
 
-        var currentSelIndex = -1;
-        var oldSelIndex = -1;
-        function selectItem(event) {
-            var liLength = document.getElementById("ulItems").getElementsByTagName("li").length;
-            //获取列表数量
-            if ((event.keyCode == 38 || event.keyCode == 40)) {
-                if (liLength > 0) {
-                    oldSelIndex = currentSelIndex;
-                    //上移
-                    if (event.keyCode == 38) {
-                        if (currentSelIndex == -1) {
-                            currentSelIndex = liLength - 1;
-                        }else {
-                            currentSelIndex --;
-                            if (currentSelIndex < 0) {
-                                currentSelIndex = liLength - 1;
-                            }
-                        }
-                        if (currentSelIndex != -1) {
-                            document.getElementById("li_" + currentSelIndex).style.backgroundColor = "#eee";
-                        }
-                        if (oldSelIndex != -1) {
-                            document.getElementById("li_" + oldSelIndex).style.backgroundColor = "#ffffff";
-                        }
-                    }
-                    //下移
-                    if (event.keyCode == 40) {
-                        if (currentSelIndex == liLength - 1) {
-                            currentSelIndex = 0;
-                        }else {
-                            currentSelIndex ++;
-                            if (currentSelIndex > liLength - 1) {
-                                currentSelIndex = 0;
-                            }
-                        }
-                        if (currentSelIndex != -1) {
-                            document.getElementById("li_" + currentSelIndex).style.backgroundColor = "#eee";
-                        }
-                        if (oldSelIndex != -1) {
-                            document.getElementById("li_" + oldSelIndex).style.backgroundColor = "#ffffff";
-                        }
-                    }
-                }
-            } else if (event.keyCode == 13) {
-                if ((document.getElementById("ulItems").style.display == "" || document.getElementById("ulItems").style.display != "none" ) && currentSelIndex != -1) {
-                    var val =$("#li_" + currentSelIndex).find("span").text().replace(/(^\s*)|(\s*$)/g,"");
-                    var allNodes = document.getElementById("add").getElementsByTagName("i");
-                    for(var i=0; i<allNodes.length ;i++){
-                        if(val == allNodes.item(i).innerHTML.replace(/(^\s*)|(\s*$)/g,"")){
-                            return;
-                        }
-                    }
-                    document.getElementById("ulItems").style.display = "none";
-                    currentSelIndex = -1;
-                    oldSelIndex = -1;
-                    $('#add_ci').find('.add_cons').show().append('<li><i>'+ val + '</i><em class="list_em"></em></li>');
-                    $('#input_str').val('');
-                    $(".remove_con").show();
-                    $(".search_ul").html("");
-                    $(".keys").hide();
-                }
-            }
-        }
+//        var currentSelIndex = -1;
+//        var oldSelIndex = -1;
+//        function selectItem(event) {
+//            var liLength = document.getElementById("ulItems").getElementsByTagName("li").length;
+//            //获取列表数量
+//            if ((event.keyCode == 38 || event.keyCode == 40)) {
+//                if (liLength > 0) {
+//                    oldSelIndex = currentSelIndex;
+//                    //上移
+//                    if (event.keyCode == 38) {
+//                        if (currentSelIndex == -1) {
+//                            currentSelIndex = liLength - 1;
+//                        }else {
+//                            currentSelIndex --;
+//                            if (currentSelIndex < 0) {
+//                                currentSelIndex = liLength - 1;
+//                            }
+//                        }
+//                        if (currentSelIndex != -1) {
+//                            document.getElementById("li_" + currentSelIndex).style.backgroundColor = "#eee";
+//                        }
+//                        if (oldSelIndex != -1) {
+//                            document.getElementById("li_" + oldSelIndex).style.backgroundColor = "#ffffff";
+//                        }
+//                    }
+//                    //下移
+//                    if (event.keyCode == 40) {
+//                        if (currentSelIndex == liLength - 1) {
+//                            currentSelIndex = 0;
+//                        }else {
+//                            currentSelIndex ++;
+//                            if (currentSelIndex > liLength - 1) {
+//                                currentSelIndex = 0;
+//                            }
+//                        }
+//                        if (currentSelIndex != -1) {
+//                            document.getElementById("li_" + currentSelIndex).style.backgroundColor = "#eee";
+//                        }
+//                        if (oldSelIndex != -1) {
+//                            document.getElementById("li_" + oldSelIndex).style.backgroundColor = "#ffffff";
+//                        }
+//                    }
+//                }
+//            } else if (event.keyCode == 13) {
+//                if ((document.getElementById("ulItems").style.display == "" || document.getElementById("ulItems").style.display != "none" ) && currentSelIndex != -1) {
+//                    var val =$("#li_" + currentSelIndex).find("span").text().replace(/(^\s*)|(\s*$)/g,"");
+//                    var allNodes = document.getElementById("add").getElementsByTagName("i");
+//                    for(var i=0; i<allNodes.length ;i++){
+//                        if(val == allNodes.item(i).innerHTML.replace(/(^\s*)|(\s*$)/g,"")){
+//                            return;
+//                        }
+//                    }
+//                    document.getElementById("ulItems").style.display = "none";
+//                    currentSelIndex = -1;
+//                    oldSelIndex = -1;
+//                    $('#add_ci').find('.add_cons').show().append('<li><i>'+ val + '</i><em class="list_em"></em></li>');
+//                    $('#input_str').val('');
+//                    $(".remove_con").show();
+//                    $(".search_ul").html("");
+//                    $(".keys").hide();
+//                }
+//            }
+//        }
         function getImage1(){
             $('.close_btn').click();
         }
@@ -2742,579 +2744,579 @@
                 <div class="dragDiv_edit">
                     <div class="top_seap"></div>
                     <!-- 期望工作 -->
-                    <div id="dragDiv1" name="dragDiv" v="1" class="dragDiv">
-                        <div class="monitor monitor_job">
-                            <div class="monitor_pos monitor_pos1"><div class="seap" style="height: 66px;"></div></div>
-                        </div>
-                        <div id="expect_con1" class="expect_con">
-                            <div class="expect_title">期望工作</div>
-                            <div class="self_list">
-                                <div>
-                                    <span>期望职位</span>
-                                    <div class="want_position">前端开发 Flash JavaScript</div>
-                                </div>
-                                <div>
-                                    <span>期望薪资</span>
-                                    <div class="want_salary">6K-8K</div>
-                                </div>
-                                <div>
-                                    <span>期望地点</span>
-                                    <div class="want_location">深圳</div>
-                                </div>
-                                <div style="display:none;">
-                                    <span>工作性质</span>
-                                    <div class="want_type"></div>
-                                </div>
-                                <div style="">
-                                    <span>期望领域</span>
-                                    <div class="want_industry">服务 文化艺术 在线旅游</div>
-                                </div>
-                            </div>
-                            <div class="footer_edit"><span class="span_edit"></span></div>
-                        </div>
-                        <div style="display:none;" id="expect_con2" class="expect_con">
-                            <div class="expect_title">期望工作</div>
-                            <div class="expect_con_left">
-                                <div class="edit_list">
-                                    <span>期望职位<em>*</em></span>
-                                    <div class="seles selesjob_part">
-		                        <span style="position:relative; z-index:11;" class="seles_choose seles_xiala lala">
-		                          <input type="text" class="hope_job lala" placeholder="期望职位" value=" 前端开发 Flash JavaScript">
-		                          <div class="labels_con lala">
-		                            <div class="divides">
-		                              <span class="left left_item">技术：</span>
-		                              <div class="ul_div">
-		                                <div class="li_div">
-		                                    <span>前端开发</span>
-		                                    <ul>
-					                            <li>web前端</li>
-					                            <li>Flash</li>
-					                            <li>html5</li>
-					                            <li>JavaScript</li>
-					                            <li>U3D</li>
-					                            <li>COCOS2D-X</li>
-					                        </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  	<span>后端开发</span>
-			                                <ul>
-					                          	<li>Java</li>
-					                          	<li>C++</li>
-						                        <li>PHP</li>
-						                        <li>数据挖掘</li>
-						                        <li>C</li>
-						                        <li>C#</li>
-						                        <li>.NET</li>
-						                        <li>Hadoop</li>
-						                        <li>Python</li>
-						                        <li>Delphi</li>
-						                        <li>VB</li>
-						                        <li>Perl</li>
-						                        <li>Ruby</li>
-						                        <li>Node.js</li>
-						                        <li>自然语言处理</li>
-						                        <li>搜索算法</li>
-						                        <li>精准推荐</li>
-						                        <li>全栈工程师</li>
-						                        <li>Go</li>
-						                        <li>ASP</li>
-						                        <li>Shell</li>
-					                        </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>移动开发</span>
-		                                  <ul>
-		                                    <li>HTML5</li>
-		                                    <li>Android</li>
-		                                    <li>iOS</li>
-		                                    <li>WP</li>
-		                                  </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>测试</span>
-		                                  <ul>
-		                                    <li>测试工程师</li>
-				                          	<li>自动化测试</li>
-				                          	<li>功能测试</li>
-				                          	<li>性能测试</li>
-				                          	<li>测试开发</li>
-				                          	<li>游戏测试</li>
-				                          	<li>白盒测试</li>
-				                          	<li>灰盒测试</li>
-				                          	<li>黑盒测试</li>
-				                          	<li>手机测试</li>
-				                          	<li>硬件测试</li>
-				                          	<li>测试经理</li>
-		                                  </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  	<span>运维</span>
-		                                  	<ul>
-			                                    <li>运维工程师</li>
-	                        					<li>运维开发工程师</li>
-	                        					<li>网络工程师</li>
-	                        					<li>系统工程师</li>
-	                        					<li>IT支持</li>
-	                        					<li>IDC</li>
-	                        					<li>CDN</li>
-	                        					<li>F5</li>
-	                        					<li>系统管理员</li>
-	                        					<li>病毒分析</li>
-	                        					<li>WEB安全</li>
-	                        					<li>网络安全</li>
-	                        					<li>系统安全</li>
-	                        					<li>运维经理</li>
-		                                  	</ul>
-		                                </div>
-		                                <div class="li_div">
-			                                <span>DBA</span>
-			                                <ul>
-			                                    <li>MySQL</li>
-						                        <li>SQLServer</li>
-						                        <li>Oracle</li>
-						                        <li>DB2</li>
-						                        <li>MongoDB</li>
-						                        <li>ETL</li>
-						                        <li>Hive</li>
-						                        <li>数据仓库</li>
-			                                </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>项目管理</span>
-		                                  <ul>
-		                                    <li>项目经理</li>
-		                                    <li>项目助理</li>
-		                                  </ul>
-		                                </div>
-		                                <div style="width:125px;" class="li_div">
-			                                <span style="width:120px;">高端技术职位</span>
-			                                <ul>
-			                                    <li>技术经理</li>
-					                          	<li>技术总监</li>
-					                          	<li>测试经理</li>
-					                          	<li>架构师</li>
-					                          	<li>CTO</li>
-					                          	<li>运维总监</li>
-					                          	<li>技术合伙人</li>
-					                          	<li>项目总监</li>
-					                          	<li>测试总监</li>
-					                          	<li>安全专家</li>
-			                                </ul>
-		                                </div>
-		                                <div class="li_div">
-					                        <span>企业软件</span>
-					                        <ul>
-					                          <li>实施工程师</li>
-					                          <li>售前工程师</li>
-					                          <li>售后工程师</li>
-					                          <li>BI工程师</li>
-					                        </ul>
-					                    </div>
-		                              </div>
-		                            </div>
-		                            <div class="divides">
-		                              <span class="left left_item">产品：</span>
-		                              <div class="ul_div">
-		                                <div class="li_div">
-		                                  <span>产品经理</span>
-		                                  <ul>
-		                                    <li>产品经理</li>
-		                                    <li>网页产品经理</li>
-		                                    <li>移动产品经理</li>
-		                                    <li>产品助理</li>
-		                                    <li>数据产品经理</li>
-		                                    <li>电商产品经理</li>
-		                                    <li>游戏策划</li>
-		                                  </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>产品设计师</span>
-		                                  <ul>
-		                                    <li>网页产品设计师</li>
-		                                    <li>无线产品设计师</li>
-		                                  </ul>
-		                                </div>
-		                                <div style="width:125px;" class="li_div">
-		                                  <span style="width:120px;">高端产品职位</span>
-		                                  <ul>
-		                                    <li>产品部经理</li>
-		                                    <li>产品总监</li>
-		                                  </ul>
-		                                </div>
-		                              </div>
-		                            </div>
-		                            <div class="divides">
-		                              <span class="left left_item">设计：</span>
-		                              <div class="ul_div">
-		                                <div class="li_div">
-		                                  <span>视觉设计</span>
-		                                  <ul>
-		                                    <li>视觉设计师</li>
-		                                    <li>网页设计师</li>
-		                                    <li>Flash设计师</li>
-		                                    <li>APP设计师</li>
-		                                    <li>UI设计师</li>
-		                                    <li>平面设计师</li>
-		                                    <li>美术设计师（2D/3D）</li>
-		                                    <li>广告设计师</li>
-		                                    <li>多媒体设计师</li>
-		                                    <li>原画师</li>
-		                                    <li>游戏特效</li>
-		                                    <li>游戏界面设计师</li>
-		                                    <li>游戏场景</li>
-		                                    <li>游戏角色</li>
-		                                    <li>游戏动作</li>
-		                                  </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>交互设计</span>
-		                                  <ul>
-		                                    <li>交互设计师</li>
-		                                    <li>无线交互设计师</li>
-		                                    <li>网页交互设计师</li>
-		                                    <li>硬件交互设计师</li>
-		                                  </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>用户研究</span>
-		                                  <ul>
-		                                    <li>数据分析师</li>
-		                                    <li>用户研究员</li>
-		                                    <li>游戏数值策划</li>
-		                                  </ul>
-		                                </div>
-		                                <div style="width:125px;" class="li_div">
-		                                  <span style="width:120px;">高端设计职位</span>
-		                                  <ul>
-		                                    <li>设计经理/主管</li>
-		                                    <li>设计总监</li>
-		                                    <li>视觉设计经理/主管</li>
-		                                    <li>视觉设计总监</li>
-		                                    <li>交互设计经理/主管</li>
-		                                    <li>交互设计总监</li>
-		                                    <li>用户研究经理/主管</li>
-		                                    <li>用户研究总监</li>
-		                                  </ul>
-		                                </div>
-		                              </div>
-		                            </div>
-		                            <div class="divides">
-		                              <span class="left left_item">运营：</span>
-		                              <div class="ul_div">
-		                                <div class="li_div">
-		                                  	<span>运营</span>
-		                                  	<ul>
-		                                    	<li>用户运营</li>
-					                          	<li>产品运营</li>
-					                          	<li>数据运营</li>
-					                          	<li>内容运营</li>
-					                          	<li>活动运营</li>
-					                          	<li>商家运营</li>
-					                          	<li>品类运营</li>
-					                          	<li>游戏运营</li>
-					                          	<li>网络推广</li>
-					                          	<li>运营专员</li>
-					                          	<li>网店运营</li>
-					                          	<li>新媒体运营</li>
-					                          	<li>海外运营</li>
-					                          	<li>运营经理</li>
-		                                  	</ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  	<span>编辑</span>
-		                                  	<ul>
-			                                    <li>副主编</li>
-					                          	<li>内容编辑</li>
-					                          	<li>文案策划</li>
-					                          	<li>记者</li>
-		                                  	</ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  	<span>客服</span>
-		                                  	<ul>
-			                                    <li>售前咨询</li>
-					                          	<li>售后客服</li>
-					                          	<li>淘宝客服</li>
-					                          	<li>客服经理</li>
-		                                  	</ul>
-		                                </div>
-		                                <div style="width:125px;" class="li_div">
-		                                  <span style="width:120px;">高端运营职位</span>
-		                                  <ul>
-		                                    <li>主编</li>
-		                                    <li>运营总监</li>
-		                                    <li>COO</li>
-                          					<li>客服总监</li>
-		                                  </ul>
-		                                </div>
-		                              </div>
-		                            </div>
-		                            <div class="divides">
-		                              <span class="left left_item">市场：</span>
-		                              <div class="ul_div">
-		                                <div class="li_div">
-		                                  	<span>市场/营销</span>
-		                                  	<ul>
-		                                    	<li>市场营销</li>
-					                          	<li>市场策划</li>
-					                          	<li>市场顾问</li>
-					                          	<li>市场推广</li>
-					                          	<li>SEO</li>
-					                          	<li>SEM</li>
-					                          	<li>商务渠道</li>
-					                          	<li>商业数据分析</li>
-					                          	<li>活动策划</li>
-					                          	<li>网络营销</li>
-					                          	<li>海外市场</li>
-					                          	<li>政府关系</li>
-		                                  	</ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  <span>公关</span>
-		                                  <ul>
-		                                    <li>媒介经理</li>
-		                                    <li>广告协调</li>
-		                                    <li>品牌公关</li>
-		                                  </ul>
-		                                </div>
-		                                <div class="li_div">
-		                                  	<span>销售</span>
-		                                  	<ul>
-			                                    <li>销售专员</li>
-					                          	<li>销售经理</li>
-					                          	<li>客户代表</li>
-					                          	<li>大客户代表</li>
-					                          	<li>BD经理</li>
-					                          	<li>商务渠道</li>
-					                          	<li>渠道销售</li>
-					                          	<li>代理商销售</li>
-					                          	<li>销售助理</li>
-					                          	<li>电话销售</li>
-					                          	<li>销售顾问</li>
-					                          	<li>商品经理</li>
-		                                  	</ul>
-		                                </div>
-		                                <div class="li_div">
-					                        <span>供应链</span>
-					                        <ul class="pos_right">
-					                          <li>物流</li>
-					                          <li>仓储</li>
-					                        </ul>
-					                    </div>
-					                    <div class="li_div">
-					                        <span>采购</span>
-					                        <ul>
-					                          	<li>采购专员</li>
-					                          	<li>采购经理</li>
-					                          	<li>商品经理</li>
-					                        </ul>
-					                    </div>
-					                    <div class="li_div">
-					                        <span>投资</span>
-					                        <ul>
-					                          	<li>投资分析师</li>
-					                          	<li>投资顾问</li>
-					                          	<li>投资经理</li>
-					                        </ul>
-					                    </div>
-		                                <div style="width:125px;" class="li_div">
-		                                  	<span style="width:120px;">高端市场职位</span>
-		                                  	<ul>
-		                                    	<li>市场总监</li>
-					                          	<li>销售总监</li>
-					                          	<li>商务总监</li>
-					                          	<li>CMO</li>
-					                          	<li>公关总监</li>
-					                          	<li>投资总监</li>
-					                          	<li>采购总监</li>
-		                                  	</ul>
-		                                </div>
-		                              </div>
-		                            </div>
-		                            <div class="divides">
-					                    <span class="left left_item">职能：</span>
-					                    <div class="ul_div">
-					                      <div class="li_div">
-					                        <span>人力资源</span>
-					                        <ul>
-					                          <li>人事专员</li>
-					                          <li>招聘经理</li>
-					                          <li>HRBP</li>
-					                          <li>人事/HR</li>
-					                          <li>培训经理</li>
-					                          <li>薪资福利经理</li>
-					                          <li>绩效考核经理</li>
-					                          <li>员工关系</li>
-					                          <li>人事主管</li>
-					                        </ul>
-					                      </div>
-					                      <div class="li_div">
-					                        <span>行政</span>
-					                        <ul>
-					                          <li>助理</li>
-					                          <li>前台</li>
-					                          <li>行政</li>
-					                          <li>总经理助理</li>
-					                          <li>文秘</li>
-					                        </ul>
-					                      </div>
-					                      <div class="li_div">
-					                        <span>财务</span>
-					                        <ul class="pos_right">
-					                          <li>会计</li>
-					                          <li>出纳</li>
-					                          <li>资金</li>
-					                          <li>财务</li>
-					                          <li>结算</li>
-					                          <li>税务</li>
-					                          <li>审计</li>
-					                          <li>风控</li>
-					                        </ul>
-					                      </div>
-					                      <div style="width:125px;" class="li_div">
-					                        <span style="width:120px;">高端职能职位</span>
-					                        <ul class="pos_rights">
-					                          <li>行政总监/经理</li>
-					                          <li>财务总监/经理</li>
-					                          <li>HRD/HRM</li>
-					                          <li>CFO</li>
-					                        </ul>
-					                      </div>
-					                      <div class="li_div">
-					                        <span>法务</span>
-					                        <ul>
-					                          <li>法务专员</li>
-					                          <li>律师</li>
-					                          <li>专利</li>
-					                          <li>法务经理</li>
-					                        </ul>
-					                      </div>
-					                    </div>
-					                </div>
-		                          </div>
-		                        </span>
-                                    </div>
-                                </div>
-                                <div class="mis_alert want_position_msg"></div>
-                                <div class="edit_list">
-                                    <span>期望薪资<em>*</em></span>
-                                    <div class="seles selesjob_part">
-                                        <span class="seles_choose w_salary">6K-8K</span>
-                                        <ul class="seles_hide">
-                                            <li v="1">4K以下</li>
-                                            <li v="2">4K-6K</li>
-                                            <li v="3">6K-8K</li>
-                                            <li v="4">8K-10K</li>
-                                            <li v="5">10K-15K</li>
-                                            <li v="6">15K-20K</li>
-                                            <li v="7">20K-30K</li>
-                                            <li v="8">30K以上</li>
-                                        </ul>
-                                        <input type="hidden" class="input_hide" value="3" id="salary">
-                                    </div>
-                                </div>
-                                <div class="mis_alert want_salary_msg"></div>
-                                <div style="position:relative; z-index:8;" class="edit_list">
-                                    <span>期望地点<em>*</em></span>
-                                    <div class="seles selesjob_part">
-                                        <span class="seles_choose">深圳</span>
-                                        <ul class="seles_hide seles_hide_city">
-                                            <li v="北京">北京</li>
-                                            <li v="上海">上海</li>
-                                            <li v="深圳">深圳</li>
-                                            <li v="广州">广州</li>
-                                            <li v="杭州">杭州</li>
-                                            <li v="天津">天津</li>
-                                            <li v="成都">成都</li>
-                                            <li v="西安">西安</li>
-                                            <li v="重庆">重庆</li>
-                                            <li v="南京">南京</li>
-                                            <li v="沈阳">沈阳</li>
-                                            <li v="武汉">武汉</li>
-                                            <li v="郑州">郑州</li>
-                                            <li v="大连">大连</li>
-                                            <li v="济南">济南</li>
-                                            <li class="eee lala" v="其他">其他</li>
-                                        </ul>
-                                        <input type="hidden" class="input_hide" value="深圳" id="location">
-                                    </div>
-                                    <input type="text" style="display:none;" class="qita_input lala" placeholder="其他城市" value="">
-                                </div>
-                                <div class="mis_alert location_msg"></div>
-                            </div>
-                            <div class="expect_con_right">
-                                <div class="edit_list">
-                                    <span>工作性质<em></em></span>
-                                    <div class="seles selesjob_part">
-                        <span class="seles_choose">
-	                                    求职类型
-                        </span>
-                                        <ul class="seles_hide">
-                                            <li v="1">实习</li>
-                                            <li v="2">兼职</li>
-                                            <li v="3">全职</li>
-                                        </ul>
-                                        <input type="hidden" class="input_hide" value="" id="job_type">
-                                    </div>
-                                </div>
-                                <div class="mis_alert job_type_msg"></div>
-                                <div class="edit_list">
-                                    <span>期望领域<em></em></span>
-                                    <div class="seles selesjob_part">
-		                        <span style="position:relative; z-index:11;" class="seles_choose seles_xiala lala">
-		                          <div id="lingyu" class="lala lingyu_shuru wantIndustry ">服务 文化艺术 在线旅游</div>
-		                          <div style="width:420px;" class="labels_con lala qiwang_position">
-		                            <div class="lingyu1 lingyu ">
-		                                <div class="gaga" id="7">O2O</div>
-				          			    <div class="gaga" id="9">社交</div>
-				          			    <div class="gaga addcss" id="12">服务</div>
-				          			    <div class="gaga" id="2">游戏</div>
-				          			    <div class="gaga" id="18">硬件</div>
-				          			    <div class="gaga" id="21">搜索</div>
-				          			    <div class="gaga" id="25">安全</div>
-				          			    <div class="gaga" id="26">媒体</div>
-		                            </div>
-		                            <div class="lingyu2 lingyu gaga">
-		                               <div class="gaga" id="6">电子商务</div>
-			            			   <div class="gaga" id="10">企业服务</div>
-			            			   <div class="gaga addcss" id="13">文化艺术</div>
-			            			   <div class="gaga addcss" id="4">在线旅游</div>
-			            			   <div class="gaga" id="19">健康医疗</div>
-			            			   <div class="gaga" id="22">生活服务</div>
-		                            </div>
-		                            <div class="lingyu2 lingyu gaga">
-		                               <div class="gaga" id="5">在线教育</div>
-			            			   <div class="gaga" id="11">移动广告</div>
-			            			   <div class="gaga" id="14">智能家居</div>
-			            			   <div class="gaga" id="16">智能电视</div>
-			            			   <div class="gaga" id="20">分类信息</div>
-			            			   <div class="gaga" id="23">在线招聘</div>
-		                            </div>
-		                            <div class="lingyu3 lingyu gaga">
-		                               <div class="gaga" id="8">移动互联网</div>
-			            			   <div class="gaga" id="1">互联网金融</div>
-			            			   <div class="gaga" id="15">社会化营销</div>
-			            			   <div class="gaga" id="17">视频多媒体</div>
-			            			   <div class="gaga" id="3">可穿戴设备</div>
-			            			   <div class="gaga" id="24">云计算/大数据</div>
-		                            </div>
-		                            <input type="hidden" value="12,13,4" class="input_hide" id="want_industry">
-		                          </div>
-		                        </span>
-                                    </div>
-                                </div>
-                                <div id="lingyu_msg" class="mis_alert lingyu_msg"></div>
-                            </div>
+                    <!--<div id="dragDiv1" name="dragDiv" v="1" class="dragDiv">-->
+                        <!--<div class="monitor monitor_job">-->
+                            <!--<div class="monitor_pos monitor_pos1"><div class="seap" style="height: 66px;"></div></div>-->
+                        <!--</div>-->
+                        <!--<div id="expect_con1" class="expect_con">-->
+                            <!--<div class="expect_title">期望工作</div>-->
+                            <!--<div class="self_list">-->
+                                <!--<div>-->
+                                    <!--<span>期望职位</span>-->
+                                    <!--<div class="want_position">前端开发 Flash JavaScript</div>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<span>期望薪资</span>-->
+                                    <!--<div class="want_salary">6K-8K</div>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<span>期望地点</span>-->
+                                    <!--<div class="want_location">深圳</div>-->
+                                <!--</div>-->
+                                <!--<div style="display:none;">-->
+                                    <!--<span>工作性质</span>-->
+                                    <!--<div class="want_type"></div>-->
+                                <!--</div>-->
+                                <!--<div style="">-->
+                                    <!--<span>期望领域</span>-->
+                                    <!--<div class="want_industry">服务 文化艺术 在线旅游</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="footer_edit"><span class="span_edit"></span></div>-->
+                        <!--</div>-->
+                        <!--<div style="display:none;" id="expect_con2" class="expect_con">-->
+                            <!--<div class="expect_title">期望工作</div>-->
+                            <!--<div class="expect_con_left">-->
+                                <!--<div class="edit_list">-->
+                                    <!--<span>期望职位<em>*</em></span>-->
+                                    <!--<div class="seles selesjob_part">-->
+		                        <!--<span style="position:relative; z-index:11;" class="seles_choose seles_xiala lala">-->
+		                          <!--<input type="text" class="hope_job lala" placeholder="期望职位" value=" 前端开发 Flash JavaScript">-->
+		                          <!--<div class="labels_con lala">-->
+		                            <!--<div class="divides">-->
+		                              <!--<span class="left left_item">技术：</span>-->
+		                              <!--<div class="ul_div">-->
+		                                <!--<div class="li_div">-->
+		                                    <!--<span>前端开发</span>-->
+		                                    <!--<ul>-->
+					                            <!--<li>web前端</li>-->
+					                            <!--<li>Flash</li>-->
+					                            <!--<li>html5</li>-->
+					                            <!--<li>JavaScript</li>-->
+					                            <!--<li>U3D</li>-->
+					                            <!--<li>COCOS2D-X</li>-->
+					                        <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>后端开发</span>-->
+			                                <!--<ul>-->
+					                          	<!--<li>Java</li>-->
+					                          	<!--<li>C++</li>-->
+						                        <!--<li>PHP</li>-->
+						                        <!--<li>数据挖掘</li>-->
+						                        <!--<li>C</li>-->
+						                        <!--<li>C#</li>-->
+						                        <!--<li>.NET</li>-->
+						                        <!--<li>Hadoop</li>-->
+						                        <!--<li>Python</li>-->
+						                        <!--<li>Delphi</li>-->
+						                        <!--<li>VB</li>-->
+						                        <!--<li>Perl</li>-->
+						                        <!--<li>Ruby</li>-->
+						                        <!--<li>Node.js</li>-->
+						                        <!--<li>自然语言处理</li>-->
+						                        <!--<li>搜索算法</li>-->
+						                        <!--<li>精准推荐</li>-->
+						                        <!--<li>全栈工程师</li>-->
+						                        <!--<li>Go</li>-->
+						                        <!--<li>ASP</li>-->
+						                        <!--<li>Shell</li>-->
+					                        <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>移动开发</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>HTML5</li>-->
+		                                    <!--<li>Android</li>-->
+		                                    <!--<li>iOS</li>-->
+		                                    <!--<li>WP</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>测试</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>测试工程师</li>-->
+				                          	<!--<li>自动化测试</li>-->
+				                          	<!--<li>功能测试</li>-->
+				                          	<!--<li>性能测试</li>-->
+				                          	<!--<li>测试开发</li>-->
+				                          	<!--<li>游戏测试</li>-->
+				                          	<!--<li>白盒测试</li>-->
+				                          	<!--<li>灰盒测试</li>-->
+				                          	<!--<li>黑盒测试</li>-->
+				                          	<!--<li>手机测试</li>-->
+				                          	<!--<li>硬件测试</li>-->
+				                          	<!--<li>测试经理</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>运维</span>-->
+		                                  	<!--<ul>-->
+			                                    <!--<li>运维工程师</li>-->
+	                        					<!--<li>运维开发工程师</li>-->
+	                        					<!--<li>网络工程师</li>-->
+	                        					<!--<li>系统工程师</li>-->
+	                        					<!--<li>IT支持</li>-->
+	                        					<!--<li>IDC</li>-->
+	                        					<!--<li>CDN</li>-->
+	                        					<!--<li>F5</li>-->
+	                        					<!--<li>系统管理员</li>-->
+	                        					<!--<li>病毒分析</li>-->
+	                        					<!--<li>WEB安全</li>-->
+	                        					<!--<li>网络安全</li>-->
+	                        					<!--<li>系统安全</li>-->
+	                        					<!--<li>运维经理</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+			                                <!--<span>DBA</span>-->
+			                                <!--<ul>-->
+			                                    <!--<li>MySQL</li>-->
+						                        <!--<li>SQLServer</li>-->
+						                        <!--<li>Oracle</li>-->
+						                        <!--<li>DB2</li>-->
+						                        <!--<li>MongoDB</li>-->
+						                        <!--<li>ETL</li>-->
+						                        <!--<li>Hive</li>-->
+						                        <!--<li>数据仓库</li>-->
+			                                <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>项目管理</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>项目经理</li>-->
+		                                    <!--<li>项目助理</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div style="width:125px;" class="li_div">-->
+			                                <!--<span style="width:120px;">高端技术职位</span>-->
+			                                <!--<ul>-->
+			                                    <!--<li>技术经理</li>-->
+					                          	<!--<li>技术总监</li>-->
+					                          	<!--<li>测试经理</li>-->
+					                          	<!--<li>架构师</li>-->
+					                          	<!--<li>CTO</li>-->
+					                          	<!--<li>运维总监</li>-->
+					                          	<!--<li>技术合伙人</li>-->
+					                          	<!--<li>项目总监</li>-->
+					                          	<!--<li>测试总监</li>-->
+					                          	<!--<li>安全专家</li>-->
+			                                <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+					                        <!--<span>企业软件</span>-->
+					                        <!--<ul>-->
+					                          <!--<li>实施工程师</li>-->
+					                          <!--<li>售前工程师</li>-->
+					                          <!--<li>售后工程师</li>-->
+					                          <!--<li>BI工程师</li>-->
+					                        <!--</ul>-->
+					                    <!--</div>-->
+		                              <!--</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="divides">-->
+		                              <!--<span class="left left_item">产品：</span>-->
+		                              <!--<div class="ul_div">-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>产品经理</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>产品经理</li>-->
+		                                    <!--<li>网页产品经理</li>-->
+		                                    <!--<li>移动产品经理</li>-->
+		                                    <!--<li>产品助理</li>-->
+		                                    <!--<li>数据产品经理</li>-->
+		                                    <!--<li>电商产品经理</li>-->
+		                                    <!--<li>游戏策划</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>产品设计师</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>网页产品设计师</li>-->
+		                                    <!--<li>无线产品设计师</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div style="width:125px;" class="li_div">-->
+		                                  <!--<span style="width:120px;">高端产品职位</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>产品部经理</li>-->
+		                                    <!--<li>产品总监</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                              <!--</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="divides">-->
+		                              <!--<span class="left left_item">设计：</span>-->
+		                              <!--<div class="ul_div">-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>视觉设计</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>视觉设计师</li>-->
+		                                    <!--<li>网页设计师</li>-->
+		                                    <!--<li>Flash设计师</li>-->
+		                                    <!--<li>APP设计师</li>-->
+		                                    <!--<li>UI设计师</li>-->
+		                                    <!--<li>平面设计师</li>-->
+		                                    <!--<li>美术设计师（2D/3D）</li>-->
+		                                    <!--<li>广告设计师</li>-->
+		                                    <!--<li>多媒体设计师</li>-->
+		                                    <!--<li>原画师</li>-->
+		                                    <!--<li>游戏特效</li>-->
+		                                    <!--<li>游戏界面设计师</li>-->
+		                                    <!--<li>游戏场景</li>-->
+		                                    <!--<li>游戏角色</li>-->
+		                                    <!--<li>游戏动作</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>交互设计</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>交互设计师</li>-->
+		                                    <!--<li>无线交互设计师</li>-->
+		                                    <!--<li>网页交互设计师</li>-->
+		                                    <!--<li>硬件交互设计师</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>用户研究</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>数据分析师</li>-->
+		                                    <!--<li>用户研究员</li>-->
+		                                    <!--<li>游戏数值策划</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div style="width:125px;" class="li_div">-->
+		                                  <!--<span style="width:120px;">高端设计职位</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>设计经理/主管</li>-->
+		                                    <!--<li>设计总监</li>-->
+		                                    <!--<li>视觉设计经理/主管</li>-->
+		                                    <!--<li>视觉设计总监</li>-->
+		                                    <!--<li>交互设计经理/主管</li>-->
+		                                    <!--<li>交互设计总监</li>-->
+		                                    <!--<li>用户研究经理/主管</li>-->
+		                                    <!--<li>用户研究总监</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                              <!--</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="divides">-->
+		                              <!--<span class="left left_item">运营：</span>-->
+		                              <!--<div class="ul_div">-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>运营</span>-->
+		                                  	<!--<ul>-->
+		                                    	<!--<li>用户运营</li>-->
+					                          	<!--<li>产品运营</li>-->
+					                          	<!--<li>数据运营</li>-->
+					                          	<!--<li>内容运营</li>-->
+					                          	<!--<li>活动运营</li>-->
+					                          	<!--<li>商家运营</li>-->
+					                          	<!--<li>品类运营</li>-->
+					                          	<!--<li>游戏运营</li>-->
+					                          	<!--<li>网络推广</li>-->
+					                          	<!--<li>运营专员</li>-->
+					                          	<!--<li>网店运营</li>-->
+					                          	<!--<li>新媒体运营</li>-->
+					                          	<!--<li>海外运营</li>-->
+					                          	<!--<li>运营经理</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>编辑</span>-->
+		                                  	<!--<ul>-->
+			                                    <!--<li>副主编</li>-->
+					                          	<!--<li>内容编辑</li>-->
+					                          	<!--<li>文案策划</li>-->
+					                          	<!--<li>记者</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>客服</span>-->
+		                                  	<!--<ul>-->
+			                                    <!--<li>售前咨询</li>-->
+					                          	<!--<li>售后客服</li>-->
+					                          	<!--<li>淘宝客服</li>-->
+					                          	<!--<li>客服经理</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div style="width:125px;" class="li_div">-->
+		                                  <!--<span style="width:120px;">高端运营职位</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>主编</li>-->
+		                                    <!--<li>运营总监</li>-->
+		                                    <!--<li>COO</li>-->
+                          					<!--<li>客服总监</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                              <!--</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="divides">-->
+		                              <!--<span class="left left_item">市场：</span>-->
+		                              <!--<div class="ul_div">-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>市场/营销</span>-->
+		                                  	<!--<ul>-->
+		                                    	<!--<li>市场营销</li>-->
+					                          	<!--<li>市场策划</li>-->
+					                          	<!--<li>市场顾问</li>-->
+					                          	<!--<li>市场推广</li>-->
+					                          	<!--<li>SEO</li>-->
+					                          	<!--<li>SEM</li>-->
+					                          	<!--<li>商务渠道</li>-->
+					                          	<!--<li>商业数据分析</li>-->
+					                          	<!--<li>活动策划</li>-->
+					                          	<!--<li>网络营销</li>-->
+					                          	<!--<li>海外市场</li>-->
+					                          	<!--<li>政府关系</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  <!--<span>公关</span>-->
+		                                  <!--<ul>-->
+		                                    <!--<li>媒介经理</li>-->
+		                                    <!--<li>广告协调</li>-->
+		                                    <!--<li>品牌公关</li>-->
+		                                  <!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+		                                  	<!--<span>销售</span>-->
+		                                  	<!--<ul>-->
+			                                    <!--<li>销售专员</li>-->
+					                          	<!--<li>销售经理</li>-->
+					                          	<!--<li>客户代表</li>-->
+					                          	<!--<li>大客户代表</li>-->
+					                          	<!--<li>BD经理</li>-->
+					                          	<!--<li>商务渠道</li>-->
+					                          	<!--<li>渠道销售</li>-->
+					                          	<!--<li>代理商销售</li>-->
+					                          	<!--<li>销售助理</li>-->
+					                          	<!--<li>电话销售</li>-->
+					                          	<!--<li>销售顾问</li>-->
+					                          	<!--<li>商品经理</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                                <!--<div class="li_div">-->
+					                        <!--<span>供应链</span>-->
+					                        <!--<ul class="pos_right">-->
+					                          <!--<li>物流</li>-->
+					                          <!--<li>仓储</li>-->
+					                        <!--</ul>-->
+					                    <!--</div>-->
+					                    <!--<div class="li_div">-->
+					                        <!--<span>采购</span>-->
+					                        <!--<ul>-->
+					                          	<!--<li>采购专员</li>-->
+					                          	<!--<li>采购经理</li>-->
+					                          	<!--<li>商品经理</li>-->
+					                        <!--</ul>-->
+					                    <!--</div>-->
+					                    <!--<div class="li_div">-->
+					                        <!--<span>投资</span>-->
+					                        <!--<ul>-->
+					                          	<!--<li>投资分析师</li>-->
+					                          	<!--<li>投资顾问</li>-->
+					                          	<!--<li>投资经理</li>-->
+					                        <!--</ul>-->
+					                    <!--</div>-->
+		                                <!--<div style="width:125px;" class="li_div">-->
+		                                  	<!--<span style="width:120px;">高端市场职位</span>-->
+		                                  	<!--<ul>-->
+		                                    	<!--<li>市场总监</li>-->
+					                          	<!--<li>销售总监</li>-->
+					                          	<!--<li>商务总监</li>-->
+					                          	<!--<li>CMO</li>-->
+					                          	<!--<li>公关总监</li>-->
+					                          	<!--<li>投资总监</li>-->
+					                          	<!--<li>采购总监</li>-->
+		                                  	<!--</ul>-->
+		                                <!--</div>-->
+		                              <!--</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="divides">-->
+					                    <!--<span class="left left_item">职能：</span>-->
+					                    <!--<div class="ul_div">-->
+					                      <!--<div class="li_div">-->
+					                        <!--<span>人力资源</span>-->
+					                        <!--<ul>-->
+					                          <!--<li>人事专员</li>-->
+					                          <!--<li>招聘经理</li>-->
+					                          <!--<li>HRBP</li>-->
+					                          <!--<li>人事/HR</li>-->
+					                          <!--<li>培训经理</li>-->
+					                          <!--<li>薪资福利经理</li>-->
+					                          <!--<li>绩效考核经理</li>-->
+					                          <!--<li>员工关系</li>-->
+					                          <!--<li>人事主管</li>-->
+					                        <!--</ul>-->
+					                      <!--</div>-->
+					                      <!--<div class="li_div">-->
+					                        <!--<span>行政</span>-->
+					                        <!--<ul>-->
+					                          <!--<li>助理</li>-->
+					                          <!--<li>前台</li>-->
+					                          <!--<li>行政</li>-->
+					                          <!--<li>总经理助理</li>-->
+					                          <!--<li>文秘</li>-->
+					                        <!--</ul>-->
+					                      <!--</div>-->
+					                      <!--<div class="li_div">-->
+					                        <!--<span>财务</span>-->
+					                        <!--<ul class="pos_right">-->
+					                          <!--<li>会计</li>-->
+					                          <!--<li>出纳</li>-->
+					                          <!--<li>资金</li>-->
+					                          <!--<li>财务</li>-->
+					                          <!--<li>结算</li>-->
+					                          <!--<li>税务</li>-->
+					                          <!--<li>审计</li>-->
+					                          <!--<li>风控</li>-->
+					                        <!--</ul>-->
+					                      <!--</div>-->
+					                      <!--<div style="width:125px;" class="li_div">-->
+					                        <!--<span style="width:120px;">高端职能职位</span>-->
+					                        <!--<ul class="pos_rights">-->
+					                          <!--<li>行政总监/经理</li>-->
+					                          <!--<li>财务总监/经理</li>-->
+					                          <!--<li>HRD/HRM</li>-->
+					                          <!--<li>CFO</li>-->
+					                        <!--</ul>-->
+					                      <!--</div>-->
+					                      <!--<div class="li_div">-->
+					                        <!--<span>法务</span>-->
+					                        <!--<ul>-->
+					                          <!--<li>法务专员</li>-->
+					                          <!--<li>律师</li>-->
+					                          <!--<li>专利</li>-->
+					                          <!--<li>法务经理</li>-->
+					                        <!--</ul>-->
+					                      <!--</div>-->
+					                    <!--</div>-->
+					                <!--</div>-->
+		                          <!--</div>-->
+		                        <!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="mis_alert want_position_msg"></div>-->
+                                <!--<div class="edit_list">-->
+                                    <!--<span>期望薪资<em>*</em></span>-->
+                                    <!--<div class="seles selesjob_part">-->
+                                        <!--<span class="seles_choose w_salary">6K-8K</span>-->
+                                        <!--<ul class="seles_hide">-->
+                                            <!--<li v="1">4K以下</li>-->
+                                            <!--<li v="2">4K-6K</li>-->
+                                            <!--<li v="3">6K-8K</li>-->
+                                            <!--<li v="4">8K-10K</li>-->
+                                            <!--<li v="5">10K-15K</li>-->
+                                            <!--<li v="6">15K-20K</li>-->
+                                            <!--<li v="7">20K-30K</li>-->
+                                            <!--<li v="8">30K以上</li>-->
+                                        <!--</ul>-->
+                                        <!--<input type="hidden" class="input_hide" value="3" id="salary">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="mis_alert want_salary_msg"></div>-->
+                                <!--<div style="position:relative; z-index:8;" class="edit_list">-->
+                                    <!--<span>期望地点<em>*</em></span>-->
+                                    <!--<div class="seles selesjob_part">-->
+                                        <!--<span class="seles_choose">深圳</span>-->
+                                        <!--<ul class="seles_hide seles_hide_city">-->
+                                            <!--<li v="北京">北京</li>-->
+                                            <!--<li v="上海">上海</li>-->
+                                            <!--<li v="深圳">深圳</li>-->
+                                            <!--<li v="广州">广州</li>-->
+                                            <!--<li v="杭州">杭州</li>-->
+                                            <!--<li v="天津">天津</li>-->
+                                            <!--<li v="成都">成都</li>-->
+                                            <!--<li v="西安">西安</li>-->
+                                            <!--<li v="重庆">重庆</li>-->
+                                            <!--<li v="南京">南京</li>-->
+                                            <!--<li v="沈阳">沈阳</li>-->
+                                            <!--<li v="武汉">武汉</li>-->
+                                            <!--<li v="郑州">郑州</li>-->
+                                            <!--<li v="大连">大连</li>-->
+                                            <!--<li v="济南">济南</li>-->
+                                            <!--<li class="eee lala" v="其他">其他</li>-->
+                                        <!--</ul>-->
+                                        <!--<input type="hidden" class="input_hide" value="深圳" id="location">-->
+                                    <!--</div>-->
+                                    <!--<input type="text" style="display:none;" class="qita_input lala" placeholder="其他城市" value="">-->
+                                <!--</div>-->
+                                <!--<div class="mis_alert location_msg"></div>-->
+                            <!--</div>-->
+                            <!--<div class="expect_con_right">-->
+                                <!--<div class="edit_list">-->
+                                    <!--<span>工作性质<em></em></span>-->
+                                    <!--<div class="seles selesjob_part">-->
+                        <!--<span class="seles_choose">-->
+	                                    <!--求职类型-->
+                        <!--</span>-->
+                                        <!--<ul class="seles_hide">-->
+                                            <!--<li v="1">实习</li>-->
+                                            <!--<li v="2">兼职</li>-->
+                                            <!--<li v="3">全职</li>-->
+                                        <!--</ul>-->
+                                        <!--<input type="hidden" class="input_hide" value="" id="job_type">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="mis_alert job_type_msg"></div>-->
+                                <!--<div class="edit_list">-->
+                                    <!--<span>期望领域<em></em></span>-->
+                                    <!--<div class="seles selesjob_part">-->
+		                        <!--<span style="position:relative; z-index:11;" class="seles_choose seles_xiala lala">-->
+		                          <!--<div id="lingyu" class="lala lingyu_shuru wantIndustry ">服务 文化艺术 在线旅游</div>-->
+		                          <!--<div style="width:420px;" class="labels_con lala qiwang_position">-->
+		                            <!--<div class="lingyu1 lingyu ">-->
+		                                <!--<div class="gaga" id="7">O2O</div>-->
+				          			    <!--<div class="gaga" id="9">社交</div>-->
+				          			    <!--<div class="gaga addcss" id="12">服务</div>-->
+				          			    <!--<div class="gaga" id="2">游戏</div>-->
+				          			    <!--<div class="gaga" id="18">硬件</div>-->
+				          			    <!--<div class="gaga" id="21">搜索</div>-->
+				          			    <!--<div class="gaga" id="25">安全</div>-->
+				          			    <!--<div class="gaga" id="26">媒体</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="lingyu2 lingyu gaga">-->
+		                               <!--<div class="gaga" id="6">电子商务</div>-->
+			            			   <!--<div class="gaga" id="10">企业服务</div>-->
+			            			   <!--<div class="gaga addcss" id="13">文化艺术</div>-->
+			            			   <!--<div class="gaga addcss" id="4">在线旅游</div>-->
+			            			   <!--<div class="gaga" id="19">健康医疗</div>-->
+			            			   <!--<div class="gaga" id="22">生活服务</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="lingyu2 lingyu gaga">-->
+		                               <!--<div class="gaga" id="5">在线教育</div>-->
+			            			   <!--<div class="gaga" id="11">移动广告</div>-->
+			            			   <!--<div class="gaga" id="14">智能家居</div>-->
+			            			   <!--<div class="gaga" id="16">智能电视</div>-->
+			            			   <!--<div class="gaga" id="20">分类信息</div>-->
+			            			   <!--<div class="gaga" id="23">在线招聘</div>-->
+		                            <!--</div>-->
+		                            <!--<div class="lingyu3 lingyu gaga">-->
+		                               <!--<div class="gaga" id="8">移动互联网</div>-->
+			            			   <!--<div class="gaga" id="1">互联网金融</div>-->
+			            			   <!--<div class="gaga" id="15">社会化营销</div>-->
+			            			   <!--<div class="gaga" id="17">视频多媒体</div>-->
+			            			   <!--<div class="gaga" id="3">可穿戴设备</div>-->
+			            			   <!--<div class="gaga" id="24">云计算/大数据</div>-->
+		                            <!--</div>-->
+		                            <!--<input type="hidden" value="12,13,4" class="input_hide" id="want_industry">-->
+		                          <!--</div>-->
+		                        <!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div id="lingyu_msg" class="mis_alert lingyu_msg"></div>-->
+                            <!--</div>-->
 
-                            <div class="btns">
-                                <a class="qwgz_save save" href="javascript:void(0);">保存</a>
-                                <a class="qwgz_cancel cancel" href="javascript:void(0);">取消</a>
-                            </div>
-                        </div>
-                        <div id="expect_con3" class="expect_con" style="display: none;">
-                            <div class="default"><span>添加期望选项</span></div>
-                        </div>
-                    </div>
+                            <!--<div class="btns">-->
+                                <!--<a class="qwgz_save save" href="javascript:void(0);">保存</a>-->
+                                <!--<a class="qwgz_cancel cancel" href="javascript:void(0);">取消</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div id="expect_con3" class="expect_con" style="display: none;">-->
+                            <!--<div class="default"><span>添加期望选项</span></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <!-- 教育背景编辑 -->
                     <div id="dragDiv4" name="dragDiv" v="4" class="dragDiv">
                         <div class="monitor monitor_job">
@@ -3689,24 +3691,24 @@
                                             </ul>
                                             <input type="hidden" class="input_hide" value="" id="jl_e_year">
                                         </div>
-                                        <div style="margin-right:0px;display: none;" class="seles seles_start"></div>
-                                        <span id="end_month" class="seles_choose">离职月份</span>
-                                        <ul class="seles_hide">
-                                            <li v="01">01</li>
-                                            <li v="02">02</li>
-                                            <li v="03">03</li>
-                                            <li v="04">04</li>
-                                            <li v="05">05</li>
-                                            <li v="06">06</li>
-                                            <li v="07">07</li>
-                                            <li v="08">08</li>
-                                            <li v="09">09</li>
-                                            <li v="10">10</li>
-                                            <li v="11">11</li>
-                                            <li v="12">12</li>
-                                        </ul>
-                                        <input type="hidden" class="input_hide" value="" id="jl_e_month">
-
+                                        <div style="margin-right:0px;display: none;" class="seles seles_start">
+                                            <span id="end_month" class="seles_choose">离职月份</span>
+                                            <ul class="seles_hide">
+                                                <li v="01">01</li>
+                                                <li v="02">02</li>
+                                                <li v="03">03</li>
+                                                <li v="04">04</li>
+                                                <li v="05">05</li>
+                                                <li v="06">06</li>
+                                                <li v="07">07</li>
+                                                <li v="08">08</li>
+                                                <li v="09">09</li>
+                                                <li v="10">10</li>
+                                                <li v="11">11</li>
+                                                <li v="12">12</li>
+                                            </ul>
+                                            <input type="hidden" class="input_hide" value="" id="jl_e_month">
+                                        </div>
                                     </div>
                                     <div class="mis_alert jl_e_msg"></div>
 
@@ -3950,40 +3952,22 @@
                         <div class="monitor monitor_job">
                             <div class="monitor_pos monitor_pos5"><div class="seap" style="height: 90px;"></div></div>
                         </div>
+
                         <div class="gzjl1CON">
                             <div id="titleBar5" class="expect_title">专业技能</div>
-                            <div style="display:none" id="zyjn1" class="expect_con">
-                                <div class="jineng_div">
-                                </div>
+                            <div style="display:none;" id="zyjn1" class="expect_con">
+                                <div id="skill_content" class="skill_content">${skill}</div>
                                 <div class="footer_edit "><span class="span_del"></span><span class="span_edit"></span>
                                 </div>
                             </div>
-                            <div style="display:none" id="zyjn2" class="expect_con">
-                                <div class="label_s">
-                                    <div class="lala" id="add_ci">
-                                        <ul id="add" class="add_cons">
-                                        </ul>
-                                        <input type="text" autocomplete="OFF" placeholder="输入你擅长的互联网技能名词（如：html5）" value="" id="input_str">
-                                        <code style="display: none;">+</code>
-                                        <div class="remove_con">
-
-                                        </div>
-                                    </div>
-                                    <div class="tab_list lala">
-                                        <div class="tab_li"><span class="active moren">常用</span><span>ABCD</span><span>EFG</span><span>HIJK</span><span>LMN</span><span>OPQ</span><span>RST</span><span>UVW</span><span>XYZ</span><span>自定义</span><font></font>
-                                        </div>
-                                        <ul class="tab_con">
-                                        </ul>
-                                    </div>
-                                    <div class="keys lala">
-                                        <div class="add_tj">
-                                            <span>若系统标签不合适，请添加自定义标签</span> <a title="" href="javascript:void(0);">添加</a>
-                                        </div>
-                                        <ul id="ulItems" class="search_ul">
-                                        </ul>
+                            <div style="display:none;" id="zyjn2" class="expect_con">
+                                <div class="con_textarea">
+                                    <div class="edit_list">
+                                        <textarea placeholder="请你描述职业规划、外语技能、兴趣爱好、特长等，有助于公司全面了解你哦~" id="my_skill"></textarea>
+                                        <p class="yu"><font>您可以输入500字</font></p>
                                     </div>
                                 </div>
-                                <div class="btns">
+                                <div style="padding-top:0px;" class="btns">
                                     <a class="zyjn_save save" href="javascript:void(0);">保存</a>
                                     <a class="zyjn_cancel cancel" href="javascript:void(0);">取消</a>
                                 </div>
@@ -3992,6 +3976,49 @@
                                 <div class="default"><span>新时代，新青年，谁还没有一两个绝世技能？</span></div>
                             </div>
                         </div>
+
+                        <!--<div class="gzjl1CON">-->
+                            <!--<div id="titleBar5" class="expect_title">专业技能</div>-->
+                            <!--<div style="display:none" id="zyjn1" class="expect_con">-->
+                                <!--<div class="jineng_div">-->
+                                <!--</div>-->
+                                <!--<div class="footer_edit "><span class="span_del"></span><span class="span_edit"></span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div style="display:none" id="zyjn2" class="expect_con">-->
+                                <!--<div class="label_s">-->
+                                    <!--<div class="lala" id="add_ci">-->
+                                        <!--<ul id="add" class="add_cons">-->
+                                        <!--</ul>-->
+                                        <!--<input type="text" autocomplete="OFF" placeholder="输入你擅长的互联网技能名词（如：html5）" value="" id="input_str">-->
+                                        <!--<code style="display: none;">+</code>-->
+                                        <!--<div class="remove_con">-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="tab_list lala">-->
+                                        <!--<div class="tab_li"><span class="active moren">常用</span><span>ABCD</span><span>EFG</span><span>HIJK</span><span>LMN</span><span>OPQ</span><span>RST</span><span>UVW</span><span>XYZ</span><span>自定义</span><font></font>-->
+                                        <!--</div>-->
+                                        <!--<ul class="tab_con">-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                    <!--<div class="keys lala">-->
+                                        <!--<div class="add_tj">-->
+                                            <!--<span>若系统标签不合适，请添加自定义标签</span> <a title="" href="javascript:void(0);">添加</a>-->
+                                        <!--</div>-->
+                                        <!--<ul id="ulItems" class="search_ul">-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="btns">-->
+                                    <!--<a class="zyjn_save save" href="javascript:void(0);">保存</a>-->
+                                    <!--<a class="zyjn_cancel cancel" href="javascript:void(0);">取消</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div id="zyjn3" class="expect_con">-->
+                                <!--<div class="default"><span>新时代，新青年，谁还没有一两个绝世技能？</span></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                     <!-- 作品展示 -->
                     <!--<div id="dragDiv7" name="dragDiv" v="7" class="dragDiv">-->
@@ -4037,7 +4064,7 @@
                                 <div class="con_textarea">
                                     <div class="edit_list">
                                         <textarea placeholder="请你描述职业规划、外语技能、兴趣爱好、特长等，有助于公司全面了解你哦~" id="my_description"></textarea>
-                                        <p class="yu"><font>您还可以输入500字</font></p>
+                                        <p class="yu"><font>您可以输入500字</font></p>
                                     </div>
                                 </div>
                                 <div style="padding-top:0px;" class="btns">
@@ -4250,6 +4277,14 @@
             $("#self_description1").show();
             $("#self_description2").hide();
             $("#self_description3").hide();
+
+        }
+
+        if( document.getElementById('skill_content').innerHTML.replace(
+                /(^\s*)|(\s*$)/g, "") != "") {
+            $("#zyjn1").show();
+            $("#zyjn2").hide();
+            $("#zyjn3").hide();
 
         }
 
