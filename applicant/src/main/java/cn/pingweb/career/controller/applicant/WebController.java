@@ -29,6 +29,9 @@ import java.util.List;
 public class WebController {
 
     @Autowired
+    private BaseInfoService baseInfoService;
+
+    @Autowired
     private EducationService educationService;
 
     @Autowired
@@ -103,6 +106,7 @@ public class WebController {
         model.addAttribute("projectExperience", ProjectExperienceDto.getDtos(projectExperienceService.findByUserId(userId)));
         model.addAttribute("selfDescription", selfDescriptionService.getSelfDescription(userId));
         model.addAttribute("skill", skillService.getSkillContent(userId));
+        model.addAttribute("baseInfo",baseInfoService.getbyId(userId));
         return "resume";
     }
 

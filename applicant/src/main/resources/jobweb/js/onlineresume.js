@@ -622,37 +622,37 @@ $(function() {
 	});
 
 	// 技能编辑删除
-	$('#zyjn1').live('mouseover', function() {
-		$('#zyjn1 .span_edit ').show();
-		$('#zyjn1 .span_del ').show();
-	});
-	$('#zyjn1').live('mouseout', function() {
-		$('#zyjn1 .span_edit ').hide();
-		$('#zyjn1 .span_del').hide();
-	});
-
-	// 编辑专业技能
-	$('#zyjn1 .span_edit').live('click',function() {
-		$('.add_cons').html('');
-		$(".jineng_div .jineng_label").each(function() {
-			var str = $(this).text();
-			if (str != "") {
-				$('.add_cons').append('<li><i>'+ str+ '</i><em class="list_em"></em></li>');
-			}
-		});
-         
-		$('#zyjn1').hide();
-		$('#zyjn2').show();
-		myfun();
-	});
-
-	$('#zyjn1 .span_del ').live('click', function() {
-		$('#zyjn1').hide();
-		$('#zyjn3').show();
-		$('.jineng_div').html('');
-		$('#add').html('');
-		deletes(2);
-	});
+	// $('#zyjn1').live('mouseover', function() {
+	// 	$('#zyjn1 .span_edit ').show();
+	// 	$('#zyjn1 .span_del ').show();
+	// });
+	// $('#zyjn1').live('mouseout', function() {
+	// 	$('#zyjn1 .span_edit ').hide();
+	// 	$('#zyjn1 .span_del').hide();
+	// });
+    //
+	// // 编辑专业技能
+	// $('#zyjn1 .span_edit').live('click',function() {
+	// 	$('.add_cons').html('');
+	// 	$(".jineng_div .jineng_label").each(function() {
+	// 		var str = $(this).text();
+	// 		if (str != "") {
+	// 			$('.add_cons').append('<li><i>'+ str+ '</i><em class="list_em"></em></li>');
+	// 		}
+	// 	});
+     //
+	// 	$('#zyjn1').hide();
+	// 	$('#zyjn2').show();
+	// 	myfun();
+	// });
+    //
+	// $('#zyjn1 .span_del ').live('click', function() {
+	// 	$('#zyjn1').hide();
+	// 	$('#zyjn3').show();
+	// 	$('.jineng_div').html('');
+	// 	$('#add').html('');
+	// 	deletes(2);
+	// });
 
 	// 自我描述鼠标滑过
 	$('#self_description1').live('mouseover', function() {

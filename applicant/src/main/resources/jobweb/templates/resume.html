@@ -508,37 +508,37 @@
             }
 
             //添加社交帐号
-            $('.add_social span').live('click',function(){
-                var num = document.getElementsByName("site_num").length;
-                if(num > 2){
-                    alert("只能添加三个社交帐号");
-                    return;
-                }
-                var str = '';
-                str = '  <div class="edit_list  edit_wb">'+
-                    '  <em></em> ' +
-                    '  <div class="seles seles_wb"> '+
-                    '      <span class="seles_choose">新浪微博</span> '+
-                    '      <ul class="seles_hide">'+
-                    '      <li v="1">新浪微博</li>  '+
-                    '      <li v="2">Github</li>    '+
-                    '      <li v="3">站酷</li>'+
-                    '      </ul>'+
-                    '      <input id="site_num" name="site_num"  type="hidden"  value="1" class="input_hide"/>'+
-                    '   </div>'+
-                    '   <div class="wb_right">'+
-                    '      <input type="text" id="site_content" name="site_content" value="" placeholder="请输入您的社交网址" class="social"/>'+
-                    '      <font></font>'+
-                    '   </div>'+
-                    '   </div>';
-                $(".site").append(str);
-            });
-
-
-            //删除社交帐号
-            $('.wb_right font').live('click',function(){
-                $(this).parent().parent().remove();
-            });
+//            $('.add_social span').live('click',function(){
+//                var num = document.getElementsByName("site_num").length;
+//                if(num > 2){
+//                    alert("只能添加三个社交帐号");
+//                    return;
+//                }
+//                var str = '';
+//                str = '  <div class="edit_list  edit_wb">'+
+//                    '  <em></em> ' +
+//                    '  <div class="seles seles_wb"> '+
+//                    '      <span class="seles_choose">新浪微博</span> '+
+//                    '      <ul class="seles_hide">'+
+//                    '      <li v="1">新浪微博</li>  '+
+//                    '      <li v="2">Github</li>    '+
+//                    '      <li v="3">站酷</li>'+
+//                    '      </ul>'+
+//                    '      <input id="site_num" name="site_num"  type="hidden"  value="1" class="input_hide"/>'+
+//                    '   </div>'+
+//                    '   <div class="wb_right">'+
+//                    '      <input type="text" id="site_content" name="site_content" value="" placeholder="请输入您的社交网址" class="social"/>'+
+//                    '      <font></font>'+
+//                    '   </div>'+
+//                    '   </div>';
+//                $(".site").append(str);
+//            });
+//
+//
+//            //删除社交帐号
+//            $('.wb_right font').live('click',function(){
+//                $(this).parent().parent().remove();
+//            });
 
 
             // 保存基本信息
@@ -562,7 +562,7 @@
                 var day = $("#day").val();
                 param.param7 = year + month + day;
                 //显示方式
-                param.param8 = $("#birthday_flag").val();
+//                param.param8 = $("#birthday_flag").val();
                 //站点
                 var site_num = document.getElementsByName("site_num");
 
@@ -571,21 +571,21 @@
                 //param.param10 ="";
                 //param.param11 ="";
                 //站点内容
-                param.param12 = $('.weibo').val();
-                if(param.param12 == "微博"){
-                    param.param12 = "";
-                }
-                param.param13 = $('.github').val();
-                if(param.param13 == "github"){
-                    param.param13 = "";
-                }
-                param.param14 = $('.zhanku').val();
-                if(param.param14 == "站酷"){
-                    param.param14 = "";
-                }
+//                param.param12 = $('.weibo').val();
+//                if(param.param12 == "微博"){
+//                    param.param12 = "";
+//                }
+//                param.param13 = $('.github').val();
+//                if(param.param13 == "github"){
+//                    param.param13 = "";
+//                }
+//                param.param14 = $('.zhanku').val();
+//                if(param.param14 == "站酷"){
+//                    param.param14 = "";
+//                }
 
-                //目前状态
-                param.param15 = $("#state").val();
+//                //目前状态
+//                param.param15 = $("#state").val();
 
                 var flag = 0;
                 //验证名字
@@ -654,14 +654,14 @@
 
 
                 //验证目前状态
-                if(param.param15 == null || param.param15 == ""){
-                    $(".state_msg").show();
-                    $(".state_msg").text("请选择状态");
-                    flag = 1;
-                }else{
-                    $(".state_msg").hide();
-                    $(".state_msg").text("");
-                }
+//                if(param.param15 == null || param.param15 == ""){
+//                    $(".state_msg").show();
+//                    $(".state_msg").text("请选择状态");
+//                    flag = 1;
+//                }else{
+//                    $(".state_msg").hide();
+//                    $(".state_msg").text("");
+//                }
 
 
                 if(flag == 1){
@@ -670,12 +670,11 @@
 
                 jQuery.ajax({
                     type: 'post',
-                    contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
-                    url: '/ro/sbasic',
-                    data: JSON.stringify(param),
+                    url: '/resume/selfInfo/save',
+                    data: param,
                     success: function(data){
-                        if(data.ret == 0)
+                        if(data.status == "200")
                         {
                             //名字
                             $('.Resume_conCenter em').text(param.param1);
@@ -699,15 +698,15 @@
                             }
                             //生日
                             var birthday_type_value = "";
-                            if(param.param8 == "0"){//公开
+//                            if(param.param8 == "0"){//公开
                                 birthday_type_value = year + "年" + month + "月" + day + "日";
-                            }else if(param.param8 == "1"){//星座
-                                birthday_type_value = getConstellation(param.param7);
-                            }else if(param.param8 == "2"){//月日
-                                birthday_type_value =  month + "月" + day + "日";
-                            }else{
-                                birthday_type_value =  "生日保密";
-                            }
+//                            }else if(param.param8 == "1"){//星座
+//                                birthday_type_value = getConstellation(param.param7);
+//                            }else if(param.param8 == "2"){//月日
+//                                birthday_type_value =  month + "月" + day + "日";
+//                            }else{
+//                                birthday_type_value =  "生日保密";
+//                            }
                             $('.p_brithday').text(birthday_type_value);
                             //电话
                             $('.phone').text(param.param5);
@@ -716,36 +715,36 @@
                             //求职状态
                             $('.currentstate').text($('.current_state').text());
 
-                            //站点
-                            if(param.param12 != "" || param.param13 != "" || param.param14 != ""){
-                                $('.Resume_three').show();
-                            }else{
-                                $('.Resume_three').hide();
-                            }
-                            if(param.param12 != ""){
-                                $('.Resume_three_wb').show();
-                                $('.Resume_three_wb').attr('v',param.param12);
-
-                            }else{
-                                $('.Resume_three_wb').hide();
-                                $('.Resume_three_wb').attr('v','');
-                            }
-
-                            if(param.param13 != ""){
-                                $('.Resume_three_cat').show();
-                                $('.Resume_three_cat').attr('v',param.param13);
-                            }else{
-                                $('.Resume_three_cat').hide();
-                                $('.Resume_three_cat').attr('v','');
-                            }
-
-                            if(param.param14 != ""){
-                                $('.Resume_three_zk').show();
-                                $('.Resume_three_zk').attr('v',param.param14);
-                            }else{
-                                $('.Resume_three_zk').hide();
-                                $('.Resume_three_zk').attr('v','');
-                            }
+//                            //站点
+//                            if(param.param12 != "" || param.param13 != "" || param.param14 != ""){
+//                                $('.Resume_three').show();
+//                            }else{
+//                                $('.Resume_three').hide();
+//                            }
+//                            if(param.param12 != ""){
+//                                $('.Resume_three_wb').show();
+//                                $('.Resume_three_wb').attr('v',param.param12);
+//
+//                            }else{
+//                                $('.Resume_three_wb').hide();
+//                                $('.Resume_three_wb').attr('v','');
+//                            }
+//
+//                            if(param.param13 != ""){
+//                                $('.Resume_three_cat').show();
+//                                $('.Resume_three_cat').attr('v',param.param13);
+//                            }else{
+//                                $('.Resume_three_cat').hide();
+//                                $('.Resume_three_cat').attr('v','');
+//                            }
+//
+//                            if(param.param14 != ""){
+//                                $('.Resume_three_zk').show();
+//                                $('.Resume_three_zk').attr('v',param.param14);
+//                            }else{
+//                                $('.Resume_three_zk').hide();
+//                                $('.Resume_three_zk').attr('v','');
+//                            }
 
                             $('#self_info1').show();
                             $('#self_info2').hide();
@@ -758,14 +757,17 @@
                         birthday_year = year;
                         birthday_month = month;
                         birthday_day = day;
-                        birthday_flag = param.param8;
-
-                        site_one_content = param.param12;
-                        site_one = param.param9;
-                        site_two_content = param.param13;
-                        site_two = param.param10;
-                        site_three_content = param.param14;
-                        site_three = param.param11;
+//                        birthday_flag = param.param8;
+//
+//                        site_one_content = param.param12;
+//                        site_one = param.param9;
+//                        site_two_content = param.param13;
+//                        site_two = param.param10;
+//                        site_three_content = param.param14;
+//                        site_three = param.param11;
+                    },
+                    error: function(data){
+                        console.info(data);
                     }
                 });
             })
@@ -2504,20 +2506,20 @@
                     <div class="edit_pen" style="display: none;"></div>
                     <div class="Resume_con">
                         <div class="Resume_conLeft">
-                            <p class="p_educate">大专</p>
-                            <p class="p_gzjy">1年工作经验</p>
-                            <p class="p_brithday"></p>
+                            <p class="p_educate">${baseInfo.education}</p>
+                            <p class="p_gzjy">${baseInfo.workYear}</p>
+                            <p class="p_brithday">${baseInfo.birthday}</p>
                         </div>
                         <div class="Resume_conCenter">
                             <dl>
                                 <dt><img onerror="javascript:this.src='/images/d_default.png'" src="../images/d_default.png"></dt>
-                                <dd><em>黄金</em><span class="gender boy"></span></dd>
+                                <dd><em>${baseInfo.name}</em><span class="gender boy"></span></dd>
                             </dl>
                         </div>
                         <div class="Resume_conRight">
-                            <p class="p_phone phone">18005151538</p>
-                            <p class="p_emil email">416148489@qq.com</p>
-                            <p class="p_now currentstate">暂时不想找工作</p>
+                            <p class="p_phone phone">${baseInfo.phone}</p>
+                            <p class="p_emil email">${baseInfo.email}</p>
+                            <!--<p class="p_now currentstate">暂时不想找工作</p>-->
                         </div>
                     </div>
                     <div style="display:none;" class="Resume_three">
@@ -2560,29 +2562,7 @@
                                     </div>
                                 </div>
                                 <div class="mis_alert xueli_msg"></div>
-                                <div class="edit_list edit_list_fff">
-                                    <span class="span_fff"><em>*</em>工作经验</span>
-                                    <div class="seles seles_L">
-	                    <span id="work_time" class="seles_choose">
-	                       1年
-	                    </span>
-                                        <ul class="seles_hide">
-                                            <li v="0">应届生</li>
-                                            <li v="1">1年</li>
-                                            <li v="2">2年</li>
-                                            <li v="3">3年</li>
-                                            <li v="4">4年</li>
-                                            <li v="5">5年</li>
-                                            <li v="6">6年</li>
-                                            <li v="7">7年</li>
-                                            <li v="8">8年</li>
-                                            <li v="9">9年</li>
-                                            <li v="10">10年以上</li>
-                                        </ul>
-                                        <input type="hidden" class="input_hide" value="1" id="workyears">
-                                    </div>
-                                </div>
-                                <div class="mis_alert workyears_msg"></div>
+
                                 <div class="edit_list edit_list_fff">
                                     <span class="span_fff"><em>*</em>出生日期</span>
                                     <div class="seles seles_nian">
@@ -2675,18 +2655,18 @@
                                         </ul>
                                         <input type="hidden" class="input_hide" value="" id="day">
                                     </div>
-                                    <div class="seles seles_pub">
-	                  <span class="seles_choose">
-	                                    公开,完整显示
-	                  </span>
-                                        <ul class="seles_hide">
-                                            <li v="0">公开,完整显示</li>
-                                            <li v="1">只显示星座</li>
-                                            <li v="2">只显示月日</li>
-                                            <li v="3">保密哦</li>
-                                        </ul>
-                                        <input type="hidden" class="input_hide" value="0" id="birthday_flag">
-                                    </div>
+                                    <!--<div class="seles seles_pub">-->
+	                  <!--<span class="seles_choose">-->
+	                                    <!--公开,完整显示-->
+	                  <!--</span>-->
+                                        <!--<ul class="seles_hide">-->
+                                            <!--<li v="0">公开,完整显示</li>-->
+                                            <!--<li v="1">只显示星座</li>-->
+                                            <!--<li v="2">只显示月日</li>-->
+                                            <!--<li v="3">保密哦</li>-->
+                                        <!--</ul>-->
+                                        <!--<input type="hidden" class="input_hide" value="0" id="birthday_flag">-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="mis_alert birthday_msg"></div>
                             </div>
@@ -2702,33 +2682,56 @@
                                 </div>
                                 <div class="mis_alert email_msg"></div>
                                 <div class="edit_list edit_list_fff">
-                                    <span class="span_fff"><em>*</em>目前状态</span>
-                                    <div style="width: 240px;" class="seles seles_xl">
-	                    <span class="seles_choose current_state">
-	                           暂时不想找工作
-
-	                    </span>
-                                        <ul style="width: 240px;" class="seles_hide">
-                                            <li v="1">目前在职，正考虑换个新环境</li>
-                                            <li v="2">目前已离职,可快速到岗</li>
-                                            <li v="4">暂时不想找工作</li>
+                                    <span class="span_fff"><em>*</em>工作经验</span>
+                                    <div class="seles seles_L">
+                                        <span id="work_time" class="seles_choose">
+                                           1年
+                                        </span>
+                                        <ul class="seles_hide">
+                                            <li v="0">应届生</li>
+                                            <li v="1">1年</li>
+                                            <li v="2">2年</li>
+                                            <li v="3">3年</li>
+                                            <li v="4">4年</li>
+                                            <li v="5">5年</li>
+                                            <li v="6">6年</li>
+                                            <li v="7">7年</li>
+                                            <li v="8">8年</li>
+                                            <li v="9">9年</li>
+                                            <li v="10">10年以上</li>
                                         </ul>
-                                        <input type="hidden" class="input_hide" value="4" id="state">
+                                        <input type="hidden" class="input_hide" value="1" id="workyears">
                                     </div>
                                 </div>
-                                <div class="mis_alert state_msg"></div>
-                                <div class="edit_list edit_list_fff">
-                                    <span class="span_fff"><em></em>微博</span>
-                                    <input type="text" style="width:225px;" placeholder="微博" class="weibo">
-                                </div>
-                                <div class="edit_list edit_list_fff">
-                                    <span class="span_fff"><em></em>github</span>
-                                    <input type="text" style="width:225px;" placeholder="github" class="github">
-                                </div>
-                                <div class="edit_list edit_list_fff">
-                                    <span class="span_fff"><em></em>站酷</span>
-                                    <input type="text" style="width:225px;" placeholder="站酷" class="zhanku">
-                                </div>
+                                <div class="mis_alert workyears_msg"></div>
+                                <!--<div class="edit_list edit_list_fff">-->
+                                    <!--<span class="span_fff"><em>*</em>目前状态</span>-->
+                                    <!--<div style="width: 240px;" class="seles seles_xl">-->
+	                    <!--<span class="seles_choose current_state">-->
+	                           <!--暂时不想找工作-->
+
+	                    <!--</span>-->
+                                        <!--<ul style="width: 240px;" class="seles_hide">-->
+                                            <!--<li v="1">目前在职，正考虑换个新环境</li>-->
+                                            <!--<li v="2">目前已离职,可快速到岗</li>-->
+                                            <!--<li v="4">暂时不想找工作</li>-->
+                                        <!--</ul>-->
+                                        <!--<input type="hidden" class="input_hide" value="4" id="state">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="mis_alert state_msg"></div>-->
+                                <!--<div class="edit_list edit_list_fff">-->
+                                    <!--<span class="span_fff"><em></em>微博</span>-->
+                                    <!--<input type="text" style="width:225px;" placeholder="微博" class="weibo">-->
+                                <!--</div>-->
+                                <!--<div class="edit_list edit_list_fff">-->
+                                    <!--<span class="span_fff"><em></em>github</span>-->
+                                    <!--<input type="text" style="width:225px;" placeholder="github" class="github">-->
+                                <!--</div>-->
+                                <!--<div class="edit_list edit_list_fff">-->
+                                    <!--<span class="span_fff"><em></em>站酷</span>-->
+                                    <!--<input type="text" style="width:225px;" placeholder="站酷" class="zhanku">-->
+                                <!--</div>-->
                                 <!--<div class="site">
 			         </div>
 		             <div class='mis_alert'></div>-->

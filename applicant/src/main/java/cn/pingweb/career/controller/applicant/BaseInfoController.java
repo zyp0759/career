@@ -42,9 +42,9 @@ public class BaseInfoController {
             e.printStackTrace();
         }
 
-        BaseInfo baseInfo = new BaseInfo(userId, name, gender, cardId, date, localCity, birthCity, phone, email);
-
-        baseInfoService.save(baseInfo);
+//        BaseInfo baseInfo = new BaseInfo(userId, name, gender, cardId, date, localCity, birthCity, phone, email);
+//
+//        baseInfoService.save(baseInfo);
 
         return VO.SUCCESS;
 
