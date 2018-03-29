@@ -359,7 +359,7 @@ $(function() {
 		$('.self_description').html('');
 		$('#my_description').val('');
 
-		deletes(1);
+        deleteSelfDescription();
 		// $('#dragDiv6').remove();
 	});
 

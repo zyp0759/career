@@ -489,8 +489,8 @@
             });
 
             //判断自我描述
-            $('#self_description3').show();
-            $('#self_description1').hide();
+//            $('#self_description3').show();
+//            $('#self_description1').hide();
 
             //专业技能
 
@@ -1457,12 +1457,11 @@
                 }
                 jQuery.ajax({
                     type: 'post',
-
                     dataType: 'json',
-                    url: '/ro/sdesc',
-                    data: JSON.stringify(param),
+                    url: '/resume/selfDescription/save',
+                    data: param,
                     success: function(data){
-                        if(data.ret == 0)
+                        if(data.status == "200")
                         {
                             $('#self_des').html(param.param1);
                             $('#self_description2').hide();
@@ -2015,12 +2014,29 @@
 
         }
 
+        function deleteSelfDescription(){
+            jQuery.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/resume/selfDescription/delete',
+                success: function(data){
+                    if(data.status == "200")
+                    {
+                        updatebar();
+                        myfun();
+                    }
+                },
+                error: function(data) {
+                    console.info(data);
+                }
+            });
+        }
+
         function deletes(flag){
             var param = new Object();
             param.param1 = flag;
             jQuery.ajax({
                 type: 'post',
-
                 dataType: 'json',
                 url: '/ro/deletes',
                 data: JSON.stringify(param),
@@ -4013,7 +4029,7 @@
                         <div class="gzjl1CON">
                             <div id="titleBar6" class="expect_title">自我描述</div>
                             <div style="display:none;" id="self_description1" class="expect_con">
-                                <div id="self_des" class="self_description"></div>
+                                <div id="self_des" class="self_description">${selfDescription}</div>
                                 <div class="footer_edit "><span class="span_del"></span><span class="span_edit"></span>
                                 </div>
                             </div>
@@ -4228,6 +4244,15 @@
             $("#item_exprience3").hide();
 
         }
+
+        if( document.getElementById('self_des').innerHTML.replace(
+                /(^\s*)|(\s*$)/g, "") != "") {
+            $("#self_description1").show();
+            $("#self_description2").hide();
+            $("#self_description3").hide();
+
+        }
+
 
         //判断期望领域
         $(".qiwang_position #12").toggleClass('addcss');

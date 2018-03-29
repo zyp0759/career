@@ -38,6 +38,9 @@ public class WebController {
     private ProjectExperienceService projectExperienceService;
 
     @Autowired
+    private SelfDescriptionService selfDescriptionService;
+
+    @Autowired
     private ApplyService applyService;
 
     @RequestMapping("/home")
@@ -95,6 +98,7 @@ public class WebController {
         model.addAttribute("educations", EducationDto.getDto(educationService.getByUserId(userId)));
         model.addAttribute("workExperience", WorkExperienceDto.getDtos(workExperienceService.findByUserId(userId)));
         model.addAttribute("projectExperience", ProjectExperienceDto.getDtos(projectExperienceService.findByUserId(userId)));
+        model.addAttribute("selfDescription", selfDescriptionService.getSelfDescription(userId));
         return "resume";
     }
 
