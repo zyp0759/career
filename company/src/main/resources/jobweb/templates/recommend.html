@@ -1,0 +1,1053 @@
+<html xmlns="http://www.w3.org/1999/xhtml" class="hb-loaded"><head>
+<link href="../images/favico.ico" rel="shortcut icon">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta content="" name="description">
+<title>极速推荐</title>
+<link media="all" href="../css/recommended.css?v=2.32" type="text/css" rel="stylesheet">
+<link media="all" href="../css/base.css?v=2.39" type="text/css" rel="stylesheet">
+<link media="all" href="../css/jqcloud.css" type="text/css" rel="stylesheet">
+<link href="../css/pagination.css?v=2.32" rel="stylesheet">
+<script src="../js/jquery-1.8.0.js" charset="utf-8" type="text/javascript"></script>
+<script src="../js/json2.js" type="text/javascript"></script>
+<script src="../js/center.js?v=2.32" type="text/javascript"></script>
+<script src="../js/jqcloud-1.0.4.js" charset="utf-8" type="text/javascript"></script>
+<script src="../js/jquery.pagination.js" type="text/javascript"></script>
+<script src="../js/choose.js?v=2.33" type="text/javascript"></script>
+<script defer="defer" src="../js/loading.js?v=2.32" type="text/javascript"></script>
+<script type="text/javascript">
+    var s = "";
+    function pageselectCallback(page_index, jq){
+       start();
+        var pageno = page_index + 1;
+        if(pageno == 1)
+        {
+            $(".mate_Cons_list").load("/heshi/jobs/Ah6f7bMXs4gkfkhN8gbawOgeDkGHKFpW?s=" + s +"&t=" + new Date().getTime(), function(){
+                stop();
+            });
+        }
+        else
+        {
+            $(".mate_Cons_list").load("/heshi/jobs/Ah6f7bMXs4gkfkhN8gbawOgeDkGHKFpW?cp="+pageno + "&s=" + s+"&t=" + new Date().getTime(), function(){
+                stop();
+            });
+        }
+    }
+       
+</script>
+<script>
+var flag_type = 0;
+
+ window.name ="ceshi";
+ var optInit = {callback: pageselectCallback};
+        optInit["items_per_page"] = 5;
+        optInit["next_text"] = "下一页";
+        optInit["num_display_entries"] = 8;
+        optInit["num_edge_entries"] = 0;
+        optInit["prev_text"] = "上一页";
+  var num;
+  $(function(){
+      initdata2(0);
+    $('.tab_mate_list span').click(function(){
+	      $(this).addClass('active');
+	      $(this).parent().siblings('.tab_mate_list').find('span').removeClass('active');
+	      s = $(this).attr('v');
+	      initdata();
+    })
+
+    // 隔行换色
+        var t=$(".mate_Cons_list li").size();
+        for(var i=0;i<t;i++){
+            if(i%2!==0){
+                $(".mate_Cons_list li").eq(i).css({"background":"#f0f5ef"});
+             }
+        }
+         // 最后一个匹配连接去掉
+         $('.actTotal .gray_seap').last().hide();
+
+        $('.aaa').live('mouseover',function(){
+            var divID = $(this).attr('id');
+            
+	          $(this).find('.linkA').addClass('orange');
+            $(this).siblings('.aaa').find('.w').remove();
+            $(this).siblings('.aaa').find('.linkA').removeClass('orange');
+
+	          var w = $(this).width()/2;
+	          var w1 = w-1;
+	          
+	          if($(this).find('.w').length ==0 )
+	          {
+	               var pstr = '<div class="pstr" style="position: absolute;">                                                             '+
+                    '<div class="x">                                                                                                     '+
+                    '  <div style="width:100%; text-align:center;"><img src="/img/loading_40x40.gif" alt=""  style="margin-top:3px"/></div>'+
+                    '  <span class="z">◆</span>                                                                     '+
+                    '  <span class="y">◆</span>                                                                     '+
+                    '  </div>                                                                                                            '+
+                    '</div>                                                                                                              ';
+                    $("#"+divID).append(pstr);
+                    $("#"+divID).find('.pstr').css({'top':'-65px','position':'absolute'});
+                    $("#"+divID).find('.z').css({'left':w});
+                    $("#"+divID).find('.y').css({'left':w1});
+            
+	                if(flag_type == 0){
+	                     flag_type = 1;
+		                var v = $(this).attr('v');
+		                var param = new Object();
+		                param.param1 = "Ah6f7bMXs4gkfkhN8gbawOgeDkGHKFpW";
+		                param.param2 = v;
+			            jQuery.ajax({   
+					              type: 'post',   
+						          contentType : 'application/json; charset=utf-8',   
+						          dataType: 'json',   
+						          url: '/ajax/company_job.do', 
+						          data: JSON.stringify(param),   
+						          success: function(data){
+						            if(data.ret == 0){
+	                                        var str = '';
+	                                         str += '<div class="w">' +
+	                                                   '   <div class="x">'+
+	                                                   '      <ul>';
+	                                       $.each(data.result.searchResult,function(index,job) 
+	                                       {           
+	                                         str += '        <li><a href="/j/'+job.id+'.html" target="_blank">'+job.name+'</a>匹配度：'+job.mrate+'%</li>';
+	                                       });   
+	                                         str += '      </ul>'+
+	                                                   '      <span class="z">◆</span>'+
+	                                                   '      <span class="y">◆</span>'+
+	                                                   '    </div>'+
+	                                                   '</div>';
+	                                        $(".pstr").remove();
+						                    $("#"+divID).append(str);
+							                 var hh = -$("#"+divID).find('.w').height();
+								            $("#"+divID).find('.w').css({'top':hh,'position':'absolute'});
+								            $("#"+divID).find('.z').css({'left':w});
+								            $("#"+divID).find('.y').css({'left':w1});
+								           
+						            }
+							      }
+				         });
+	                }
+	               
+	          }
+          
+        })
+        $('.aaa').live('mouseleave',function(){
+
+		          $(this).find('.w').remove();
+		          $(this).find('.linkA').removeClass('orange');
+                  flag_type = 0;
+          })
+
+
+        // 右边鼠标滑过弹出完整在线简历
+          $('.online_resume').live('mouseover',function(){  
+            if($(".online_resume").width() != 443)
+            {
+                return;
+            }
+              $(this).css({'position':'absolute','right':'0'});
+              $(this).animate({'width':'785px'});
+          })
+          $('.online_resume').live('mouseleave',function(){       
+            if($(".online_resume").width() != 785)
+            {
+                return;
+            }     
+            $(this).css({'position':'absolute','right':'0'});
+            $(this).animate({'width':'443px'});
+             
+          })
+  })
+  
+  function initdata2(flg){
+     start();
+// 综合分析ie隐藏
+    if($.browser.msie) {       
+     } else{
+//      initcompany();
+     }
+     
+     $(".mate_Cons_alist").load("/heshi/jobs/Ah6f7bMXs4gkfkhN8gbawOgeDkGHKFpW?t=" + new Date().getTime(),
+             function(data){
+                stop();
+                if(data.length < 80)
+                {
+                    $("#nojob").show();
+                    $("#hasjob").hide();
+                    return;
+                }
+                $("#nojob").hide();
+                $("#hasjob").show();
+                setTimeout("initdata();",500);
+        });
+  }
+  
+  function initdata3(){
+     window.location.reload();
+  }
+  
+  function initdata(){
+     num = $(".actTotal").attr("total");
+     $("#Pagination").pagination(num, optInit);
+  }
+  
+  function initcompany(){
+       var word_list ;
+       var param = new Object();
+             param.param1 = 'Ah6f7bMXs4gkfkhN8gbawOgeDkGHKFpW';
+//             jQuery.ajax({   
+//	              type: 'post',   
+//		          contentType : 'application/json; charset=utf-8',   
+//		          dataType: 'json',   
+//		          url: '/ajax/tuijian_company.do?flag=true&t='+new Date().getTime(), 
+//		          data: JSON.stringify(param),   
+//		          success: function(data){
+//		              if(data.result == undefined || data.result == "" || 
+//		                  data.result.industryList == undefined || data.result.industryList == "" ||
+//		                  data.result.industryList.length == 0)
+//    		              {
+//    		                  $(".tag_cloud").hide();
+//    		              }
+//    		              
+//    		              var count = 0;
+//		                    $.each(data.result.industryList,function(index,industry) 
+//	                        {   
+//	                                $("#list_"+(index+1)).html("");
+//                                     var lastmr = 0;
+//								     var jsonstr = '[';
+//		                             $.each(industry.companyList,function(index2,company) 
+//		                             {
+//			                                 var cw = 13*company.jobList[0].mrate/100;
+//			                                 if(index2 == industry.companyList.length -1)
+//			                                 {
+//			                                     lastmr = company.jobList[0].mrate;
+//			                                 }
+//		                                     jsonstr += '{text:';
+//		                                     jsonstr += '"'+company.companyNm.substring(0,5)+'"';
+//		                                     jsonstr += ',';
+//		                                     jsonstr += 'weight:';
+//		                                     jsonstr += cw;
+//		                                     jsonstr += ',';
+//		                                     jsonstr += 'companyid:';
+//		                                     jsonstr += company.companyId;
+//		                                     jsonstr += ',link:' + '"/c/'+company.companyId+'"';
+//		                                     jsonstr += '},';
+//		                             })
+//		                             
+//		                             jsonstr += '{text:" ",weight:'+(lastmr-10)*13/100+'}';
+//		                             
+//								     jsonstr += ']';
+//								     
+//								     word_list = "";
+//								     word_list = eval("("+jsonstr+")");
+//								     $("#list_"+(index+1)).jQCloud(word_list);
+//								     if(industry.companyList.length > 0)
+//								     {
+//								        $("#list_"+(index+1)).parent().show();
+//								        $(".tag_cloud").show();
+//								        count++;
+//								     }
+//								    $('.online_span_'+(index+1)).text(industry.industry_nm);
+//							})
+//    		              if(count > 1)
+//    		              {
+//    		                  $(".tag_left").show();
+//    		              }
+//    		              if(data.result.industryList.length == 0){
+//                             $(".tag_cloud").hide();
+//                          }
+//                          if(data.result.industryList.length == 1){
+//                             $("#list_2").parent().hide();
+//                             $("#list_3").parent().hide();
+//                          }
+//                          if(data.result.industryList.length == 2){
+//                             $("#list_3").parent().hide();
+//                          }
+//		              
+//		          }
+//	         });
+  }
+  
+</script>
+<style>
+.w,.pstr{ width:250px; z-index: 10; /*position:absolute;  left:400px; top:200px; font-size:12px; text-align:left*/}/*模拟灰色阴影背景层*/
+.x{ width:230px; position:relative; background:#fff;  border:1px solid #ccc; padding:10px; left:-4px; top:-4px; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}/*内容div*/
+.x li{ color: #828282; font-size: 14px; cursor: pointer;}
+/*.x li:hover{ color: #ff6001;}*/
+.x li a{color: #828282; margin-right: 10px; float: left; width: 118px; overflow: hidden; white-space: nowrap; -o-text-overflow: ellipsis;  text-overflow: ellipsis; text-decoration: underline;}
+.x li a:hover{ color: #ff6001; }
+.y , .z{position: absolute; left: 31px; }
+
+.y{color: #ccc; font-size: 33px; bottom:-22px; z-index:1; left: 30px;}/*模拟小三角*/
+
+.z{ color: #fff; font-size: 30px; bottom:-19px;  z-index:3; }/*模拟小三角*/
+.nav_ul li a.xiu{ color: #17b385;}
+.footer{z-index:10;}
+</style>
+</head>
+<body>
+<div id="main">
+<link href="../css/base.css?v=2.39" type="text/css" rel="stylesheet">
+<link href="../css/style_qq.css?v=2.33" type="text/css" rel="stylesheet">
+<script charset="utf-8" type="text/javascript" src="../js/header.js?v=1.00"></script>
+<script charset="utf-8" type="text/javascript" src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js"></script>
+<script>
+var jianlistatustype="";
+var tui_user_pro='';
+var res_tuijian='';
+var uname = "416148489@qq.com";
+var ukbn = "0";
+var isIE7 = false;
+//验证标识
+var verifyflg="0";
+	
+function logout(){
+    jQuery.ajax({   
+        type: 'post',   
+        contentType : 'application/json; charset=utf-8',   
+        dataType: 'json',   
+        url: '/ajax/logout.do', 
+        data: JSON.stringify(new Object()),   
+        success: function(data){
+            window.location.href = "/";
+        }
+    })
+}
+
+$(document).ready(function(){    
+//底部tab切换
+	$('.contact_Con .contactCon').hide();
+	$('.contact_Con .contactCon').eq(0).show();
+	$('.contact_tab span').click(function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.contact_Con .contactCon').hide();
+		$('.contact_Con .contactCon').eq($(this).index()).show();
+		
+	})
+
+//判断是否为ie6
+    var isIE=!!window.ActiveXObject;
+    var isIE6=isIE&&!window.XMLHttpRequest;
+    var isIE8=isIE&&!!document.documentMode;
+    var isIE7=isIE&&!isIE6&&!isIE8;
+    if (isIE){
+        isIE7 = true;
+        if (isIE6){
+    			$('.bsie').show();
+    		}
+    }
+    $('.closeBtn').click(function(){
+    $('.a_box').hide();
+    })
+  
+//底部二维码
+	$('.about_Us span.ma_img').mouseover(function(){
+	$(this).find('img').show();
+	})
+	$('.about_Us span.ma_img').mouseout(function(){
+	$(this).find('img').hide();
+	})
+	//点击登录
+	$('#login_click').live("click",function(){
+		my_login();
+	});
+	
+	if(ukbn==1){
+		getSelectHrJobJianLi();
+	}
+	//点击导航的登录 
+	$('#dl_span').live("click",function(){
+		window.location.href='login.html.html';
+	});
+	
+	// 账号的回车事件
+	$('#myusername').keydown(function(event){
+		if(13 == event.keyCode || 13 == event.which){
+			my_login();
+		}
+	});
+	
+	//密码的回车事件
+	$('#mypassword').keydown(function(event){
+		if(13 == event.keyCode || 13 == event.which){
+			my_login();
+		}
+	});
+	
+	// 搜索职位的回车事件 
+	$('#my_job_form').keydown(function(event){
+		if(13 == event.keyCode || 13 == event.which){
+			headtijiao();
+		}
+	});
+	
+
+	//登录框隐藏与显示
+	//$('.dl_hide').hide();
+	$('.pos_dl'). mouseenter(function(){
+	  $('.dl_hide').show();
+	});
+	$('.pos_dl').mouseleave(function(){
+	  $('.dl_hide').hide();
+	});
+
+	//鼠标滑过2维码显示
+	$('.wx_pos').mouseover(function(){
+		$(this).find('img').show();
+	})
+
+	$('.wx_pos').mouseleave(function(){
+		$(this).find('img').hide();
+	})	
+	if(uname!=""&&uname!=null){
+		// 调用此方法 
+		getSelectProfileJobJianLi();
+	}
+	
+	// 事件关闭
+      $('.event_top span').click(function(){
+        $(this).parent().slideUp();
+      })       
+      
+      $('.event_top').click(function(){
+          window.open("/act");
+      })
+	
+	
+	
+	if(uname != "" && uname != null && ukbn == 1){
+	    getHrNewJianliNum();
+	}
+	
+});
+
+// 查询职位方法 
+function headtijiao(){
+	var xinkeywd = encodeURIComponent($("#my_job_form").val());
+	window.location.href='/job/?mkwd='+xinkeywd;
+}
+//查询职位方法结束 
+
+// 登录方法 
+function my_login(){
+	$("#herders_cuowu").hide();
+	var param = new Object();
+	param.emailAddr = $("#myusername").val();
+	param.passwd = $("#mypassword").val();
+	if(param.emailAddr == "")
+        {
+            $("#herders_cuowu").html("请填写用户名");
+            $("#herders_cuowu").show();
+            return;
+        }
+	if(param.passwd == "")
+        {
+            $("#herders_cuowu").html("请填写密码");
+            $("#herders_cuowu").show();
+            return;
+        }
+        
+	jQuery.ajax({   
+		type: 'post',   
+		contentType : 'application/json; charset=utf-8',   
+		dataType: 'json',   
+		url: '/ajax/login.do', 
+		data: JSON.stringify(param),   
+		success: function(data){
+			if(data.ret == "0")
+				{
+					if(data.ukbn==1){
+                      	//window.location.href = "/hr/";
+                      	window.location.href = "/job.html";
+                      } else{
+                      	window.location.href = "/job.html";
+                      }
+				}
+                else if(data.ret == -1)
+                {
+                        $("#herders_cuowu").html("用户不存在或密码错误");
+                        $("#herders_cuowu").show();
+                }
+                else
+                {
+                        $("#herders_cuowu").html("登录失败，请稍候重试");
+                        $("#herders_cuowu").show();
+                }
+        }
+	});
+};
+//查询普通用户没有回复hr面试通知的数量
+function getSelectProfileJobJianLi(){
+	var param = new Object();
+	var total = 0;
+	jQuery.ajax({   
+		type: 'post',   
+		contentType : 'application/json; charset=utf-8',   
+		dataType: 'json',   
+		url: '/ajax/getSelectProfileJobJianLi.do', 
+		data: JSON.stringify(param),   
+		success: function(data){
+			if(data.np.number0>0)
+			{
+			    total = total + data.np.number0;
+				//$("#profile_jianli_number").text(data.np.number0);
+				//$("#profile_jianli_number").show();
+				$("#profile_jianli_number2").text(data.np.number0);
+				$("#profile_jianli_number2").show();
+			}
+			if(jianlistatustype==0){
+				if(data.np.number1>0)
+				{
+					$("#profile_jianli_number_1").text(data.np.number1);
+					$("#profile_jianli_number_1").show();
+				}
+				if(data.np.number2>0)
+				{
+					$("#profile_jianli_number_2").text(data.np.number2);
+					$("#profile_jianli_number_2").show();
+				}
+				if(data.np.number3>0)
+				{
+					$("#profile_jianli_number_3").text(data.np.number3);
+					$("#profile_jianli_number_3").show();
+				}
+				
+			}
+			if(jianlistatustype==1){
+				if(data.np.number3>0)
+				{
+					$("#profile_jianli_number_1").text(data.np.number4);
+					$("#profile_jianli_number_1").show();
+				}
+				if(data.np.number4>0)
+				{
+					$("#profile_jianli_number_2").text(data.np.number5);
+					$("#profile_jianli_number_2").show();
+				}
+				if(data.np.number5>0)
+				{
+					$("#profile_jianli_number_3").text(data.np.number6);
+					$("#profile_jianli_number_3").show();
+				}
+				
+			}
+			var jk=parseInt(data.np.number1)+parseInt(data.np.number2)+parseInt(data.np.number3);
+			var jk1=parseInt(data.np.number4)+parseInt(data.np.number5)+parseInt(data.np.number6);
+			if(jk>0)
+			{
+					$("#profile_jianli_number_4").text(jk);
+					$("#profile_jianli_number_4").show();
+			}
+			if(jk1>0)
+			{
+					$("#profile_jianli_number_5").text(jk1);
+					$("#profile_jianli_number_5").show();
+			}
+			total = total + jk + jk1;
+			if(total > 0)
+			{
+			    $("#jianli_status").append('<em>'+total+'</em>');
+			}
+        }
+	});
+};
+
+//查询hr没有回复数量 
+function getSelectHrJobJianLi(){
+	jQuery.ajax({   
+		type: 'post',   
+		contentType : 'application/json; charset=utf-8',   
+		dataType: 'json',   
+		url: '/ajax/getSelectHrJobJianLi.do', 
+		data: JSON.stringify(new Object()),   
+		success: function(data){
+			if(data.np.number1>0){
+				$("#hr_mei_jianli").append("<em>"+data.np.number1+"</em>");
+				$("#shou").append("<em>"+data.np.number1+"</em>");
+			}
+			if(data.np.number2>0){
+				$("#hr_tong_jianli").append("<em>"+data.np.number2+"</em>");
+			}
+        }
+	});	
+};
+
+//查询Hr新简历数
+function getHrNewJianliNum(){
+		jQuery.ajax({ 
+		     type: 'post',   
+				contentType : 'application/json; charset=utf-8',   
+				dataType: 'json',   
+				url: '/ajax/newnum.do', 
+				data: JSON.stringify(new Object()),   
+				success: function(data){
+				   if(data.newnum > 0){
+				      $('.num').show();
+				      $('.num').text(data.newnum);
+				   }else{
+				      $('.num').hide();
+				   }
+				}
+		});
+}
+
+//登录结束 
+</script>
+<div style="width:100%; height:50px; line-height:50px; font-size:18px; color:#b94a48; background:#f2dede; text-align:center;" class="bsie">
+	<span>本系统可能有些功能不支持IE6，请用更高版本或其他的浏览器</span>
+</div>
+<!-- 头部 -->
+<div class="event_top">
+	<div class="event_center"></div>
+</div>	
+<div class="header">
+    <div class="header_con">
+    <div class="logo-con">
+        <a title="" href="http://www.neipin.comindex.html"><img alt="内聘网-专注人才精准推荐的移动互联网招聘网站" src="../images/logo.png"></a>
+    </div>
+    <img alt="专注互联网人才精准推荐" style="float:left; margin-top:26px; margin-left:10px;" src="../images/slogn.png?v=20150505.18">
+    <ul class="nav_ul">
+      <li id="index"><a class="home" title="内聘网" href="index.html">首页</a></li>
+      <li id="company"><a class="qiye" title="" href="company.html" rel="nofollow">企业</a></li>
+      <li class="pos_relative" id="xiu"><a class="xiu" title="精准推荐" href="recommend.html" rel="nofollow">精准推荐</a>
+      <i></i>
+      </li>
+      <li id="shou"><a class="my_resume" title="" href="my_resume.html" rel="nofollow">我的简历</a></li>
+    </ul>
+    <div class="right search_dl">
+        <div class="ksnvas">
+          <div class="yonghuming">
+           <a class="user_names" title="" href="javascript:void(0)">416148489@qq.com</a>
+           <!--<i></i>-->
+          </div>
+          <ul class="user_names_con">
+           
+            <li><a href="member_pwd.html" title="">账号设置</a></li>
+            <li class="quit"><a href="javascript:logout();" title="">退出</a></li>
+          </ul>
+        </div>
+        <!--<div class='forms'>
+            <input name="kwd" type="text" id="my_job_form" class="sou_bor" placeholder='搜工作，淘人才'/>
+        </div>-->
+        <!--<wb:follow-button uid="2930367021" type="gray_1" width="67" height="24"  style="float:right; margin-top:48px; margin-right:10px;filter:alpha(opacity=50); /*IE滤镜，透明度50%*/
+-moz-opacity:0.5; /*Firefox私有，透明度50%*/
+opacity:0.5;/*其他，透明度50%*/"></wb:follow-button>-->
+    </div>
+    </div>
+</div>
+<div style="display:none" class="tishi">
+        <span id="tishi_msg"></span>
+        <div style="top:5px; right:5px;" class="close_X">X</div>
+</div>
+<div class="hsbj"></div>
+<div style="display: none;" class="whitebg"></div>
+
+<!--这是加载AJAX的动态转图-->
+	<div style="left: 50%; float: left; position: fixed; top: 50%; z-index: 100009; display: none;" id="home_loading">
+		<img src="../images/anim_loading_75x75.gif">
+	</div>
+  <div class="containter"> 
+    <div class="recommed_jisu">
+    <div style="display:none" class="mate_job" id="nojob">
+        <div class="js_noJob">
+            <img alt="" src="../images/ergou.jpg">
+            <div>还没有合适您的职位哦，修改右侧在线简历试一下！</div>
+         </div>
+    </div>
+      <div style="" class="mate_job" id="hasjob">
+        <div class="mate_job_title">
+          <div class="column"><em></em><span>与您匹配的职位</span></div>
+          <div style="display:none" class="filter_job"><input type="checkbox" id="chec"><label for="chec">过滤已查阅职位</label></div>
+        </div>
+        <div class="tab_mate">
+          <div class="tab_mate_title">
+            <div class="tab_mate_list"><span v="pipei" class="active">匹配度</span></div>
+            <div class="tab_mate_list"><span v="job_time" class="">发布时间</span></div>
+            <div class="tab_mate_list"><span v="salary">薪酬</span></div>
+          </div>
+          <div class="tab_mate_con">
+            <div class="mate_Cons">
+              <div class="mate_Cons_list"><ul total="6" class="actTotal">
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_45462" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>72</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/45462?ts=1" title="">Flash设计师</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">6K-8K</span>|<span>
+        1-3年</span>|<span>大专</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16565">快易典</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周前</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_46822" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>66.4</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/46822?ts=1" title="">Flash程序员</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">8K-10K</span>|<span>
+        1-3年</span>|<span>大专</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16834">互诺科技</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">今天</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_46733" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>62.4</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/46733?ts=1" title="">JavaScript</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">10K-15K</span>|<span>
+        1-3年</span>|<span>本科</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16872">多彩人生</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周内</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_46224" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>60</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/46224?ts=1" title="">JavaScript</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">15K-20K</span>|<span>
+        1-3年</span>|<span>本科</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16781">极光推送</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周前</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_4569" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>34.4</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/4569?ts=1" title="">JavaScript</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">8K-10K</span>|<span>
+        3-5年</span>|<span>大专</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/1328">快乐人生网络科技开发有限公司</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周前</span>
+    </div>
+  </div>
+</li>
+</ul>
+</div>
+              <div class="pagination" id="Pagination"><span class="current prev">上一页</span><span class="current">1</span><a href="#">2</a><a href="#" class="next">下一页</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="online_resume" style="position: absolute; right: 0px; width: 785px;">
+        <div class="online_title">
+          <div class="column"><em></em><span>填写在线简历</span></div><div class="index_add">增加职位精准匹配度</div>
+        </div>
+        <div class="resume_include">
+<iframe src="resume.html"></iframe>
+        </div>
+      </div>
+    </div>
+    <div style="" class="tag_cloud">
+      <div class="tag_cloud_title"><span>综合分析</span></div>
+      <p class="yag_jieshao">根据我们对您的综合分析，以下是适合您的行业及公司职位匹配度</p>
+      <div class="tag_con">
+        <div style="display:none" class="tag_left"></div>
+        <div class="tag_right">
+          <div style="" class="online_advertise lingyu1">
+            <span class="online_span online_span_1">服务</span>
+            <div style="height: 229px; width: 860px;" id="list_1" class="online_advertise_con jqcloud"><span class="aaa w10" id="list_1_word_0" v="3000" style="position: absolute; left: 340px; top: 90px;"><a class="linkA" target="_blank" href="/c/3000">深圳小生活</a></span><span class="aaa w1" id="list_1_word_1" style="position: absolute; left: 324.923px; top: 113.434px;"> </span></div>
+          </div>
+          <div style="display:none" class="online_advertise lingyu2">
+            <span class="online_span online_span_two online_span_2">文化艺术</span>
+            <div style="height: 189px; width: 860px;" id="list_2" class="online_advertise_con jqcloud"><span class="aaa w5" id="list_2_word_0" style="position: absolute; left: 430px; top: 94.5px;"> </span></div>
+          </div>
+          <div style="display:none" class="online_advertise lingyu3">
+            <span class="online_span online_span_three online_span_3">在线旅游</span>
+            <div style="height: 150px; width: 860px;" id="list_3" class="online_advertise_con jqcloud"><span class="aaa w5" id="list_3_word_0" style="position: absolute; left: 430px; top: 75px;"> </span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>          
+<script src="../js/jquery.wheelmenu.js" type="text/javascript"></script>
+<div class="QQ_each">
+        <a class="wheel-button float_qq" href="#wheel" style="opacity: 1; z-index: 3;"></a>
+        <ul class="wheel" id="wheel" style="display: none; position: fixed; z-index: 5; top: 310px; left: 1369.5px; visibility: hidden;">
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+            <!--<li class="item"><a target="_blank" href="404.html" class='sss'>沙僧</a></li>-->
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a class="bj" href="http://wpa.qq.com/msgrd?v=3&uin=1538590175&site=qq&menu=yes" target="_blank">求职<br>服务</a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a class="wk" href="http://wpa.qq.com/msgrd?v=3&uin=3078167392&site=qq&menu=yes" target="_blank">招聘<br>服务</a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a class="ts" href="http://wpa.qq.com/msgrd?v=3&uin=6281927&site=qq&menu=yes" target="_blank">bug<br>反馈</a></li>      
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+            <li class="item" style="transform: rotate(-360deg); position: absolute; opacity: 0; left: 100px; top: 100px;"><a href="404.html"></a></li>
+        </ul>
+    </div>
+<a style="display: none;" class="back_to_top" title="" href="404.html"></a>
+
+<script type="text/javascript">
+$(".wheel-button").wheelmenu({
+    // alert(1);
+    trigger: "hover",
+    animation: "fly",
+    angle: [0, 360]
+});
+</script>
+
+  </div>    
+ <div style="display:none" class="mate_Cons_alist"><ul total="6" class="actTotal">
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_45462" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>72</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/45462?ts=1" title="">Flash设计师</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">6K-8K</span>|<span>
+        1-3年</span>|<span>大专</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16565">快易典</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周前</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_46822" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>66.4</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/46822?ts=1" title="">Flash程序员</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">8K-10K</span>|<span>
+        1-3年</span>|<span>大专</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16834">互诺科技</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">今天</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_46733" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>62.4</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/46733?ts=1" title="">JavaScript</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">10K-15K</span>|<span>
+        1-3年</span>|<span>本科</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16872">多彩人生</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周内</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_46224" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>60</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/46224?ts=1" title="">JavaScript</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">15K-20K</span>|<span>
+        1-3年</span>|<span>本科</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/16781">极光推送</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周前</span>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="mate_list_left left">
+    <div class="matedegree_left">
+      <div class="resumeScore_25 resumeScore">
+        <div class="index_score fl">
+          <canvas id="doughnutChartCanvas_4569" width="58" height="58" style="width: 58px; height: 58px;"></canvas>  
+          <div class="scoreVal"><span>34.4</span>%</div>
+        </div>
+        <div class="gray_seap"></div>
+      </div>
+
+    </div>
+    <div class="matedegree_right">
+      <p class="b7"><a class="zw_name" target="_blank" href="/j/4569?ts=1" title="">JavaScript</a>[<span class="orange">社招</span>]&nbsp;[<span>深圳</span>]</p>
+      <div class="brif">
+        <span class="orange" style="margin-left:0px;">8K-10K</span>|<span>
+        3-5年</span>|<span>大专</span>
+      </div>
+    </div>
+  </div>
+  <div class="mate_list_right left">
+    <p class="ac"><a href="/c/1328">快乐人生网络科技开发有限公司</a></p>
+    <div class="brif"><span style="margin-left:0px;">移动互联网,媒体</span>|<span>未融资</span>|<span>15-50人</span></div>
+    <div class="liuran_numbers">
+      <span class="sp3">一周前</span>
+    </div>
+  </div>
+</li>
+</ul>
+</div>
+<div class="footer">
+    <div class="footer_con">
+        <div class="footer_top">
+            <div class="about_Us">
+                <div class="contact_left">
+                    <div>400-626-3578</div> 
+                    <p>（周一至周五：09：30-18:30）</p>
+                </div>
+                <div class="contact_right">
+                    <div class="foot_list">
+                        <span class="about_left"><a title="网站地图" href="/map.html">网站地图</a></span>
+                        <span class="about_left"><a title="关于内聘网" href="about.html" rel="nofollow">关于我们</a></span>
+                        <span class="about_left"><a title="" href="http://weibo.com/neipin2013" target="_blank" rel="nofollow">微博</a></span>
+                        <span class="about_left wx_pos">
+                            <a title="" href="javascript:void(0)">微信服务号</a>
+                            <img src="../images/ma_service.png?v=20150416">
+                        </span>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="seap">京ICP备14004482号-1 版权所有 2013 &copy;内聘网</p>
+</div>
+
+
+<!--<div class="a_box">
+    <a href="http://qixi.neipin.com/index.html" title="七夕送甜蜜活动" class="activity_icon"></a>
+    <span class='closeBtn'></span>
+</div>-->
+
+
+</div></body></html>

@@ -1,0 +1,677 @@
+<html xmlns="http://www.w3.org/1999/xhtml" class="hb-loaded"><head>
+<link href="../images/favico.ico" rel="shortcut icon">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<meta content="摩天轮,摩天轮招聘,摩天轮招聘信息,广州市摩天轮网络科技有限公司" name="keywords">
+<meta content="我们：大家可能都用过QQ、微信、facebook,它们无一例外都是拥有庞大的用户量。几亿的用户里面有多少人跟我们存在联系？多少人认识我？多少人愿意帮助我？多少人我愿意帮助他？也许只有几十人甚至更少，那如此大的用户量跟我又有什么关系呢？ 很多普通人并不优秀但是他们还是非常乐观的消费着各种各样的东西，但是很多商品很多服务他们根本消费不起，于是他们选择了信用卡预支消费变成卡奴，背负着各种压力生活着。 摩天轮-互筹社交：让每一个人帮助别人，让每一个人帮助你。" name="description">
+<title>公司详情</title>
+
+<link media="all" href="../css/pub.css?v=2.33" type="text/css" rel="stylesheet">
+<link media="all" href="../css/sub.css?v=2.39" type="text/css" rel="stylesheet">
+<link media="all" href="../css/gsxx.css?v=2.40" type="text/css" rel="stylesheet">
+<link media="all" href="../css/common2.css?v=2.32" type="text/css" rel="stylesheet">
+<script src="../js/hm.js?e57ac2e0d645c16f50e241abc140f59f"></script><script src="../js/jquery-1.7.2.min.js" charset="utf-8" type="text/javascript"></script>
+<script src="../js/json2.js" type="text/javascript"></script>
+<script defer="defer" src="../js/photo_show.js" type="text/javascript"></script>
+<script defer="defer" src="../js/photo_show_big.js" type="text/javascript"></script>
+<style type="text/css">
+.welfare em{ width: 0px;}
+/*.company_brief{ width: 243px; overflow: hidden; }*/
+.company_brief li{ overflow: hidden;}
+.gsxxi_part{background: #fff;}
+.p_Label{
+</style><script defer="defer" type="text/javascript">
+var page = 1;
+ var page2 = 1;
+ var page3 = 1;
+
+    function more(){
+      var param = new Object();
+      param.param1 = "16801";
+      jQuery.ajax({   
+			        type: 'post',   
+			        contentType : 'application/json; charset=utf-8',   
+			        dataType: 'json',   
+			        url:'/ajax/moreport.do', 
+			        data: JSON.stringify(param),   
+			        success: function(data){
+			           $(".baodao").html("");
+                       $(".moreA").hide();
+			           $.each(data.result.reports,function(index,report){
+			              var str ='<li>'+
+			                           ' <a rel="nofollow" target="_blank" href="' +report.report_url+ '" title="" class="bd">' +report.report_title+ '</a>'+
+			                           '</li>';
+			               $('.baodao').append(str);
+			           });
+			        }
+	  });
+    
+         
+    }
+//  点赞
+    $(function(){
+    	$('.praise').live('click',function(){
+    		if($(this).hasClass('active')){
+    		   return;
+    		}else{
+    		   var param = new Object();
+    		   param.param1 = "16801";
+    		   jQuery.ajax({   
+			        type: 'post',   
+			        contentType : 'application/json; charset=utf-8',   
+			        dataType: 'json',   
+			        url:'/ajax/praise.do', 
+			        data: JSON.stringify(param),   
+			        success: function(data){
+			           var praise = "0";
+			           if(praise == null || praise == ""){
+			              praise = 0;
+			           }else{
+			              praise = "0";
+			           }
+			           praise ++;
+			           $('.dianzan span').text("已有" +praise+ "人认为该公司值得加入");
+			           $('.praise').addClass('active');
+			        }
+			        
+			    });
+    		}
+    	})
+    })
+</script></head>
+
+
+<body>
+<div id="main">
+<link href="../css/base.css?v=2.39" type="text/css" rel="stylesheet">
+<link href="../css/style_qq.css?v=2.33" type="text/css" rel="stylesheet">
+<script charset="utf-8" type="text/javascript" src="../js/header.js?v=1.00"></script>
+<script charset="utf-8" type="text/javascript" src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js"></script>
+<script>
+var jianlistatustype="";
+var tui_user_pro='';
+var res_tuijian='';
+var uname = "416148489@qq.com";
+var ukbn = "0";
+var isIE7 = false;
+//验证标识
+var verifyflg="0";
+	
+function logout(){
+    jQuery.ajax({   
+        type: 'post',   
+        contentType : 'application/json; charset=utf-8',   
+        dataType: 'json',   
+        url: '/ajax/logout.do', 
+        data: JSON.stringify(new Object()),   
+        success: function(data){
+            window.location.href = "/";
+        }
+    })
+}
+
+$(document).ready(function(){    
+//底部tab切换
+	$('.contact_Con .contactCon').hide();
+	$('.contact_Con .contactCon').eq(0).show();
+	$('.contact_tab span').click(function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.contact_Con .contactCon').hide();
+		$('.contact_Con .contactCon').eq($(this).index()).show();
+		
+	})
+
+//判断是否为ie6
+    var isIE=!!window.ActiveXObject;
+    var isIE6=isIE&&!window.XMLHttpRequest;
+    var isIE8=isIE&&!!document.documentMode;
+    var isIE7=isIE&&!isIE6&&!isIE8;
+    if (isIE){
+        isIE7 = true;
+        if (isIE6){
+    			$('.bsie').show();
+    		}
+    }
+    $('.closeBtn').click(function(){
+    $('.a_box').hide();
+    })
+  
+//底部二维码
+	$('.about_Us span.ma_img').mouseover(function(){
+	$(this).find('img').show();
+	})
+	$('.about_Us span.ma_img').mouseout(function(){
+	$(this).find('img').hide();
+	})
+	//点击登录
+	$('#login_click').live("click",function(){
+		my_login();
+	});
+	
+	if(ukbn==1){
+		getSelectHrJobJianLi();
+	}
+	//点击导航的登录 
+	$('#dl_span').live("click",function(){
+		window.location.href='login.html.html';
+	});
+	
+	// 账号的回车事件
+	$('#myusername').keydown(function(event){
+		if(13 == event.keyCode || 13 == event.which){
+			my_login();
+		}
+	});
+	
+	//密码的回车事件
+	$('#mypassword').keydown(function(event){
+		if(13 == event.keyCode || 13 == event.which){
+			my_login();
+		}
+	});
+	
+	// 搜索职位的回车事件 
+	$('#my_job_form').keydown(function(event){
+		if(13 == event.keyCode || 13 == event.which){
+			headtijiao();
+		}
+	});
+	
+
+	//登录框隐藏与显示
+	//$('.dl_hide').hide();
+	$('.pos_dl'). mouseenter(function(){
+	  $('.dl_hide').show();
+	});
+	$('.pos_dl').mouseleave(function(){
+	  $('.dl_hide').hide();
+	});
+
+	//鼠标滑过2维码显示
+	$('.wx_pos').mouseover(function(){
+		$(this).find('img').show();
+	})
+
+	$('.wx_pos').mouseleave(function(){
+		$(this).find('img').hide();
+	})	
+	if(uname!=""&&uname!=null){
+		// 调用此方法 
+		getSelectProfileJobJianLi();
+	}
+	
+	// 事件关闭
+      $('.event_top span').click(function(){
+        $(this).parent().slideUp();
+      })       
+      
+      $('.event_top').click(function(){
+          window.open("/act");
+      })
+	
+	
+	
+	if(uname != "" && uname != null && ukbn == 1){
+	    getHrNewJianliNum();
+	}
+	
+});
+
+// 查询职位方法 
+function headtijiao(){
+	var xinkeywd = encodeURIComponent($("#my_job_form").val());
+	window.location.href='/job/?mkwd='+xinkeywd;
+}
+//查询职位方法结束 
+
+// 登录方法 
+function my_login(){
+	$("#herders_cuowu").hide();
+	var param = new Object();
+	param.emailAddr = $("#myusername").val();
+	param.passwd = $("#mypassword").val();
+	if(param.emailAddr == "")
+        {
+            $("#herders_cuowu").html("请填写用户名");
+            $("#herders_cuowu").show();
+            return;
+        }
+	if(param.passwd == "")
+        {
+            $("#herders_cuowu").html("请填写密码");
+            $("#herders_cuowu").show();
+            return;
+        }
+        
+	jQuery.ajax({   
+		type: 'post',   
+		contentType : 'application/json; charset=utf-8',   
+		dataType: 'json',   
+		url: '/ajax/login.do', 
+		data: JSON.stringify(param),   
+		success: function(data){
+			if(data.ret == "0")
+				{
+					if(data.ukbn==1){
+                      	//window.location.href = "/hr/";
+                      	window.location.href = "/job.html";
+                      } else{
+                      	window.location.href = "/job.html";
+                      }
+				}
+                else if(data.ret == -1)
+                {
+                        $("#herders_cuowu").html("用户不存在或密码错误");
+                        $("#herders_cuowu").show();
+                }
+                else
+                {
+                        $("#herders_cuowu").html("登录失败，请稍候重试");
+                        $("#herders_cuowu").show();
+                }
+        }
+	});
+};
+//查询普通用户没有回复hr面试通知的数量
+function getSelectProfileJobJianLi(){
+	var param = new Object();
+	var total = 0;
+	jQuery.ajax({   
+		type: 'post',   
+		contentType : 'application/json; charset=utf-8',   
+		dataType: 'json',   
+		url: '/ajax/getSelectProfileJobJianLi.do', 
+		data: JSON.stringify(param),   
+		success: function(data){
+			if(data.np.number0>0)
+			{
+			    total = total + data.np.number0;
+				//$("#profile_jianli_number").text(data.np.number0);
+				//$("#profile_jianli_number").show();
+				$("#profile_jianli_number2").text(data.np.number0);
+				$("#profile_jianli_number2").show();
+			}
+			if(jianlistatustype==0){
+				if(data.np.number1>0)
+				{
+					$("#profile_jianli_number_1").text(data.np.number1);
+					$("#profile_jianli_number_1").show();
+				}
+				if(data.np.number2>0)
+				{
+					$("#profile_jianli_number_2").text(data.np.number2);
+					$("#profile_jianli_number_2").show();
+				}
+				if(data.np.number3>0)
+				{
+					$("#profile_jianli_number_3").text(data.np.number3);
+					$("#profile_jianli_number_3").show();
+				}
+				
+			}
+			if(jianlistatustype==1){
+				if(data.np.number3>0)
+				{
+					$("#profile_jianli_number_1").text(data.np.number4);
+					$("#profile_jianli_number_1").show();
+				}
+				if(data.np.number4>0)
+				{
+					$("#profile_jianli_number_2").text(data.np.number5);
+					$("#profile_jianli_number_2").show();
+				}
+				if(data.np.number5>0)
+				{
+					$("#profile_jianli_number_3").text(data.np.number6);
+					$("#profile_jianli_number_3").show();
+				}
+				
+			}
+			var jk=parseInt(data.np.number1)+parseInt(data.np.number2)+parseInt(data.np.number3);
+			var jk1=parseInt(data.np.number4)+parseInt(data.np.number5)+parseInt(data.np.number6);
+			if(jk>0)
+			{
+					$("#profile_jianli_number_4").text(jk);
+					$("#profile_jianli_number_4").show();
+			}
+			if(jk1>0)
+			{
+					$("#profile_jianli_number_5").text(jk1);
+					$("#profile_jianli_number_5").show();
+			}
+			total = total + jk + jk1;
+			if(total > 0)
+			{
+			    $("#jianli_status").append('<em>'+total+'</em>');
+			}
+        }
+	});
+};
+
+//查询hr没有回复数量 
+function getSelectHrJobJianLi(){
+	jQuery.ajax({   
+		type: 'post',   
+		contentType : 'application/json; charset=utf-8',   
+		dataType: 'json',   
+		url: '/ajax/getSelectHrJobJianLi.do', 
+		data: JSON.stringify(new Object()),   
+		success: function(data){
+			if(data.np.number1>0){
+				$("#hr_mei_jianli").append("<em>"+data.np.number1+"</em>");
+				$("#shou").append("<em>"+data.np.number1+"</em>");
+			}
+			if(data.np.number2>0){
+				$("#hr_tong_jianli").append("<em>"+data.np.number2+"</em>");
+			}
+        }
+	});	
+};
+
+//查询Hr新简历数
+function getHrNewJianliNum(){
+		jQuery.ajax({ 
+		     type: 'post',   
+				contentType : 'application/json; charset=utf-8',   
+				dataType: 'json',   
+				url: '/ajax/newnum.do', 
+				data: JSON.stringify(new Object()),   
+				success: function(data){
+				   if(data.newnum > 0){
+				      $('.num').show();
+				      $('.num').text(data.newnum);
+				   }else{
+				      $('.num').hide();
+				   }
+				}
+		});
+}
+
+//登录结束 
+</script>
+<div style="width:100%; height:50px; line-height:50px; font-size:18px; color:#b94a48; background:#f2dede; text-align:center;" class="bsie">
+	<span>本系统可能有些功能不支持IE6，请用更高版本或其他的浏览器</span>
+</div>
+<!-- 头部 -->
+<div class="event_top">
+	<div class="event_center"></div>
+</div>	
+<div class="header">
+    <div class="header_con">
+    <div class="logo-con">
+        <a title="" href="http://www.neipin.comindex.html"><img alt="内聘网-专注人才精准推荐的移动互联网招聘网站" src="../images/logo.png"></a>
+    </div>
+    <img alt="专注互联网人才精准推荐" style="float:left; margin-top:26px; margin-left:10px;" src="../images/slogn.png?v=20150505.18">
+    <ul class="nav_ul">
+      <li id="index"><a class="home" title="内聘网" href="index.html">首页</a></li>
+      <li id="company"><a class="qiye" title="" href="company.html" rel="nofollow">企业</a></li>
+      <li class="pos_relative" id="xiu"><a class="xiu" title="精准推荐" href="recommend.html" rel="nofollow">精准推荐</a>
+      <i></i>
+      </li>
+      <li id="shou"><a class="my_resume" title="" href="resume.html" rel="nofollow">我的简历</a></li>
+    </ul>
+    <div class="right search_dl">
+        <div class="ksnvas">
+          <div class="yonghuming">
+           <a class="user_names" title="" href="javascript:void(0)">416148489@qq.com</a>
+           <!--<i></i>-->
+          </div>
+          <ul class="user_names_con">
+           
+            <li><a href="member_pwd.html" title="">账号设置</a></li>
+            <li class="quit"><a href="javascript:logout();" title="">退出</a></li>
+          </ul>
+        </div>
+        <!--<div class='forms'>
+            <input name="kwd" type="text" id="my_job_form" class="sou_bor" placeholder='搜工作，淘人才'/>
+        </div>-->
+        <!--<wb:follow-button uid="2930367021" type="gray_1" width="67" height="24"  style="float:right; margin-top:48px; margin-right:10px;filter:alpha(opacity=50); /*IE滤镜，透明度50%*/
+-moz-opacity:0.5; /*Firefox私有，透明度50%*/
+opacity:0.5;/*其他，透明度50%*/"></wb:follow-button>-->
+    </div>
+    </div>
+</div>
+<div style="display:none" class="tishi">
+        <span id="tishi_msg"></span>
+        <div style="top:5px; right:5px;" class="close_X">X</div>
+</div>
+<div class="hsbj"></div>
+<div style="display:none;" class="whitebg"></div>
+
+<!--这是加载AJAX的动态转图-->
+	<div style="left:50%; float:left; position:fixed; top:50%; z-index:100009; display:none;" id="home_loading">
+		<img src="../images/anim_loading_75x75.gif">
+	</div>
+    
+<div class="containter_box">
+    <div style="margin-top: 0; padding-bottom: 0;" class="containter">
+	        <div class="crumbs">
+	            <a title="" href="company.html?techtag=8">移动互联网</a><strong>></strong>
+	            <span>公司信息</span>
+	        </div>
+    	<div class="gsxxi_top">
+            <div style="margin-right:15px; margin-left:30px;" class="left">
+                <div class="gs_logoimg">
+                    <img class="left logo" alt="摩天轮" title="摩天轮" onerror="javascript:this.src='images/gsLOGO.jpg'" src="../images/GO6VtZ1mlfTspfgS.png">
+                </div>
+            </div>
+            <div class="left gsxxi_con">            	
+            	<div class="jbxx">
+            		<div class="dianzan">
+	            		<span>已有0人认为该公司值得加入</span>
+	            		<i class="praise "></i>
+	            	</div>
+	            	<div style=" width:100%; overflow: hidden;">
+	            		<h2>摩天轮</h2>
+                		<h3>广州市摩天轮网络科技有限公司</h3>
+	            	</div>            		
+            	</div>
+                <div style="margin:25px 0 5px;  width:100%; overflow:hidden;">
+                	<div class="onetalk"></div>
+                </div>
+                <div class="welfare">
+    			     <label class="c1"><i>股票期权</i><em></em></label>
+    			     <label class="c2"><i>提升快</i><em></em></label>
+    			     <label class="c3"><i>年度游玩</i><em></em></label>
+    			     <label class="c4"><i>五险一金</i><em></em></label>
+    			     <label class="c1"><i>弹性工作</i><em></em></label>
+    			     <label class="c2"><i>节日礼物</i><em></em></label>
+    			     <label class="c3"><i>年终奖金</i><em></em></label>
+    			     <label class="c4"><i>年度分红</i><em></em></label>
+    			     <label class="c1"><i>带薪年假</i><em></em></label>
+    			     <label class="c2"><i>专项奖金</i><em></em></label>
+    			     <label class="c3"><i>美女多</i><em></em></label>
+    			     <label class="c4"><i>帅哥多</i><em></em></label>
+               </div>
+            </div>
+        </div>
+    	<div class="gsxxi_part">     
+	        <div class="gsxxi left">
+	        	<!--公司介绍-->
+	        	<div class="company_presentation">
+	                <p class="p_Label"><span>公司介绍</span></p>
+	                <div class="company_presentation_con">
+	                  我们：<br><br>大家可能都用过QQ、微信、facebook,它们无一例外都是拥有庞大的用户量。几亿的用户里面有多少人跟我们存在联系？多少人认识我？多少人愿意帮助我？多少人我愿意帮助他？也许只有几十人甚至更少，那如此大的用户量跟我又有什么关系呢？ <br>很多普通人并不优秀但是他们还是非常乐观的消费着各种各样的东西，但是很多商品很多服务他们根本消费不起，于是他们选择了信用卡预支消费变成卡奴，背负着各种压力生活着。 <br><br>摩天轮-互筹社交：让每一个人帮助别人，让每一个人帮助你。 
+	                </div>
+	            </div>
+	            <!-- 公司实拍 -->
+            <!-- 公司实拍 end-->
+	            <div class="product_presentation">
+	            </div>	            
+	            <div class="The_job">
+	                <p class="p_Label"><span>在招职位</span><font>该公司近一个月共发布4个招聘职位</font></p>
+	                <div class="The_job_con">
+	                    <div class="allzhiwei">
+	                    <!-- <p>所有招聘职位</p>  -->
+	                        <a class="left" title="" href="/j/46781.html">
+	                            <div style="color:#6c6c6c" class="azpzz">
+	                                <div class="zw_con">
+	                                    <h4>人事/HR</h4><em>[广州]</em><span class="right">今天</span>
+	                                </div>
+	                                <div class="zw_xu">6K-8K<span>|</span>1-3年<span>|</span>大专
+	                                </div>
+	                            </div>
+	                        </a>
+	                        <a class="left" title="" href="/j/46383.html">
+	                            <div style="color:#6c6c6c" class="azpzz">
+	                                <div class="zw_con">
+	                                    <h4>后端架构师</h4><em>[广州]</em><span class="right">今天</span>
+	                                </div>
+	                                <div class="zw_xu">15K-20K<span>|</span>1-3年<span>|</span>学历不限
+	                                </div>
+	                            </div>
+	                        </a>
+	                        <a class="left" title="" href="/j/46377.html">
+	                            <div style="color:#6c6c6c" class="azpzz">
+	                                <div class="zw_con">
+	                                    <h4>android工程师</h4><em>[广州]</em><span class="right">今天</span>
+	                                </div>
+	                                <div class="zw_xu">15K-20K<span>|</span>1-3年<span>|</span>学历不限
+	                                </div>
+	                            </div>
+	                        </a>
+	                        <a class="left" title="" href="/j/46376.html">
+	                            <div style="color:#6c6c6c" class="azpzz">
+	                                <div class="zw_con">
+	                                    <h4>Java开发工程师</h4><em>[广州]</em><span class="right">今天</span>
+	                                </div>
+	                                <div class="zw_xu">15K-20K<span>|</span>1-3年<span>|</span>学历不限
+	                                </div>
+	                            </div>
+	                        </a>
+	                    </div>
+	                </div>
+	            </div>
+	        </div> 
+        	<!-- 公司信息 -->
+	        <div class="gs_part right">	            
+	            <ul class="company_brief">
+	            	<p class="p_Label p_Label_pos"><span class="gray">公司信息</span></p> 
+	            	<li><span class="liwai">城市：</span><em>广州</em></li>
+	               
+	                <li><span class="liwai">领域：</span><em>移动互联网,社交</em></li>
+	                <li><span class="liwai">规模：</span><em class="gsgm" id="gm">少于15人</em></li>
+	                <li>
+	                    <span class="liwai">融资：</span><em>天使轮</em>
+	                </li>
+	            </ul>
+	        </div>
+    	</div>           
+<script src="../js/jquery.wheelmenu.js" type="text/javascript"></script>
+<div class="QQ_each">
+        <a class="wheel-button float_qq" href="#wheel" style="opacity: 1;"></a>
+        <ul class="wheel" id="wheel">
+            <li class="item"><a href="404.html"></a></li>
+            <li class="item"><a href="404.html"></a></li>
+            <li class="item"><a href="404.html"></a></li>
+            <li class="item"><a href="404.html"></a></li>
+            <!--<li class="item"><a target="_blank" href="404.html" class='sss'>沙僧</a></li>-->
+            <li class="item"><a class="bj" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1538590175&amp;site=qq&amp;menu=yes" target="_blank">求职<br>服务</a></li>
+            <li class="item"><a class="wk" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3078167392&amp;site=qq&amp;menu=yes" target="_blank">招聘<br>服务</a></li>
+            <li class="item"><a class="ts" href="http://wpa.qq.com/msgrd?v=3&amp;uin=6281927&amp;site=qq&amp;menu=yes" target="_blank">bug<br>反馈</a></li>      
+            <li class="item"><a href="404.html"></a></li>
+            <li class="item"><a href="404.html"></a></li>
+            <li class="item"><a href="404.html"></a></li>
+        </ul>
+    </div>
+<a style="display: none;" class="back_to_top" title="" href="404.html"></a>
+
+<script type="text/javascript">
+$(".wheel-button").wheelmenu({
+    // alert(1);
+    trigger: "hover",
+    animation: "fly",
+    angle: [0, 360]
+});
+</script>
+
+    </div>
+</div>
+<div class="footer">
+    <div class="footer_con">
+        <div class="footer_top">
+            <div class="about_Us">
+                <div class="contact_left">
+                    <div>400-626-3578</div> 
+                    <p>（周一至周五：09：30-18:30）</p>
+                </div>
+                <div class="contact_right">
+                    <div class="foot_list">
+                        <span class="about_left"><a title="网站地图" href="/map.html">网站地图</a></span>
+                        <span class="about_left"><a title="关于内聘网" href="about.html" rel="nofollow">关于我们</a></span>
+                        <span class="about_left"><a title="" href="http://weibo.com/neipin2013" target="_blank" rel="nofollow">微博</a></span>
+                        <span class="about_left wx_pos">
+                            <a title="" href="javascript:void(0)">微信服务号</a>
+                            <img src="../images/ma_service.png?v=20150416">
+                        </span>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="seap">京ICP备14004482号-1 版权所有 2013 &copy;内聘网</p>
+</div>
+
+
+<!--<div class="a_box">
+    <a href="http://qixi.neipin.com/index.html" title="七夕送甜蜜活动" class="activity_icon"></a>
+    <span class='closeBtn'></span>
+</div>-->
+<div class="popCon">
+	<div class="pop_con">
+		<div class="pop_close"></div>
+
+Expression userJobs['hr_info']['company_photo'] is undefined on line 298, column 24 in hr/pc_gsxx.ftl.
+The problematic instruction:
+----------
+==> list userJobs['hr_info']['company_photo']?split(',') as photo [on line 298, column 17 in hr/pc_gsxx.ftl]
+----------
+
+Java backtrace for programmers:
+----------
+freemarker.core.InvalidReferenceException: Expression userJobs['hr_info']['company_photo'] is undefined on line 298, column 24 in hr/pc_gsxx.ftl.
+	at freemarker.core.TemplateObject.assertNonNull(TemplateObject.java:125)
+	at freemarker.core.TemplateObject.invalidTypeException(TemplateObject.java:135)
+	at freemarker.core.RegexBuiltins$split_reBI._getAsTemplateModel(RegexBuiltins.java:262)
+	at freemarker.core.Expression.getAsTemplateModel(Expression.java:89)
+	at freemarker.core.MethodCall._getAsTemplateModel(MethodCall.java:86)
+	at freemarker.core.Expression.getAsTemplateModel(Expression.java:89)
+	at freemarker.core.IteratorBlock.accept(IteratorBlock.java:94)
+	at freemarker.core.Environment.visit(Environment.java:221)
+	at freemarker.core.MixedContent.accept(MixedContent.java:92)
+	at freemarker.core.Environment.visit(Environment.java:221)
+	at freemarker.core.Environment.process(Environment.java:199)
+	at freemarker.template.Template.process(Template.java:259)
+	at org.springframework.web.servlet.view.freemarker.FreeMarkerView.processTemplate(FreeMarkerView.java:366)
+	at org.springframework.web.servlet.view.freemarker.FreeMarkerView.doRender(FreeMarkerView.java:283)
+	at org.springframework.web.servlet.view.freemarker.FreeMarkerView.renderMergedTemplateModel(FreeMarkerView.java:233)
+	at org.springframework.web.servlet.view.AbstractTemplateView.renderMergedOutputModel(AbstractTemplateView.java:167)
+	at org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:262)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1265)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1016)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:859)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:883)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:781)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:621)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:722)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)
+	at de.javakaffee.web.msm.RequestTrackingContextValve.invoke(RequestTrackingContextValve.java:99)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+	at de.javakaffee.web.msm.RequestTrackingHostValve.invoke(RequestTrackingHostValve.java:170)
+	at de.javakaffee.web.msm.RequestTrackingHostValve.invoke(RequestTrackingHostValve.java:138)
+	at de.javakaffee.web.msm.RequestTrackingHostValve.invoke(RequestTrackingHostValve.java:138)
+	at de.javakaffee.web.msm.RequestTrackingHostValve.invoke(RequestTrackingHostValve.java:138)
+	at de.javakaffee.web.msm.RequestTrackingHostValve.invoke(RequestTrackingHostValve.java:138)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:861)
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:620)
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)
+	at java.lang.Thread.run(Thread.java:701)
+</div></div></div></body></html>
