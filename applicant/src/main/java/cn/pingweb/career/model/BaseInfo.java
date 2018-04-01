@@ -15,7 +15,7 @@ public class BaseInfo {
 
     private String gender;
 
-    private Date birthday;
+    private String birthday;
 
     @Column(length = 11)
     private String phone;
@@ -26,11 +26,13 @@ public class BaseInfo {
 
     private String workYear;
 
+    private String headIcon;
+
     public BaseInfo() {
 
     }
 
-    public BaseInfo(String id, String name, String gender, Date birthday, String phone, String email, String education, String workYear) {
+    public BaseInfo(String id, String name, String gender, String birthday, String phone, String email, String education, String workYear) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -39,6 +41,19 @@ public class BaseInfo {
         this.email = email;
         this.education = education;
         this.workYear = workYear;
+        this.headIcon = "";
+    }
+
+    public BaseInfo(String id, String name, String gender, String birthday, String phone, String email, String education, String workYear, String headIcon) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.phone = phone;
+        this.email = email;
+        this.education = education;
+        this.workYear = workYear;
+        this.headIcon = headIcon;
     }
 
     public String getId() {
@@ -65,11 +80,11 @@ public class BaseInfo {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -103,5 +118,13 @@ public class BaseInfo {
 
     public void setWorkYear(String workYear) {
         this.workYear = workYear;
+    }
+
+    public String getHeadIcon() {
+        return headIcon;
+    }
+
+    public void setHeadIcon(String headIcon) {
+        this.headIcon = headIcon;
     }
 }

@@ -23,12 +23,7 @@ public class EducationDto {
         this.end = education.getEnd();
         this.school = education.getSchool();
         this.major = education.getMajor();
-        for (EducationDegree educationDegree : EducationDegree.values()) {
-            if(educationDegree.getDegreeValue().equals(education.getDegree())) {
-                this.degree = educationDegree.getDegreeName();
-                break;
-            }
-        }
+        this.degree = education.getDegree();
 
     }
 

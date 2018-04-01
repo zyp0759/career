@@ -55,12 +55,7 @@
         var reg2=new RegExp("<br>","g");
         var bar_num = parseInt("20");
 
-        var college_level = "2";
-        var workyears = "1"
-        var currentstate = "4";
-        var birthday_year = "";
-        var birthday_month = "";
-        var birthday_day = "";
+
         var birthday_flag = "0";
         var site_one_content = "";
         var site_one = "";
@@ -560,7 +555,7 @@
                 var year = $("#year").val();
                 var month = $("#month").val();
                 var day = $("#day").val();
-                param.param7 = year + month + day;
+                param.param7 = year +"-"+ month +"-"+ day;
                 //显示方式
 //                param.param8 = $("#birthday_flag").val();
                 //站点
@@ -699,7 +694,7 @@
                             //生日
                             var birthday_type_value = "";
 //                            if(param.param8 == "0"){//公开
-                                birthday_type_value = year + "年" + month + "月" + day + "日";
+                                birthday_type_value = year + "-" + month + "-" + day;
 //                            }else if(param.param8 == "1"){//星座
 //                                birthday_type_value = getConstellation(param.param7);
 //                            }else if(param.param8 == "2"){//月日
@@ -1685,13 +1680,13 @@
             start();
             $.ajaxFileUpload({
                 type: 'post',
-                url: '/ajax/uploadproduct.do',
+                url: '/resume/file/upload',
                 secureuri:false,
-                fileElementId: 'f_product',
+                fileElementId: 'file',
                 dataType: 'json',
                 data: {},
                 success: function (data,status){
-                    if(data.ret == 0){
+                    if(data.status == "200"){
                         var param = new Object();
                         //作品真实名字
                         param.param1 = data.originalName;
@@ -1801,13 +1796,13 @@
             $(".cuowutishi").hide();
             $.ajaxFileUpload({
                 type: 'post',
-                url: '/ajax/newuploadjianli.do',
+                url: '/resume/file/upload',
                 secureuri:false,
                 fileElementId: id,
                 dataType: 'json',
-                data: {},
+                data: "file",
                 success: function (data,status){
-                    if(data.maxSizeErr == "1")
+                    if(data.status == "200")
                     {
                         alert('简历文件太大，不能超过3M');
                         $('.whitebg').hide();
@@ -2506,9 +2501,9 @@
                     <div class="edit_pen" style="display: none;"></div>
                     <div class="Resume_con">
                         <div class="Resume_conLeft">
-                            <p class="p_educate">${baseInfo.education}</p>
-                            <p class="p_gzjy">${baseInfo.workYear}</p>
-                            <p class="p_brithday">${baseInfo.birthday}</p>
+                            <p class="p_educate" >${baseInfo.education}</p>
+                            <p class="p_gzjy" value="${baseInfo.workYear}"><#if baseInfo.workYear == "0">应届生<#else>${baseInfo.workYear}年工作经验</#if></p>
+                            <p class="p_brithday">${baseInfo.birthday?substring(0,10)}</p>
                         </div>
                         <div class="Resume_conCenter">
                             <dl>
@@ -4309,6 +4304,14 @@
         //判断期望工作
         $('#expect_con3').hide();
         $('#expect_con1').show();
+
+        var college_level = $(".p_educate").text();
+        var workyears = $(".p_gzjy").attr("value");
+        var currentstate = "4";
+        var birthday_year = $(".p_brithday").text().substring(0,4);
+        var birthday_month = $(".p_brithday").text().substring(5,7);
+        var birthday_day = $(".p_brithday").text().substring(8,10);
+        console.info(birthday_day);
 
         myfun();
 

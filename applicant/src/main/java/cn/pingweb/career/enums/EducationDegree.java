@@ -31,4 +31,15 @@ public enum EducationDegree {
     public void setDegreeName(String degreeName) {
         this.degreeName = degreeName;
     }
+
+    public static String getDegreeNameByValue(String value) {
+        String name = value;
+        for (EducationDegree educationDegree : EducationDegree.values()) {
+            if(educationDegree.getDegreeValue().equals(value)) {
+                name = educationDegree.getDegreeName();
+                break;
+            }
+        }
+        return name;
+    }
 }

@@ -1,5 +1,6 @@
 package cn.pingweb.career.controller.applicant;
 
+import cn.pingweb.career.enums.EducationDegree;
 import cn.pingweb.career.model.Education;
 import cn.pingweb.career.service.EducationService;
 import cn.pingweb.career.util.MyUtil;
@@ -40,7 +41,7 @@ public class EducationController {
             return new VO(4003, "信息不完整", null);
         }
         String eduId = StringUtils.isEmpty(educationId)?MyUtil.getKeyId(userId):educationId;
-        Education education = new Education(eduId, userId, start, end, school, major, degree.toString());
+        Education education = new Education(eduId, userId, start, end, school, major, EducationDegree.getDegreeNameByValue(degree));
 
         educationService.save(education);
         Map<String, String>map = new HashMap<>();
