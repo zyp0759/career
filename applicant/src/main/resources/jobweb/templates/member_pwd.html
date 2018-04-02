@@ -41,25 +41,27 @@
             return;
         }
         var param = new Object();
-        param.param1 = passwd;
-        param.param2 = new_passwd1;
-        param.param3 = new_passwd2;
+        param.oldPwd = passwd;
+        param.newPwd = new_passwd1;
         jQuery.ajax({
-            type: 'post',   
-            contentType : 'application/json; charset=utf-8',   
+            type: 'post',
             dataType: 'json',  
-            url: '/userset/setPasswd',
-            data: JSON.stringify(param),
+            url: '/user/reset_pwd',
+            data: param,
             success: function(data){
-                if(data.ret == 0)
+                if(data.status == "200")
                 {
                     $('.hsbj').show();
                     $(".msg_send").show();
                 }
-                else if(data.ret == -1)
+                else if(data.status == "1002")
                 {
                     $("#passwd").addClass("mistake");
                     $("#err_passwd").html("输入的当前密码错误");
+                }
+                else
+                {
+                    alert(data.msg);
                 }
             }
         })

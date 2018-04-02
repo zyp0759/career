@@ -1,5 +1,8 @@
 package cn.pingweb.career.config;
 
+import cn.pingweb.career.interceptor.ApplicantInterceptor;
+import cn.pingweb.career.interceptor.CrossFieldInterceptor;
+import cn.pingweb.career.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -18,10 +21,11 @@ public class MyWebMvcConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        LoginInterceptor loginInterceptor = new LoginInterceptor();
-//        registry.addInterceptor(loginInterceptor).addPathPatterns("/company/*");
-//        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/job/*");
-//        registry.addInterceptor(new CrossFieldInterceptor());
+        LoginInterceptor loginInterceptor = new LoginInterceptor();
+        ApplicantInterceptor applicantInterceptor = new ApplicantInterceptor();
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/company/*");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/user/*");
+        registry.addInterceptor(new CrossFieldInterceptor());
 
         super.addInterceptors(registry);
     }

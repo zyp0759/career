@@ -19,17 +19,25 @@ public class AllInfoController {
 
     private BaseInfoService baseInfoService;
     private EducationService educationService;
-    private PracticeService practiceService;
+    //private PracticeService practiceService;
     private WorkService workService;
     private ScholarshipService scholarshipService;
     private MatchesService matchesService;
     private OtherInfoService otherInfoService;
+    @Autowired
+    private ProjectExperienceService projectExperienceService;
+    @Autowired
+    private WorkExperienceService workExperienceService;
+    @Autowired
+    private SelfDescriptionService selfDescriptionService;
+    @Autowired
+    private SkillService skillService;
 
     @Autowired
-    public AllInfoController(BaseInfoService baseInfoService, EducationService educationService, PracticeService practiceService, WorkService workService, ScholarshipService scholarshipService, MatchesService matchesService, OtherInfoService otherInfoService) {
+    public AllInfoController(BaseInfoService baseInfoService, EducationService educationService, WorkService workService, ScholarshipService scholarshipService, MatchesService matchesService, OtherInfoService otherInfoService) {
         this.baseInfoService = baseInfoService;
         this.educationService = educationService;
-        this.practiceService = practiceService;
+        //this.practiceService = practiceService;
         this.workService = workService;
         this.scholarshipService = scholarshipService;
         this.matchesService = matchesService;
@@ -45,30 +53,36 @@ public class AllInfoController {
 
         List<BaseInfo> baseInfos = new ArrayList<>();
         List<Education> educations = new ArrayList<>();
-        List<Practice> practices = new ArrayList<>();
-        List<Work> works = new ArrayList<>();
+        List<ProjectExperience> practices = new ArrayList<>();
+        List<WorkExperience> works = new ArrayList<>();
         List<Scholarship> scholarships = new ArrayList<>();
         List<Matches> matches = new ArrayList<>();
         List<OtherInfo> otherInfos = new ArrayList<>();
+        List<Skill>skills = new ArrayList<>();
+        List<SelfDescription>selfDescriptions = new ArrayList<>();
 
         BaseInfo baseInfo = baseInfoService.getbyId(userId);
         baseInfos.add(baseInfo);
 
         educations = educationService.getByUserId(userId);
-        practices = practiceService.findByUserId(userId);
-        works = workService.findByUserId(userId);
-        scholarships = scholarshipService.findByUserId(userId);
-        matches = matchesService.findByUserId(userId);
-        otherInfos = otherInfoService.findByUserId(userId);
+        practices = projectExperienceService.findByUserId(userId);
+        works = workExperienceService.findByUserId(userId);
+        //scholarships = scholarshipService.findByUserId(userId);
+        //matches = matchesService.findByUserId(userId);
+        //otherInfos = otherInfoService.findByUserId(userId);
+        skills.add(skillService.findById(userId));
+        selfDescriptions.add(selfDescriptionService.findById(userId));
 
         Map<String, Object> map = new HashMap<>();
         map.put("baseInfos", baseInfos);
         map.put("educations", educations);
-        map.put("practices", practices);
-        map.put("works", works);
+        map.put("projectExperience", practices);
+        map.put("workExperience", works);
         map.put("scholarships", scholarships);
         map.put("matches", matches);
         map.put("otherInfos", otherInfos);
+        map.put("skillDescrition", skills);
+        map.put("selfDescritpion", selfDescriptions);
 
         return new VO(200, "success", map);
 

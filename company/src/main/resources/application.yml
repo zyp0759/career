@@ -19,13 +19,13 @@ spring:
     maxOpenPreparedStatements: 20
     driver-class-name: com.mysql.jdbc.Driver
   resources:
-    static-locations: classpath:/comweb/,classpath:/jobweb/,classpath:/webapp/
-  freemarker:
-    charset: UTF-8
-    template-loader-path: classpath:/jobweb/templates/
-    suffix: .html
-    # 关闭缓存
-    cache: false
+    static-locations: classpath:/comweb/
+#  freemarker:
+#    charset: UTF-8
+#    template-loader-path: classpath:/jobweb/templates/
+#    suffix: .html
+#    # 关闭缓存
+#    cache: false
   jpa:
     hibernate:
       ddl-auto: update

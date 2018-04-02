@@ -82,7 +82,7 @@
                     var token = resp.msg;
 
                     $.ajax({
-                        url: "./companyApply",
+                        url: "./company/allApply",
                         type: "post",
                         dataType: "json",
                         data: {"token": token},
@@ -97,15 +97,15 @@
                                 return false;
                             } else {
                                 $.each(data.data, function (j, val) {
-                                    var date1 = new Date(val.joinTime);
+                                    var date1 = new Date(val.time);
                                     tempMap[j] = val.userId;
                                     var html;
                                     html = "<tr>"
                                         + "<td>"
-                                        + val.userName
+                                        + val.name
                                         + "</td>"
                                         + "<td>"
-                                        + val.se
+                                        + val.gender
                                         + "</td>"
                                         + "<td>"
                                         + val.phone
@@ -114,7 +114,7 @@
                                         + val.email
                                         + "</td>"
                                         + "<td>"
-                                        + val.post
+                                        + val.position
                                         + "</td>"
                                         + "<td>"
                                         + date1.getFullYear() + "-" + date1.getMonth() + "-" + date1.getDate()
@@ -214,17 +214,9 @@
                                         + val.email
                                         + "</td>"
                                         + "<td>"
-                                        + val.cardId
-                                        + "</td>"
-                                        + "<td>"
                                         + date1.getFullYear() + "-" + date1.getMonth() + "-" + date1.getDate()
                                         + "</td>"
-                                        + "<td>"
-                                        + val.birthCity
-                                        + "</td>"
-                                        + "<td>"
-                                        + val.localCity
-                                        + "</td></tr>";
+                                        + "</tr>";
                                     $("#equList1").append(html);
                                 });
                             }
@@ -252,17 +244,12 @@
                                         + date2.getFullYear() + "-" + date2.getMonth() + "-" + date2.getDate()
                                         + "</td>"
                                         + "<td>"
-                                        + val.department
-                                        + "</td>"
-                                        + "<td>"
                                         + val.major
                                         + "</td>"
                                         + "<td>"
                                         + val.degree
                                         + "</td>"
-                                        + "<td>"
-                                        + val.rank
-                                        + "</td></tr>";
+                                        + "</tr>";
                                     $("#equList2").append(html);
                                 });
                             }
@@ -416,6 +403,7 @@
 
                         },
                         error: function (error) {
+                            console.info(error);
                             alert("error");
                         }
                     });

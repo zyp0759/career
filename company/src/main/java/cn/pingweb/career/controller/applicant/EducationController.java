@@ -23,34 +23,34 @@ public class EducationController {
         this.educationService = educationService;
     }
 
-    @RequestMapping(value = "/addEducation", method = RequestMethod.POST)
-    public VO addEducation(@RequestParam("start") String start, @RequestParam("end") String end,
-                           @RequestParam("school") String school, @RequestParam("department") String department,
-                           @RequestParam("major") String major, @RequestParam("degree") String degree,
-                           @RequestParam("rank") String rank,
-                           @RequestAttribute("userId") String userId
-    ) {
-        if (start == null || end == null || school == null || department == null || major == null || degree == null || rank == null) {
-            return new VO(4003, "信息不完整", null);
-        }
-
-        Date date1 = null;
-        Date date2 = null;
-        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            date1 = format1.parse(start);
-            date2 = format1.parse(end);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Education education = new Education(MyUtil.getStringID(), userId, date1, date2, school, department, major, degree.toString(), rank.toString());
-
-        educationService.save(education);
-
-        return VO.SUCCESS;
-
-    }
+//    @RequestMapping(value = "/addEducation", method = RequestMethod.POST)
+//    public VO addEducation(@RequestParam("start") String start, @RequestParam("end") String end,
+//                           @RequestParam("school") String school, @RequestParam("department") String department,
+//                           @RequestParam("major") String major, @RequestParam("degree") String degree,
+//                           @RequestParam("rank") String rank,
+//                           @RequestAttribute("userId") String userId
+//    ) {
+//        if (start == null || end == null || school == null || department == null || major == null || degree == null || rank == null) {
+//            return new VO(4003, "信息不完整", null);
+//        }
+//
+//        Date date1 = null;
+//        Date date2 = null;
+//        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            date1 = format1.parse(start);
+//            date2 = format1.parse(end);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Education education = new Education(MyUtil.getStringID(), userId, date1, date2, school, department, major, degree.toString(), rank.toString());
+//
+//        educationService.save(education);
+//
+//        return VO.SUCCESS;
+//
+//    }
 
     @RequestMapping(value = "/oneEducation", method = RequestMethod.POST)
     public VO findOne(@RequestAttribute("userId") String userId, @RequestParam("id") String id) {

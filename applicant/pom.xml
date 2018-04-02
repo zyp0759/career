@@ -11,5 +11,13 @@
 
     <artifactId>applicant</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.wangpengcheng</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

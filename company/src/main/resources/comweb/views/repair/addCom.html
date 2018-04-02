@@ -13,18 +13,6 @@
 <link rel="stylesheet" type="text/css" media="screen" href="./css/bootstrap-datetimepicker.min.css">
 
 <div class="row search">
-    <div class="col-md-6">
-        <form action="" method="post">
-            <div class="input-group" style="width: 300px">
-                <input type="text" class="form-control" id="queryName"
-                       placeholder="请输入公司名称..."> <span class="input-group-btn">
-					<button class="btn btn-default" onclick="return queryEquipment()">
-						<span class="glyphicon glyphicon-search"></span>&nbsp;查询
-					</button>
-				</span>
-            </div>
-        </form>
-    </div>
     <div class="col-md-2 alert alert-success alert-dismissable text-center" id="total"
          style="margin-bottom:10px;"></div>
     <div class="col-md-4">
@@ -40,9 +28,8 @@
         <thead>
         <tr>
             <th class="col-md-1">序号</th>
-            <th class="col-md-1">公司名称</th>
             <th class="col-md-1">招聘岗位</th>
-            <th class="col-md-2">投递链接</th>
+            <th class="col-md-2">开始时间</th>
             <th class="col-md-2">截止时间</th>
             <th class="col-md-2">操作</th>
         </tr>
@@ -77,13 +64,13 @@
                     <h4 class="modal-title" id="crdateModalLabel">添加招聘</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="crName" class="col-md-4 control-label">公司名称</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="crName" name="name"
-                                   placeholder="请输入公司名称">
-                        </div>
-                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<label for="crName" class="col-md-4 control-label">公司名称</label>-->
+                    <!--<div class="col-md-6">-->
+                    <!--<input type="text" class="form-control" id="crName" name="name"-->
+                    <!--placeholder="请输入公司名称">-->
+                    <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label for="positioin" class="col-md-4 control-label">招聘岗位</label>
                         <div class="col-md-6">
@@ -92,12 +79,40 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="link" class="col-md-4 control-label">投递链接</label>
+                        <label for="workCity" class="col-md-4 control-label">工作地点</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="no" id="link"
-                                   placeholder="请输入投递链接">
+                            <input type="text" class="form-control" name="produceName"
+                                   value="" id="workCity" placeholder="请输入工作地点">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="workType" class="col-md-4 control-label">职位类型</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="produceName"
+                                   value="" id="workType" placeholder="请输入职位类型">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<label for="link" class="col-md-4 control-label">投递链接</label>-->
+                    <!--<div class="col-md-6">-->
+                    <!--<input type="text" class="form-control" name="no" id="link"-->
+                    <!--placeholder="请输入投递链接">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <div id="datetimepicker-start" class="form-group">
+                        <!-- Text input-->
+                        <label for="start_line" class="col-md-4 control-label">开始日期</label>
+                        <div class="col-md-6">
+                            <input type="text" name="time" class="form-control" id="start_line" placeholder="点击下方小日历选择日期"
+                                   class="input-xlarge"/>
+                            <span class="add-on">
+                                <i class="glyphicon glyphicon-calendar" data-time-icon="icon-time"
+                                   data-date-icon="icon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+
                     <div id="datetimepicker" class="form-group">
                         <!-- Text input-->
                         <label for="dead_line" class="col-md-4 control-label">截止日期</label>
@@ -128,11 +143,16 @@
 
     var temAddCom = new Array();
 
-    $('#createEquipment').modal()
-
     $(function () {
         pagehtml($("#currentPage").val());
 
+    });
+
+    $('#start_line').datetimepicker({
+        minView: "month",
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        startDate: new Date()
     });
 
     $('#dead_line').datetimepicker({
@@ -143,11 +163,14 @@
     });
     //添加设备
     $("#add_r").click(function () {
-        var name = $.trim($("#crName").val());
-        var link = $.trim($("#link").val());
+        //var name = $.trim($("#crName").val());
+        //var link = $.trim($("#link").val());
         var position = $.trim($("#positioin").val());
+        var workType = $.trim($("#workType").val());
+        var workCity = $.trim($("#workCity").val());
+        var startline = $("#datetimepicker-start").find("input").val();
         var deadline = $("#datetimepicker").find("input").val();
-        if (!name || !position) {
+        if (!position || !workType ||!workCity||!startline ||!deadline) {
             alert("填写信息不完整！");
             return false;
         }
@@ -167,11 +190,11 @@
                         type: "POST",
                         dataType: "json",
                         data: {
-                            "token": token,
-                            "address": link,
-                            "post": position,
-                            "company": name,
-                            "endTime": deadline
+                            "name": position,
+                            "startTime": startline,
+                            "endTime": deadline,
+                            "workType": workType,
+                            "workCity": workCity
                         },
                         success: function (data) {
                             if (data.status == 200) {
@@ -211,12 +234,12 @@
                     var token = resp.msg;
 
                     $.ajax({
-                        url: "./allRecruitment",
+                        url: "./company/allRecruitment",
                         type: "post",
                         dataType: "json",
                         data: {"token": token},
                         success: function (data) {
-                            $("#total").html("当前共有" + data.data.length + "家公司");
+                            $("#total").html("当前共有" + data.data.length + "个招聘岗位");
                             $("#equList").empty();
                             if (data.data == "") {
                                 $("#equList").html("<div  id='emptyAlert' class='alert alert-danger'>" +
@@ -226,21 +249,19 @@
                                 return false;
                             } else {
                                 $.each(data.data, function (j, val) {
-                                    temAddCom[j] = val.recruitmentId;
-                                    var date1 = new Date(val.endTime);
+                                    temAddCom[j] = val.workId;
+                                    var date1 = new Date(val.end);
+                                    var start = new Date(val.start);
                                     var html;
                                     html = "<tr>"
                                         + "<td>"
-                                        + val.recruitmentId
+                                        + val.workId
                                         + "</td>"
                                         + "<td>"
-                                        + val.company
+                                        + val.name
                                         + "</td>"
                                         + "<td>"
-                                        + val.post
-                                        + "</td>"
-                                        + "<td>"
-                                        + "<a href= \"#\" onclick= \"goVisit(" + val.address + ")\">" + val.address + "</a>"
+                                        + start.getFullYear() + "-" + start.getMonth() + "-" + start.getDate()
                                         + "</td>"
                                         + "<td>"
                                         + date1.getFullYear() + "-" + date1.getMonth() + "-" + date1.getDate()
@@ -255,6 +276,7 @@
                             }
                         },
                         error: function (error) {
+                            console.info(error);
                             alert("error");
                         }
                     });
@@ -268,7 +290,8 @@
     }
 
     $("#add_too").click(function () {
-            $("#main").load("./views/repair/addCom.html");
+            $('#createEquipment').modal();
+            //$("#main").load("./views/repair/addCom.html");
         }
     );
 

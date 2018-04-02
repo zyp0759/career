@@ -7,6 +7,7 @@ import cn.pingweb.career.util.TokenUtil;
 import cn.pingweb.career.vo.VO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -32,9 +33,7 @@ public class ApplicantController {
         if (user != null) {
             return new VO(4005, "此账号已注册", null);
         }
-
         User user1 = new User(userId, pwd, User.APPLICANT);
-        // TODO
         String type = "applicant";
         if (type.equals(User.APPLICANT)) {
             user1.setType(User.APPLICANT);
@@ -100,10 +99,20 @@ public class ApplicantController {
         return vo;
     }
 
-    @RequestMapping(value = "/reset_info")
-    public VO resetUserInfo(HttpSession session) {
-
-        return null;
+    @RequestMapping(value = "/reset_pwd")
+    public VO resetUserPwd(@RequestAttribute("userId")String userId,
+                           @RequestParam("oldPwd")String oldPwd,
+                           @RequestParam("newPwd")String newPwd) {
+        if(StringUtils.isEmpty(oldPwd) || StringUtils.isEmpty(newPwd)) {
+            return new VO(4003, "输入不能为空", null);
+        }
+        User user = userService.getUserById(userId);
+        if (!user.getPwd().equals(oldPwd)) {
+            return new VO<>(1002, "密码错误", null);
+        }
+        user.setPwd(newPwd);
+        userService.saveUser(user);
+        return VO.SUCCESS;
     }
 
 

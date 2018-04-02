@@ -1,7 +1,9 @@
 package cn.pingweb.career.controller.applicant;
 
 import cn.pingweb.career.model.Recruitment;
+import cn.pingweb.career.model.Work;
 import cn.pingweb.career.service.RecruitmentService;
+import cn.pingweb.career.service.WorkService;
 import cn.pingweb.career.util.MyUtil;
 import cn.pingweb.career.vo.VO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +21,41 @@ public class RecruitmentController {
     private RecruitmentService recruitmentService;
 
     @Autowired
+    private WorkService workService;
+
+    @Autowired
     public RecruitmentController(RecruitmentService recruitmentService) {
         this.recruitmentService = recruitmentService;
     }
 
     @RequestMapping(value = "/company/addRecruitment", method = RequestMethod.POST)
-    public VO addRecruitment(@RequestParam("endTime") String endTime, @RequestParam("company") String company,
-                             @RequestParam("post") String post, @RequestParam("address") String address,
+    public VO addRecruitment(@RequestParam("endTime") String endTime,
+                             @RequestParam("startTime") String startTime,
+                             @RequestParam("name") String position,
+                             @RequestParam("workCity") String workCity,
+                             @RequestParam("workType") String workType,
                              @RequestAttribute("userId") String userId
     ) {
-        if (endTime == null || company == null || post == null || address == null || userId == null) {
+        if (endTime == null || position == null || workCity == null || workType == null || userId == null) {
             return VO.INVALID_TOKEN;
         }
 
-        Date date = null;
+        Date endDate = null;
+        Date startDate = null;
         DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            date = format1.parse(endTime);
+            endDate = format1.parse(endTime);
+            startDate = format1.parse(startTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        Recruitment recruitment = new Recruitment(MyUtil.getStringID(), userId, company, post, address, date);
+//        Recruitment recruitment = new Recruitment(MyUtil.getStringID(), userId, company, post, address, date);
+//
+//        recruitmentService.save(recruitment);
 
-        recruitmentService.save(recruitment);
+        Work work = new Work(MyUtil.getStringID(),userId, startDate, endDate, workType, position, workCity);
+        workService.save(work);
 
         return VO.SUCCESS;
 
@@ -59,18 +72,18 @@ public class RecruitmentController {
         return new VO(recruitment);
     }
 
-    @RequestMapping(value = "/allRecruitment", method = RequestMethod.POST)
-    public VO allRecruitment(@RequestAttribute("userId") String userId) {
+    @RequestMapping(value = "/company/allRecruitment", method = RequestMethod.POST)
+    public VO allRecruitment() {
 
-        List<Recruitment> recruitments = recruitmentService.findAll();
+        List<Work> recruitments = workService.findAll();
 
         return new VO(recruitments);
     }
 
-    @RequestMapping(value = "/recruitments", method = RequestMethod.POST)
+    @RequestMapping(value = "/company/recruitments", method = RequestMethod.POST)
     public VO recruitments(@RequestAttribute("userId") String userId) {
 
-        List<Recruitment> recruitments = recruitmentService.getByUserId(userId);
+        List<Work> recruitments = workService.findAll();
 
         return new VO(recruitments);
     }
@@ -103,7 +116,7 @@ public class RecruitmentController {
         if (recruitmentId == null) {
             return VO.INVALID_TOKEN;
         }
-        recruitmentService.remove(recruitmentId);
+        workService.remove(recruitmentId);
         return VO.SUCCESS;
     }
 
