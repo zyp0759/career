@@ -47,20 +47,18 @@ public class ApplicantController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public VO login(@RequestParam("emailAddr") String userId, @RequestParam("passwd") String pwd, @RequestParam("zidong") String zidong, HttpSession session) {
+    public VO login(@RequestParam("emailAddr") String userId, @RequestParam("passwd") String pwd,
+                    @RequestParam("zidong") String zidong, HttpSession session) {
         if (userId == null || pwd == null ) {
             return new VO(4003, "输入不能为空", null);
         }
         if (!(userId.trim().length() > 0 && pwd.trim().length() > 0)) {
             return new VO(4003, "输入不能为空", null);
         }
-
         User user = userService.getUserById(userId);
-
         if (user == null) {
             return new VO(4005, "此账号不存在", null);
         }
-
         if (!user.getPwd().equals(pwd)) {
             return new VO<>(1002, "密码错误", null);
         }
@@ -68,7 +66,6 @@ public class ApplicantController {
         if (!user.getType().equals(type)) {
             return new VO<>(1002, "账号类型错误", null);
         }
-
         String token = TokenUtil.genToken(userId);
         JedisUtils.set(token, userId);
         session.setAttribute("currentUser", userId);

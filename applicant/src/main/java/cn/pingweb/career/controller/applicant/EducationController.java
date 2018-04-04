@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/resume/education")
 public class EducationController {
 
@@ -29,7 +29,6 @@ public class EducationController {
         this.educationService = educationService;
     }
 
-    @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public VO addEducation(@RequestParam("param1") String school,@RequestParam("param2") String degree,
                            @RequestParam("param3") String major, @RequestParam("param4") String start,
@@ -41,13 +40,12 @@ public class EducationController {
             return new VO(4003, "信息不完整", null);
         }
         String eduId = StringUtils.isEmpty(educationId)?MyUtil.getKeyId(userId):educationId;
-        Education education = new Education(eduId, userId, start, end, school, major, EducationDegree.getDegreeNameByValue(degree));
-
+        Education education = new Education(eduId, userId, start, end, school, major,
+                EducationDegree.getDegreeNameByValue(degree));
         educationService.save(education);
         Map<String, String>map = new HashMap<>();
         map.put("education_id", education.getEducationId());
         return new VO(map);
-
     }
 
     @RequestMapping(value = "/oneEducation", method = RequestMethod.POST)
@@ -77,7 +75,6 @@ public class EducationController {
         return new VO(educations);
     }
 
-    @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public VO deleteEducation(@RequestAttribute("userId") String userId, @RequestParam("educationId") String educationId) {
 

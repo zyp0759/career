@@ -7,6 +7,7 @@ import cn.pingweb.career.service.WorkService;
 import cn.pingweb.career.util.MyUtil;
 import cn.pingweb.career.vo.VO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -28,12 +29,13 @@ public class RecruitmentController {
         this.recruitmentService = recruitmentService;
     }
 
-    @RequestMapping(value = "/company/addRecruitment", method = RequestMethod.POST)
+    @RequestMapping(value = "/company/saveRecruitment", method = RequestMethod.POST)
     public VO addRecruitment(@RequestParam("endTime") String endTime,
                              @RequestParam("startTime") String startTime,
                              @RequestParam("name") String position,
                              @RequestParam("workCity") String workCity,
                              @RequestParam("workType") String workType,
+                             @RequestParam("id")String id,
                              @RequestAttribute("userId") String userId
     ) {
         if (endTime == null || position == null || workCity == null || workType == null || userId == null) {
@@ -49,12 +51,8 @@ public class RecruitmentController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-//        Recruitment recruitment = new Recruitment(MyUtil.getStringID(), userId, company, post, address, date);
-//
-//        recruitmentService.save(recruitment);
-
-        Work work = new Work(MyUtil.getStringID(),userId, startDate, endDate, workType, position, workCity);
+        String wordId = StringUtils.isEmpty(id)?MyUtil.getStringID():id;
+        Work work = new Work(wordId, userId, startDate, endDate, workType, position, workCity);
         workService.save(work);
 
         return VO.SUCCESS;

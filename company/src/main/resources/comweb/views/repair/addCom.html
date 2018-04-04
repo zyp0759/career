@@ -51,7 +51,7 @@
     <input type="text" id="pageSize" style="display:none" value="10"></input>
 </div>
 <!-- 添加模态框 -->
-<form class="form-horizontal" id="createForm" style="margin: 20px;">
+<form class="form-horizontal" id="form" style="margin: 20px;">
     <div class="modal fade" id="createEquipment" tabindex="-1"
          role="dialog" aria-labelledby="createModalLabel" aria-hidden="true"
          data-backdrop="static">
@@ -129,7 +129,7 @@
                 <div class="modal-footer" style="text-align:center">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="back">取消
                     </button>
-                    <button type="button" class="btn btn-default" id="add_r">添加</button>
+                    <button type="button" class="btn btn-default" id="add_r">确认</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -142,6 +142,10 @@
 <script type="text/javascript">
 
     var temAddCom = new Array();
+
+    var tempData = new Object();
+
+    var tempId;
 
     $(function () {
         pagehtml($("#currentPage").val());
@@ -170,6 +174,7 @@
         var workCity = $.trim($("#workCity").val());
         var startline = $("#datetimepicker-start").find("input").val();
         var deadline = $("#datetimepicker").find("input").val();
+        alert(startline)
         if (!position || !workType ||!workCity||!startline ||!deadline) {
             alert("填写信息不完整！");
             return false;
@@ -186,10 +191,11 @@
                     var token = resp.msg;
 
                     $.ajax({
-                        url: "./company/addRecruitment",
+                        url: "./company/saveRecruitment",
                         type: "POST",
                         dataType: "json",
                         data: {
+                            "id": tempId,
                             "name": position,
                             "startTime": startline,
                             "endTime": deadline,
@@ -250,6 +256,7 @@
                             } else {
                                 $.each(data.data, function (j, val) {
                                     temAddCom[j] = val.workId;
+                                    tempData[j] = val;
                                     var date1 = new Date(val.end);
                                     var start = new Date(val.start);
                                     var html;
@@ -261,14 +268,17 @@
                                         + val.name
                                         + "</td>"
                                         + "<td>"
-                                        + start.getFullYear() + "-" + start.getMonth() + "-" + start.getDate()
+                                        + start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate()
                                         + "</td>"
                                         + "<td>"
-                                        + date1.getFullYear() + "-" + date1.getMonth() + "-" + date1.getDate()
+                                        + date1.getFullYear() + "-" + (date1.getMonth()+1) + "-" + date1.getDate()
                                         + "</td>";
 
                                     html += "<td><button type='button' class='btn btn-info btn-xs' onclick='return rm_Re(" + j + ")'>"
                                         + "删除"
+                                        + "</button>"
+                                        +"<button type='button' class='btn btn-info btn-xs' onclick='return edit_Re(" + j + ")'>"
+                                        + "编辑"
                                         + "</button>"
                                         + "</td></tr>>";
                                     $("#equList").append(html);
@@ -353,6 +363,30 @@
         });
         return false;
     }
+
+    function edit_Re(id) {
+        var start = new Date(tempData[id].start);
+        var end = new Date(tempData[id].end);
+        $('#createEquipment').modal();
+        tempId = tempData[id].workId;
+        $("#positioin").val(tempData[id].name);
+        $("#workType").val(tempData[id].workType);
+        $("#workCity").val(tempData[id].workCity);
+        $("#start_line").val(start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate());
+        $("#dead_line").val(end.getFullYear() + "-" + (end.getMonth()+1) + "-" + end.getDate());
+    }
+
+//    $('#createEquipment').on('hidden.bs.modal', function () {
+//        $('#fm').data('bootstrapValidator').destroy();
+//        $('#fm').data('bootstrapValidator', null);
+//        formValidator();    //重新加载验证
+//    });
+
+    $("#createEquipment").on("hidden.bs.modal", function() {
+        tempId = "";
+        $('#form').trigger("reset");
+    });
+
 
 </script>
 
