@@ -1,0 +1,5 @@
+spring:
+  mail:
+    host: smtp.163.com
+    username: zyp0759
+    password: 13531145222qq

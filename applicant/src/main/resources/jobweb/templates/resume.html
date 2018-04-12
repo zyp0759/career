@@ -1686,6 +1686,7 @@
                 dataType: 'json',
                 data: {},
                 success: function (data,status){
+                    data = $.parseJSON(data.replace(/<.*?>/ig,""));
                     if(data.status == "200"){
                         var param = new Object();
                         //作品真实名字
@@ -1787,63 +1788,70 @@
         function uploadjianli(num)
         {
             var id = "";
-            if(num == 0){
-                id = "ie_jianli";
-            }else{
-                id = "f_jianli";
-            }
+//            if(num == 0){
+//                id = "ie_jianli";
+//            }else{
+//                id = "f_jianli";
+//            }
             start();
             $(".cuowutishi").hide();
             $.ajaxFileUpload({
                 type: 'post',
                 url: '/resume/file/upload',
                 secureuri:false,
-                fileElementId: id,
+                fileElementId: "f_jianli",
                 dataType: 'json',
                 data: "file",
-                success: function (data,status){
+                success: function (data){
+                    console.info(data);
+                    //data = $.parseJSON(data.replace(/<.*?>/ig,""));
                     if(data.status == "200")
                     {
-                        alert('简历文件太大，不能超过3M');
-                        $('.whitebg').hide();
-                        return;
+                        $(".resume_name").val("name");
+                        $(".jianli").text("originalName");
+                        $('.upload_a').text("已上传");
+                        $('.upload_a').addClass('a4');
+                        $('.upload_a').removeClass('a3');
+//                        alert('简历文件太大，不能超过3M');
+//                        $('.whitebg').hide();
+//                        return;
                     }
-                    else if(data.type_error == "1")
+                    else
                     {
                         alert("文件格式错误");
                         $('.whitebg').hide();
                         return;
                     }
 
-                    var param = new Object();
-                    param.param1 = $(".resume_name").val();//原简历名字
-                    param.param2 = data.jianli_name;//新简历名字
-                    param.param3 = data.originalName;
-                    //上传成功
-                    jQuery.ajax({
-                        type: 'post',
-
-                        dataType: 'json',
-                        url: '/ro/sjianli',
-                        data: JSON.stringify(param),
-                        success: function(date){
-                            stop();
-                            if(date.ret == 0)
-                            {
-                                if($.browser.msie) {
-                                    $('.ie_success').text("上传成功！");
-                                }
-
-                                $(".resume_name").val(param.param2);
-                                $(".jianli").text(param.param3);
-                                $('.upload_a').text("已上传");
-                                $('.upload_a').addClass('a4');
-                                $('.upload_a').removeClass('a3');
-
-                                jianli_flag = param.param3;
-                            }
-                        }
-                    });
+//                    var  param = new Object();
+//                    param.param1 = $(".resume_name").val();//原简历名字
+//                    param.param2 = data.jianli_name;//新简历名字
+//                    param.param3 = data.originalName;
+//                    //上传成功
+//                    jQuery.ajax({
+//                        type: 'post',
+//
+//                        dataType: 'json',
+//                        url: '/ro/sjianli',
+//                        data: JSON.stringify(param),
+//                        success: function(date){
+//                            stop();
+//                            if(date.ret == 0)
+//                            {
+//                                if($.browser.msie) {
+//                                    $('.ie_success').text("上传成功！");
+//                                }
+//
+//                                $(".resume_name").val(param.param2);
+//                                $(".jianli").text(param.param3);
+//                                $('.upload_a').text("已上传");
+//                                $('.upload_a').addClass('a4');
+//                                $('.upload_a').removeClass('a3');
+//
+//                                jianli_flag = param.param3;
+//                            }
+//                        }
+//                    });
 
                 },
                 error: function (data,status,e){
@@ -1863,13 +1871,13 @@
 
             jQuery.ajaxFileUpload({
                     type: 'post',
-                    url: '/ajax/uploadPhoto.do',
+                    url: '/resume/headIcon/upload',
                     secureuri:false,
                     fileElementId:'fileToUpload',
                     dataType: 'json',
                     data: {},
                     success: function (data){
-                        if(data.ret==0){
+                        if(data.status==200){
                             paotow=data.photow;
                             paotoh=data.photoh;
                             var leftw=(hexFrm-paotow)/2
@@ -4165,7 +4173,7 @@
                         <p>附件简历</p>
                         <div class="scfujianresume">
                             <div class="upload_before">
-                                <input type="file" onchange="javascript:uploadjianli(1);" class="upfile" id="f_jianli" name="f_jianli">
+                                <input type="file" onchange="javascript:uploadjianli(1);" class="upfile" id="f_jianli" name="file">
                                 <input type="hidden" value="" class="resume_name">
                                 <a class="jianli" href="javascript:void(0);"></a>
                                 <a class="upload_jianli" onclick="document.getElementById('f_jianli').click()" href="javascript:void(0);">上传简历</a>

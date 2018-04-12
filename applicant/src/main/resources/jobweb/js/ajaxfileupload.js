@@ -1,7 +1,7 @@
 /*
- * ×¢Òâ£ººóÌ¨·şÎñ ÒªÒÔ text/htmlĞÎÊ½·µ»Ø£¬·ñÔòÔÚieÏÂ»áÌáÊ¾ÏÂÔØ ·µ»ØµÄ Òì²½ ÏàÓ¦Êı¾İ£¬
- * ÀıÈç£ºjava Ê¹ÓÃ spring mvc ÔòĞè @RequestMapping(value = "/xx/xx/upload.do",produces="text/html")
- * ´ËÎÄ¼şÖĞ ÅĞ¶Ï IE °æ±¾ Ê¹ÓÃµÄÊÇ jquery µÄ supportÊôĞÔsubmitBubbles£¬Æäº¬ÒåÊÇ£¬ä¯ÀÀÆ÷ÊÇ·ñÖ§³Ö dom Ã°Åİ
+ * ×¢ï¿½â£ºï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ Òªï¿½ï¿½ text/htmlï¿½ï¿½Ê½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ieï¿½Â»ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Øµï¿½ ï¿½ì²½ ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½İ£ï¿½
+ * ï¿½ï¿½ï¿½ç£ºjava Ê¹ï¿½ï¿½ spring mvc ï¿½ï¿½ï¿½ï¿½ @RequestMapping(value = "/xx/xx/upload.do",produces="text/html")
+ * ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ ï¿½Ğ¶ï¿½ IE ï¿½æ±¾ Ê¹ï¿½Ãµï¿½ï¿½ï¿½ jquery ï¿½ï¿½ supportï¿½ï¿½ï¿½ï¿½submitBubblesï¿½ï¿½ï¿½äº¬ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ö§ï¿½ï¿½ dom Ã°ï¿½ï¿½
 */
 
 // JavaScript Document
@@ -232,7 +232,7 @@ jQuery.extend({
         // Get the JavaScript object, ifJSON is used.
         if( type == "json" )
         {
-        	eval( "data = " + data );
+            data = jQuery.parseJSON(jQuery(data).text());
         }
             
         // evaluate scripts within html
