@@ -401,6 +401,40 @@
                                 });
                             }
 
+                            $("#equList8").empty();
+                            if (data.data.skillDescrition == "") {
+                                $("#equList8").html("<div  id='emptyAlert' class='alert alert-danger'>" +
+                                    "<a href='#' class='close' data-dismiss='alert'>&times;</a>" +
+                                    "<strong>失败！</strong>未查到您搜索的信息。</div>");
+//                                return false;
+                            } else {
+                                $.each(data.data.skill, function (j, val) {
+                                    var html;
+                                    html = "<tr>"
+                                        + "<td>"
+                                        + val.description
+                                        + "</td></tr>";
+                                    $("#equList8").append(html);
+                                });
+                            }
+
+                            $("#equList9").empty();
+                            if (data.data.selfDescritpion == "") {
+                                $("#equList9").html("<div  id='emptyAlert' class='alert alert-danger'>" +
+                                    "<a href='#' class='close' data-dismiss='alert'>&times;</a>" +
+                                    "<strong>失败！</strong>未查到您搜索的信息。</div>");
+//                                return false;
+                            } else {
+                                $.each(data.data.selfDescription, function (j, val) {
+                                    var html;
+                                    html = "<tr>"
+                                        + "<td>"
+                                        + val.description
+                                        + "</td></tr>";
+                                    $("#equList9").append(html);
+                                });
+                            }
+
                         },
                         error: function (error) {
                             console.info(error);

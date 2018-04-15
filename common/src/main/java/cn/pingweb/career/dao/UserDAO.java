@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserDAO extends CrudRepository<User, String> {
 
+    User getByEmail(String email);
+
 }

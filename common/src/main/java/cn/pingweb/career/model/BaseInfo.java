@@ -10,25 +10,29 @@ public class BaseInfo {
     @Id
     private String id;
 
-    private String name;
+    private String name = "未完善";
 
-    private String gender;
+    private String gender = "男";
 
-    private String birthday;
+    private String birthday = "0000-00-00";
 
     @Column(length = 11)
-    private String phone;
+    private String phone = "未完善";
 
-    private String email;
+    private String email = "未完善";
 
-    private String education;
+    private String education = "未完善";
 
-    private String workYear;
+    private String workYear = "-1";
 
-    private String headIcon;
+    private String headIcon = "";
 
     public BaseInfo() {
 
+    }
+
+    public BaseInfo(String id) {
+        this.id = id;
     }
 
     public BaseInfo(String id, String name, String gender, String birthday, String phone, String email, String education, String workYear) {

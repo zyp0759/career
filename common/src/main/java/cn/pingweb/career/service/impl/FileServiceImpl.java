@@ -10,7 +10,7 @@ import java.io.*;
 @Service
 public class FileServiceImpl implements FileService {
     @Override
-    public String save(String path, String fileType, MultipartFile file, String userId) {
+    public String save(String path, String fileType, MultipartFile file, String userId, String fileName) {
 //        FileOutputStream fs = null;
 //        try {
 //            fs = new FileOutputStream();
@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
                 // 实际项目中，文件需要输出到指定位置，需要在增加代码处理。
                 // 还有关于文件格式限制、文件大小限制，详见：中配置。
                 BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(path+ MyUtil.getKeyId(userId)+fileType)));
+                        new FileOutputStream(new File(path+ fileName+fileType)));
                 out.write(file.getBytes());
                 out.flush();
                 out.close();
@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void download() {
-
+    public File download(String path,String fileName) {
+        return null;
     }
 }

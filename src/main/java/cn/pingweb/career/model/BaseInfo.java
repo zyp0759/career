@@ -9,7 +9,6 @@ import java.util.Date;
 public class BaseInfo {
 
     @Id
-    @Column(length = 20)
     private String baseInfoId;
 
     @Column(length = 20)

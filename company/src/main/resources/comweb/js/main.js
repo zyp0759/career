@@ -14,7 +14,7 @@ $("#login_b").click(function () {
             success: function (resp) {
                 if (resp.status != 200) {
                     $(".errorMsg").show();
-                    $(".ts").html($(".ts").html() + resp.msg);
+                    $(".ts").html(resp.msg);
                 } else {
                     $("head").empty();
                     $("body").empty();
@@ -55,7 +55,7 @@ $("#register_b").click(function () {
     } else {
         $.ajax({
             type: "POST",
-            url: "./register",
+            url: "./addStaff",
             data: {"id": userId, "pwd": pwd, "type": type},
             dataType: "json",
             success: function (resp) {
@@ -63,8 +63,8 @@ $("#register_b").click(function () {
                     $(".errorMsg").show();
                     $(".ts").html($(".ts").html() + resp.msg);
                 } else {
-                    alert("注册成功");
-                    window.location.href = "./";
+                    alert("添加成功");
+                    $("#main").load("./views/repair/addStaff.html");
                 }
             },
             error: function (resp) {
@@ -138,6 +138,11 @@ function allApply() {
     $("#main").load("./views/repair/allApply.html");
 }
 
+//查看投递信息
+function addStaff() {
+
+    $("#main").load("./views/repair/addStaff.html");
+}
 
 
 

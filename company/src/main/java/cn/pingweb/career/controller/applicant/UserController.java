@@ -1,8 +1,10 @@
 package cn.pingweb.career.controller.applicant;
 
-import cn.pingweb.career.model.User;
-import cn.pingweb.career.service.UserService;
+import cn.pingweb.career.dto.UserDto;
+import cn.pingweb.career.model.Staff;
+import cn.pingweb.career.service.StaffService;
 import cn.pingweb.career.util.JedisUtils;
+import cn.pingweb.career.util.MyUtil;
 import cn.pingweb.career.util.TokenUtil;
 import cn.pingweb.career.vo.VO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,62 +19,61 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private StaffService staffService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public VO register(@RequestParam("id") String userId, @RequestParam("pwd") String pwd, @RequestParam("type") String type) {
-        if (userId == null || pwd == null || type == null) {
+
+    @RequestMapping(value = "/addStaff", method = RequestMethod.POST)
+    public VO register(@RequestParam("id") String email, @RequestParam("pwd") String pwd, @RequestParam("type") String type) {
+        if (email == null || pwd == null || type == null) {
             return new VO(4003, "输入不能为空", null);
         }
-        if (!(userId.trim().length() > 0 && pwd.trim().length() > 0)) {
+        if (!(email.trim().length() > 0 && pwd.trim().length() > 0)) {
             return new VO(4003, "输入不能为空", null);
         }
 
-        User user = userService.getUserById(userId);
+        Staff staff = staffService.getStaffByEmail(email);
 
-        if (user != null) {
-            return new VO(4005, "此账号已注册", null);
+        if (staff != null) {
+            return new VO(4005, "此账号已添加", null);
         }
 
-        User user1 = new User(userId, pwd, User.APPLICANT);
-
-        if (type.equals(User.APPLICANT)) {
-            user1.setType(User.APPLICANT);
-        } else if (type.equals(User.COMPANY)) {
-            user1.setType(User.COMPANY);
-        } else if (type.equals(User.ADMIN)) {
-            user1.setType(User.ADMIN);
+        Staff staff1 = new Staff(MyUtil.getKeyId(email), email, pwd);
+        if (type.equals(Staff.COMPANY)) {
+            staff1.setType(Staff.COMPANY);
+        } else if (type.equals(Staff.ADMIN)) {
+            staff1.setType(Staff.ADMIN);
         }
-            userService.saveUser(user1);
-            return VO.SUCCESS;
+        staffService.saveStaff(staff1);
+        return VO.SUCCESS;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public VO login(@RequestParam("id") String userId, @RequestParam("pwd") String pwd, @RequestParam("type") String type, HttpSession session) {
-        if (userId == null || pwd == null || type == null) {
+    public VO login(@RequestParam("id") String email, @RequestParam("pwd") String pwd, @RequestParam("type") String type, HttpSession session) {
+        if (email == null || pwd == null || type == null) {
             return new VO(4003, "输入不能为空", null);
         }
-        if (!(userId.trim().length() > 0 && pwd.trim().length() > 0)) {
+        if (!(email.trim().length() > 0 && pwd.trim().length() > 0)) {
             return new VO(4003, "输入不能为空", null);
         }
 
-        User user = userService.getUserById(userId);
+        //User user = userService.getUserById(userId);
+        Staff staff = staffService.getStaffByEmail(email);
 
-        if (user == null) {
+        if (staff == null) {
             return new VO(4005, "此账号不存在", null);
         }
 
-        if (!user.getPwd().equals(pwd)) {
+        if (!staff.getPwd().equals(pwd)) {
             return new VO<>(1002, "密码错误", null);
         }
 
-        if (!user.getType().equals(type)) {
+        if (!staff.getType().equals(type)) {
             return new VO<>(1002, "账号类型错误", null);
         }
 
-        String token = TokenUtil.genToken(userId);
-        JedisUtils.set(token, userId);
-        session.setAttribute("currentUser", userId);
+        String token = TokenUtil.genToken(staff.getId());
+        JedisUtils.set(token, staff.getId());
+        session.setAttribute("currentUser", staff.getId());
         session.setAttribute("token", token);
         return new VO(200, "success", token);
     }
@@ -91,11 +92,8 @@ public class UserController {
         String token = (String) session.getAttribute("token");
 
         String uid = JedisUtils.get(token);
-        User user = userService.getUserById(uid);
-        User dto = new User(" ", " ", " ");
-        dto.setType(user.getType());
-        dto.setUserId(user.getUserId());
-
+        Staff staff = staffService.getStaffById(uid);
+        UserDto dto = new UserDto(staff.getEmail(), staff.getType());
         VO vo = new VO(200, token, dto);
         return vo;
     }

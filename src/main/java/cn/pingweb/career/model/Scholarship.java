@@ -9,10 +9,8 @@ import java.util.Date;
 public class Scholarship {
 
     @Id
-    @Column(length = 20)
     private String scholarshipId;
 
-    @Column(length = 20)
     private String userId;
 
     private String source;

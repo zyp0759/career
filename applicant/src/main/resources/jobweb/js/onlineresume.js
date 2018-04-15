@@ -432,7 +432,9 @@ $(function() {
 		$("#xueli").val(college_level);
 		// 经验
 
-		if (workyears == "0") {
+        if (workyears == "-1") {
+            str = "未完善";
+        } else if (workyears == "0") {
 			str = "应届生";
 		} else if (workyears == "10") {
 			str = "10年以上";

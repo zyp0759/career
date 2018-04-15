@@ -12,7 +12,6 @@ public class Education implements Comparable{
     @Id
     private String educationId;
 
-    @Column(length = 20)
     private String userId;
 
     private String start;

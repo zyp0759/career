@@ -25,7 +25,8 @@ public class BaseInfoServiceImpl implements BaseInfoService {
 
     @Override
     public BaseInfo getbyId(String id) {
-        return baseInfoDAO.findOne(id);
+        BaseInfo baseInfo = baseInfoDAO.findOne(id);
+        return baseInfo == null ? new BaseInfo() : baseInfo;
     }
 
     @Override

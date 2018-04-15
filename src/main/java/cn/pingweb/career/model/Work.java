@@ -10,10 +10,8 @@ import java.util.Date;
 public class Work {
 
     @Id
-    @Column(length = 20)
     private String workId;
 
-    @Column(length = 20)
     private String userId;
 
     private Date start;

@@ -12,7 +12,6 @@ import java.util.Date;
 public class Recruitment {
 
     @Id
-    @Column(length = 20)
     private String recruitmentId;
 
     private String userId;

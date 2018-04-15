@@ -23,32 +23,32 @@ public class BaseInfoController {
         this.baseInfoService = baseInfoService;
     }
 
-    @RequestMapping(value = "/addBaseInfo", method = RequestMethod.POST)
-    public VO addBaseInfo(@RequestParam("name") String name, @RequestParam("gender") String gender,
-                          @RequestParam("cardId") String cardId, @RequestParam("birthday") String birthday,
-                          @RequestParam("localCity") String localCity, @RequestParam("birthCity") String birthCity,
-                          @RequestParam("phone") String phone, @RequestParam("email") String email,
-                          @RequestAttribute("userId") String userId
-    ) {
-        if (name == null || gender == null || cardId == null || birthCity == null || localCity == null || birthday == null || phone == null || email == null) {
-            return new VO(4003, "信息不完整", null);
-        }
-
-        Date date = null;
-        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            date = format1.parse(birthday);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-//        BaseInfo baseInfo = new BaseInfo(userId, name, gender, cardId, date, localCity, birthCity, phone, email);
+//    @RequestMapping(value = "/addBaseInfo", method = RequestMethod.POST)
+//    public VO addBaseInfo(@RequestParam("name") String name, @RequestParam("gender") String gender,
+//                          @RequestParam("cardId") String cardId, @RequestParam("birthday") String birthday,
+//                          @RequestParam("localCity") String localCity, @RequestParam("birthCity") String birthCity,
+//                          @RequestParam("phone") String phone, @RequestParam("email") String email,
+//                          @RequestAttribute("userId") String userId
+//    ) {
+//        if (name == null || gender == null || cardId == null || birthCity == null || localCity == null || birthday == null || phone == null || email == null) {
+//            return new VO(4003, "信息不完整", null);
+//        }
 //
-//        baseInfoService.save(baseInfo);
-
-        return VO.SUCCESS;
-
-    }
+//        Date date = null;
+//        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            date = format1.parse(birthday);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+////        BaseInfo baseInfo = new BaseInfo(userId, name, gender, cardId, date, localCity, birthCity, phone, email);
+////
+////        baseInfoService.save(baseInfo);
+//
+//        return VO.SUCCESS;
+//
+//    }
 
     @RequestMapping(value = "/oneBaseInfo", method = RequestMethod.POST)
     public VO findOne(@RequestAttribute("userId") String userId) {

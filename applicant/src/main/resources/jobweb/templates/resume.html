@@ -1878,18 +1878,18 @@
                     data: {},
                     success: function (data){
                         if(data.status==200){
-                            paotow=data.photow;
-                            paotoh=data.photoh;
-                            var leftw=(hexFrm-paotow)/2
-                            var toph=(hexFrm-paotoh)/2
-                            photourl=data.profilphotoName;
-                            var w1=paotow * 2;
-                            var h1=paotoh * 2;
-                            $('.images_left img').attr({src: "http://f.neipin.com/photo/temp/"+data.profilphotoName});
-                            $('.images_left img').css({ "margin-top": toph+"px" });
-                            $("#tixing").text("");
-                            setTimeout("tupianchufa()",500);
-                            setTimeout(function(){cheng(w1,h1,data.profilphotoName);},1000)
+//                            paotow=100;
+//                            paotoh=100;
+//                            var leftw=(hexFrm-paotow)/2
+//                            var toph=(hexFrm-paotoh)/2
+//                            photourl=data.profilphotoName;
+//                            var w1=paotow * 2;
+//                            var h1=paotoh * 2;
+                            $(".self_head").attr({src: "http://localhost/resume/headIcon/get/"+data.data.fileName});
+//                            $('.images_left img').css({ "margin-top": toph+"px" });
+//                            $("#tixing").text("");
+//                            setTimeout("tupianchufa()",500);
+//                            setTimeout(function(){cheng(w1,h1,data.profilphotoName);},1000)
 
                         }else if(date.ret==-3){
                             $("#tixing").text("上传图片格式不对");
@@ -2510,12 +2510,12 @@
                     <div class="Resume_con">
                         <div class="Resume_conLeft">
                             <p class="p_educate" >${baseInfo.education}</p>
-                            <p class="p_gzjy" value="${baseInfo.workYear}"><#if baseInfo.workYear == "0">应届生<#else>${baseInfo.workYear}年工作经验</#if></p>
+                            <p class="p_gzjy" value="${baseInfo.workYear}"><#if baseInfo.workYear == "-1">未完善<#elseif baseInfo.workYear == "0">应届生<#else>${baseInfo.workYear}年工作经验</#if></p>
                             <p class="p_brithday">${baseInfo.birthday?substring(0,10)}</p>
                         </div>
                         <div class="Resume_conCenter">
                             <dl>
-                                <dt><img onerror="javascript:this.src='/images/d_default.png'" src="../images/d_default.png"></dt>
+                                <dt><img class="self_head" onerror="javascript:this.src='/images/d_default.png'" src="../images/d_default.png"></dt>
                                 <dd><em>${baseInfo.name}</em><span class="gender boy"></span></dd>
                             </dl>
                         </div>
@@ -2534,10 +2534,13 @@
                 <!-- 编辑个人资料 -->
                 <div id="self_info2" style="" class="self_info"><!--display:none;-->
                     <div class="img_Con">
-                        <a onclick="tanchu_logo()" href="javascript:void(0)" class="img_box">
+                        <!--<a onclick="tanchu_logo()" href="javascript:void(0)" class="img_box">-->
+                        <a onclick="document.getElementById('fileToUpload').click();" href="javascript:void(0)" class="img_box">
                             <img class="self_head" onerror="javascript:this.src='/images/d_default.png'" alt="" src="../images/d_default.png">
                             <div>上传头像</div>
-                            <input type="hidden" value="" id="photo_name">
+                            <!--<input type="hidden" value="" id="photo_name">-->
+                            <!--<a onclick="document.getElementById('fileToUpload').click();" title="" href="javascript:void(0);" class="standard_a_01 standard_a_02">本地上传</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="margin-left: 35px;" class="bdsc_bri">支持JPG、GIF、PNG格式的图片，文件小于3M</div>-->
+                            <input type="file" accept="image/*" onchange="selectImage();" style="visibility:hidden;" size="10" name="fileToUpload" id="fileToUpload">
                         </a>
                         <div class="self_edit">
                             <div class="self_edit_left left">
@@ -4194,8 +4197,8 @@
             </div>
                 <div style="margin-top: 20px;">
                     <div style="margin-left: 25px;" class="standard_margin_top10">
-                        <a onclick="document.getElementById('fileToUpload').click();" title="" href="javascript:void(0);" class="standard_a_01 standard_a_02">本地上传</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="margin-left: 35px;" class="bdsc_bri">支持JPG、GIF、PNG格式的图片，文件小于3M</div>
-                        <input type="file" accept="image/*" onchange="selectImage();" style="visibility:hidden;" size="10" name="fileToUpload" id="fileToUpload">
+                        <!--<a onclick="document.getElementById('fileToUpload').click();" title="" href="javascript:void(0);" class="standard_a_01 standard_a_02">本地上传</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="margin-left: 35px;" class="bdsc_bri">支持JPG、GIF、PNG格式的图片，文件小于3M</div>-->
+                        <!--<input type="file" accept="image/*" onchange="selectImage();" style="visibility:hidden;" size="10" name="fileToUpload" id="fileToUpload">-->
                     </div>
                     <span style="color:red" id="tixing"></span>
                 </div>
