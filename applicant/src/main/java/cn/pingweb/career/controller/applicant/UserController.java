@@ -22,31 +22,22 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public VO register(@RequestParam("id") String email, @RequestParam("pwd") String pwd, @RequestParam("type") String type) {
+    public VO register(@RequestParam("id") String email,
+                       @RequestParam("pwd") String pwd,
+                       @RequestParam("type") String type) {
         if (email == null || pwd == null || type == null) {
             return new VO(4003, "输入不能为空", null);
         }
         if (!(email.trim().length() > 0 && pwd.trim().length() > 0)) {
             return new VO(4003, "输入不能为空", null);
         }
-
         User user = userService.getUserByEmail(email);
-
         if (user != null) {
             return new VO(4005, "此账号已注册", null);
         }
-
         User user1 = new User(MyUtil.getKeyId(email), email, pwd);
-
-//        if (type.equals(User.APPLICANT)) {
-//            user1.setType(User.APPLICANT);
-//        } else if (type.equals(User.COMPANY)) {
-//            user1.setType(User.COMPANY);
-//        } else if (type.equals(User.ADMIN)) {
-//            user1.setType(User.ADMIN);
-//        }
-            userService.saveUser(user1);
-            return VO.SUCCESS;
+        userService.saveUser(user1);
+        return VO.SUCCESS;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

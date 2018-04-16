@@ -28,7 +28,7 @@ public class WorkExprienceController {
                                  @RequestParam("param4") String end,
                                  @RequestParam("param7") String desc,
                                  @RequestParam("param8") String workExperienceId) {
-        if (workExperienceId == null || desc == null || start == null || position == null || company == null) {
+        if(workExperienceId == null || desc == null || start == null || position == null || company == null){
             return new VO(4003, "信息不完整", null);
         }
         String id = StringUtils.isEmpty(workExperienceId)? MyUtil.getKeyId(userId):workExperienceId;

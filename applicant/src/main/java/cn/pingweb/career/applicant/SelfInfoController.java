@@ -29,8 +29,19 @@ public class SelfInfoController {
                 ||StringUtils.isEmpty(birthday)) {
             return new VO(4003, "信息不完整", null);
         }
-        BaseInfo baseInfo = new BaseInfo(userId, name, gender,birthday,
-                phone, email, EducationDegree.getDegreeNameByValue(degree), workYear);
+        BaseInfo baseInfo = baseInfoService.getbyId(userId);
+        if (baseInfo == null) {
+            baseInfo = new BaseInfo(userId, name, gender,birthday,
+                    phone, email, EducationDegree.getDegreeNameByValue(degree), workYear);
+        } else {
+            baseInfo.setName(name);
+            baseInfo.setGender(gender);
+            baseInfo.setBirthday(birthday);
+            baseInfo.setPhone(phone);
+            baseInfo.setEmail(email);
+            baseInfo.setEducation(EducationDegree.getDegreeNameByValue(degree));
+            baseInfo.setWorkYear(workYear);
+        }
         baseInfoService.save(baseInfo);
         return VO.SUCCESS;
     }

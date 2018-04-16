@@ -56,10 +56,10 @@ public class FileController {
 //        if(filesize>200000) {//判断图片大小
 //        }
         String fileName = MyUtil.getKeyId(userId);
-        fileService.save("D://image//",".png",file,userId, fileName);
+        fileService.save("D://image//", file, userId, fileName, ".png");
         BaseInfo baseInfo = baseInfoService.getbyId(userId);
         if(StringUtils.isEmpty(baseInfo.getId())) {
-            baseInfo = new BaseInfo(MyUtil.getKeyId(userId));
+            baseInfo = new BaseInfo(userId);
         }
         baseInfo.setHeadIcon(fileName);
         baseInfoService.save(baseInfo);
@@ -83,7 +83,7 @@ public class FileController {
 //        }
 
         //File name = fileService.download("D://image//", fileName);
-        File file=new File("D://image//"+fileName);
+        File file=new File("D://image//"+fileName+".png");
         if(file.exists()){
             //设置MIME类型
             response.setContentType("application/octet-stream");

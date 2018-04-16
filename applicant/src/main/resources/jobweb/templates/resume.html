@@ -2515,7 +2515,7 @@
                         </div>
                         <div class="Resume_conCenter">
                             <dl>
-                                <dt><img class="self_head" onerror="javascript:this.src='/images/d_default.png'" src="../images/d_default.png"></dt>
+                                <dt><img class="self_head" onerror="javascript:this.src='/images/d_default.png'" src="../resume/headIcon/get/${baseInfo.headIcon}"></dt>
                                 <dd><em>${baseInfo.name}</em><span class="gender boy"></span></dd>
                             </dl>
                         </div>
@@ -2536,8 +2536,8 @@
                     <div class="img_Con">
                         <!--<a onclick="tanchu_logo()" href="javascript:void(0)" class="img_box">-->
                         <a onclick="document.getElementById('fileToUpload').click();" href="javascript:void(0)" class="img_box">
-                            <img class="self_head" onerror="javascript:this.src='/images/d_default.png'" alt="" src="../images/d_default.png">
-                            <div>上传头像</div>
+                            <img class="self_head" onerror="javascript:this.src='../images/d_default.png'" alt="" src="../resume/headIcon/get/${baseInfo.headIcon}">
+                            <!--<div>上传头像</div>-->
                             <!--<input type="hidden" value="" id="photo_name">-->
                             <!--<a onclick="document.getElementById('fileToUpload').click();" title="" href="javascript:void(0);" class="standard_a_01 standard_a_02">本地上传</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="margin-left: 35px;" class="bdsc_bri">支持JPG、GIF、PNG格式的图片，文件小于3M</div>-->
                             <input type="file" accept="image/*" onchange="selectImage();" style="visibility:hidden;" size="10" name="fileToUpload" id="fileToUpload">
@@ -4140,53 +4140,57 @@
                 </div>
             </div>
             <div class="online_right right">
-                <div class="wodebiaoqian">
-                    <div class="tdfk1">
-                        <a class="a1" href="/mr/">投递反馈</a>
-                        <a class="a2" href="javascript:void(0);">求推荐</a>
-                        <!--<a href="javascript:void(0);" class="a3" onclick="document.getElementById('f_jianli').click()" class="upload_jianli">上传简历</a>-->
-                        <div class="yishangchuan_pos">
-                            <a class="upload_a upload_jianli a3" href="javascript:void(0);">上传简历</a>
-                            <!--鼠标滑过预览和删除-->
-                            <div class="yishangchuan_hover">
-                                <span></span>
-                                <div><a href="javascript:yulan();">预览</a><a href="javascript:deleteresume();">删除</a><a onclick="document.getElementById('f_jianli').click()" href="javascript:void(0);">上传</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="default_send">
-                        <div>默认投递：</div>
-                        <div class="seles ">
-                            <span class="seles_choose ">请选择</span>
-                            <ul class="seles_hide moren default_jianli">
-                                <li v="0">在线简历</li>
-                                <li v="1">附件简历</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="my_labels my_labelsie">
-                        <div class="compete_percent"><span style="" class="myhidden">在线简历完整度</span><a class="xz_a" href="/ro/downloadR/335729/profile/黄金/pdf" target="_blank">下载</a><a target="_blank" href="/ro/selfyulan">预览</a></div>
-                        <div style="" data-perc="20" class="progressbar myhidden">
-                            <div class="bar" style="width: 41px;"><span></span></div>
-                            <div class="label" style="left: 23px;"><div class="perc">20%</div></div>
-                        </div>
-                    </div>
-                    <div style="display: none;" class="my_labels">
-                        <p>附件简历</p>
-                        <div class="scfujianresume">
-                            <div class="upload_before">
-                                <input type="file" onchange="javascript:uploadjianli(1);" class="upfile" id="f_jianli" name="file">
-                                <input type="hidden" value="" class="resume_name">
-                                <a class="jianli" href="javascript:void(0);"></a>
-                                <a class="upload_jianli" onclick="document.getElementById('f_jianli').click()" href="javascript:void(0);">上传简历</a>
-                                <a class="upload_jianli upload_jianliie" href="javascript:void(0);">上传简历</a>
-
-                                <i style="display:none" class="delete_fujian"></i>
-                            </div>
-                        </div>
-                    </div>
+                <div class="online_right right">
+                    <img src="../images/ma_service.png"/>
+                    <!--<label>微信扫码关注</label>-->
                 </div>
+                <!--<div class="wodebiaoqian">-->
+                    <!--<div class="tdfk1">-->
+                        <!--<a class="a1" href="/mr/">投递反馈</a>-->
+                        <!--<a class="a2" href="javascript:void(0);">求推荐</a>-->
+                        <!--&lt;!&ndash;<a href="javascript:void(0);" class="a3" onclick="document.getElementById('f_jianli').click()" class="upload_jianli">上传简历</a>&ndash;&gt;-->
+                        <!--<div class="yishangchuan_pos">-->
+                            <!--<a class="upload_a upload_jianli a3" href="javascript:void(0);">上传简历</a>-->
+                            <!--&lt;!&ndash;鼠标滑过预览和删除&ndash;&gt;-->
+                            <!--<div class="yishangchuan_hover">-->
+                                <!--<span></span>-->
+                                <!--<div><a href="javascript:yulan();">预览</a><a href="javascript:deleteresume();">删除</a><a onclick="document.getElementById('f_jianli').click()" href="javascript:void(0);">上传</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="default_send">-->
+                        <!--<div>默认投递：</div>-->
+                        <!--<div class="seles ">-->
+                            <!--<span class="seles_choose ">请选择</span>-->
+                            <!--<ul class="seles_hide moren default_jianli">-->
+                                <!--<li v="0">在线简历</li>-->
+                                <!--<li v="1">附件简历</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="my_labels my_labelsie">-->
+                        <!--<div class="compete_percent"><span style="" class="myhidden">在线简历完整度</span><a class="xz_a" href="/ro/downloadR/335729/profile/黄金/pdf" target="_blank">下载</a><a target="_blank" href="/ro/selfyulan">预览</a></div>-->
+                        <!--<div style="" data-perc="20" class="progressbar myhidden">-->
+                            <!--<div class="bar" style="width: 41px;"><span></span></div>-->
+                            <!--<div class="label" style="left: 23px;"><div class="perc">20%</div></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div style="display: none;" class="my_labels">-->
+                        <!--<p>附件简历</p>-->
+                        <!--<div class="scfujianresume">-->
+                            <!--<div class="upload_before">-->
+                                <!--<input type="file" onchange="javascript:uploadjianli(1);" class="upfile" id="f_jianli" name="file">-->
+                                <!--<input type="hidden" value="" class="resume_name">-->
+                                <!--<a class="jianli" href="javascript:void(0);"></a>-->
+                                <!--<a class="upload_jianli" onclick="document.getElementById('f_jianli').click()" href="javascript:void(0);">上传简历</a>-->
+                                <!--<a class="upload_jianli upload_jianliie" href="javascript:void(0);">上传简历</a>-->
+
+                                <!--<i style="display:none" class="delete_fujian"></i>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <!--<a target="_blank" href="/ycd" class="user_h5"><img src="images/User_h5.jpg" ></a>-->
             </div>
 
