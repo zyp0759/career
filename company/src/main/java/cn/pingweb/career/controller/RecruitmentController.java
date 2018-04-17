@@ -1,7 +1,9 @@
-package cn.pingweb.career.controller.applicant;
+package cn.pingweb.career.controller;
 
+import cn.pingweb.career.model.Apply;
 import cn.pingweb.career.model.Recruitment;
 import cn.pingweb.career.model.Work;
+import cn.pingweb.career.service.ApplyService;
 import cn.pingweb.career.service.RecruitmentService;
 import cn.pingweb.career.service.WorkService;
 import cn.pingweb.career.util.MyUtil;
@@ -23,6 +25,9 @@ public class RecruitmentController {
 
     @Autowired
     private WorkService workService;
+
+    @Autowired
+    private ApplyService applyService;
 
     @Autowired
     public RecruitmentController(RecruitmentService recruitmentService) {

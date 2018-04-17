@@ -28,13 +28,10 @@ public class ApplicantController {
         if (!(email.trim().length() > 0 && pwd.trim().length() > 0)) {
             return new VO(4003, "输入不能为空", null);
         }
-
         User user = userService.getUserByEmail(email);
-
         if (user != null) {
             return new VO(4005, "此账号已注册", null);
         }
-
         User user1 = new User(MyUtil.getKeyId(email), email, pwd);
         userService.saveUser(user1);
         return VO.SUCCESS;
@@ -49,17 +46,13 @@ public class ApplicantController {
         if (!(email.trim().length() > 0 && pwd.trim().length() > 0)) {
             return new VO(4003, "输入不能为空", null);
         }
-
         User user = userService.getUserByEmail(email);
-
         if (user == null) {
             return new VO(4005, "此账号不存在", null);
         }
-
         if (!user.getPwd().equals(pwd)) {
             return new VO<>(1002, "密码错误", null);
         }
-
         String token = TokenUtil.genToken(user.getUserId());
         JedisUtils.set(token, user.getUserId());
         session.setAttribute("currentUser", user.getUserId());

@@ -1,6 +1,7 @@
 package cn.pingweb.career.applicant;
 
 import cn.pingweb.career.model.Apply;
+import cn.pingweb.career.model.Work;
 import cn.pingweb.career.service.ApplyService;
 import cn.pingweb.career.service.RecruitmentService;
 import cn.pingweb.career.service.WorkService;
@@ -28,6 +29,10 @@ public class JobController {
                        @RequestAttribute("userId") String userId
     ) {
         if (workId == null || userId == null) {
+            return VO.INVALID_TOKEN;
+        }
+        Work work = workService.findById(workId);
+        if(work == null) {
             return VO.INVALID_TOKEN;
         }
 

@@ -145,7 +145,7 @@
 
     var tempData = new Object();
 
-    var tempId;
+    var tempId = "";
 
     $(function () {
         pagehtml($("#currentPage").val());
@@ -174,7 +174,6 @@
         var workCity = $.trim($("#workCity").val());
         var startline = $("#datetimepicker-start").find("input").val();
         var deadline = $("#datetimepicker").find("input").val();
-        alert(startline)
         if (!position || !workType ||!workCity||!startline ||!deadline) {
             alert("填写信息不完整！");
             return false;
@@ -212,7 +211,8 @@
                             }
 
                         },
-                        error: function () {
+                        error: function (data) {
+                            console.info(data);
                             alert("添加出错!");
                         }
 

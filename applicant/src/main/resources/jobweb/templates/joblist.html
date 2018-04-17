@@ -806,7 +806,7 @@
                         </tr>
                         <tbody id="equList">
                         <#list joblist as job>
-                            <tr><td>${job.name}</td><td>${job.workType}</td><td>${job.workCity}</td><td><button onclick="apply(${job.workId})">投递</button></td></tr>
+                            <tr><td>${job.name}</td><td>${job.workType}</td><td>${job.workCity}</td><td><button onclick="apply('${job.workId}')">投递</button></td></tr>
                         </#list>
                         </tbody>
                     </table>

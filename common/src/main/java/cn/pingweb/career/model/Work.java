@@ -12,7 +12,6 @@ public class Work {
     @Id
     private String workId;
 
-    @Column(length = 20)
     private String userId;
 
     private Date start;

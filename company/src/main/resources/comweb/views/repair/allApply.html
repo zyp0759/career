@@ -42,6 +42,7 @@
             <th class="col-md-1">电子邮件</th>
             <th class="col-md-1">投递岗位</th>
             <th class="col-md-1">投递时间</th>
+            <th class="col-md-1">投递状态</th>
             <th class="col-md-1">操作</th>
         </tr>
         </thead>
@@ -118,11 +119,17 @@
                                         + "</td>"
                                         + "<td>"
                                         + date1.getFullYear() + "-" + date1.getMonth() + "-" + date1.getDate()
+                                        + "</td>"
+                                        + "<td>"
+                                        + val.state
                                         + "</td>";
                                     html += "<td><button type='button' class='btn btn-info btn-xs' onclick='checkOne(" + j + ")'>"
                                         + "查看简历"
                                         + "</button>"
-                                        + "</td></tr>>";
+                                        +"<button type='button' class='btn btn-info btn-xs' onclick='passOne("+"\""+val.applyId+"\""+")'>"
+                                        + "通过"
+                                        +"</button>"
+                                        + "</td></tr>";
                                     $("#equList").append(html);
                                 });
                             }
@@ -161,6 +168,31 @@
         pagehtml(1);
     }
 
+    function passOne(applyId) {
+        var result = confirm("确定执行此操作？");
+        if (result) {
+
+        } else {
+            return false;
+        }
+
+        $.ajax({
+            url: "./company/passApply",
+            type: "post",
+            dataType: "json",
+            data: {"applyId": applyId},
+            success: function (data) {
+                if(data.status == 200) {
+                    alert("通过成功");
+                    $("#main").load("./views/repair/allApply.html");
+                }
+            },
+            error: function (data) {
+              console.info(data);
+            }
+        });
+
+    }
     // 查看简历
     function checkOne(equipmentId) {
         var result = confirm("确定执行此操作？");

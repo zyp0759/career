@@ -14,6 +14,8 @@ public class ApplyDto implements Serializable{
     private String phone;
     private String email;
     private String position;
+    private String state;
+    private String applyId;
     private Date time;
 
     public ApplyDto() {
@@ -26,6 +28,8 @@ public class ApplyDto implements Serializable{
         this.phone = baseInfo.getPhone();
         this.email = baseInfo.getEmail();
         this.position = work.getName();
+        this.state = apply.getState();
+        this.applyId = apply.getApplyId();
         this.time = apply.getTime();
     }
 
@@ -83,5 +87,21 @@ public class ApplyDto implements Serializable{
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(String applyId) {
+        this.applyId = applyId;
     }
 }

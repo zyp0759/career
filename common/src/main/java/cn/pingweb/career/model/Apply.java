@@ -11,10 +11,8 @@ public class Apply {
     @Id
     private String applyId;
 
-    @Column(length = 20)
     private String userId;
 
-    @Column(length = 20)
     private String workId;
 
     private Date time;

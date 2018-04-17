@@ -1,6 +1,8 @@
 package cn.pingweb.career.interceptor;
 
+import cn.pingweb.career.model.Staff;
 import cn.pingweb.career.model.User;
+import cn.pingweb.career.service.StaffService;
 import cn.pingweb.career.service.UserService;
 import cn.pingweb.career.util.GsonUtils;
 import cn.pingweb.career.util.JedisUtils;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpSession;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private UserService userService;
+    private StaffService staffService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -45,8 +47,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         uid = JedisUtils.get(token);
         if (path.startsWith("company")) {
-            User user = userService.getUserById(uid);
-            if (user != null && user.getType().equals("company")) {
+            Staff staff = staffService.getStaffById(uid);
+            if (staff != null && staff.getType().equals("company")) {
                 request.setAttribute("userId", uid);
                 return true;
             } else {

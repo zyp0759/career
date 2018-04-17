@@ -78,5 +78,16 @@ public class ApplyController {
         return new VO(applyDtos);
     }
 
+    @RequestMapping("/company/passApply")
+    public VO passApplicant(@RequestAttribute("userId") String userId,
+                            @RequestParam("applyId") String applyId) {
+        Apply apply = applyService.findById(applyId);
+        if (apply == null) {
+            return VO.INVALID_TOKEN;
+        }
+        apply.setState("通过");
+        applyService.save(apply);
+        return VO.SUCCESS;
+    }
 
 }
