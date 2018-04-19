@@ -26,7 +26,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         HttpSession session = request.getSession();
-        String token = (String) session.getAttribute("token");
+        String token = (String) session.getAttribute("c_token");
         String uid;
         String path = request.getServletPath();
 

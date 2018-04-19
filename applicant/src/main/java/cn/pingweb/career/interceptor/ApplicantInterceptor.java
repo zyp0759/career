@@ -46,7 +46,7 @@ public class ApplicantInterceptor extends HandlerInterceptorAdapter {
         uid = JedisUtils.get(token);
         if (path.startsWith("user")) {
             User user = userService.getUserById(uid);
-            if (user != null && user.getType().equals("company")) {
+            if (user != null ) {
                 request.setAttribute("userId", uid);
                 return true;
             } else {

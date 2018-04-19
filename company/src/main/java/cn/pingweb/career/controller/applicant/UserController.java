@@ -73,8 +73,8 @@ public class UserController {
 
         String token = TokenUtil.genToken(staff.getId());
         JedisUtils.set(token, staff.getId());
-        session.setAttribute("currentUser", staff.getId());
-        session.setAttribute("token", token);
+        session.setAttribute("c_currentUser", staff.getId());
+        session.setAttribute("c_token", token);
         return new VO(200, "success", token);
     }
 
@@ -89,7 +89,7 @@ public class UserController {
     @RequestMapping(value = "/info")
     public VO userInfo(HttpSession session) {
 
-        String token = (String) session.getAttribute("token");
+        String token = (String) session.getAttribute("c_token");
 
         String uid = JedisUtils.get(token);
         Staff staff = staffService.getStaffById(uid);

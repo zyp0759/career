@@ -118,7 +118,7 @@ public class WebController {
         List<MyApplyDto2> applyDtos = new ArrayList<>();
         for(Apply apply : applies) {
             Work work = workService.findById(apply.getWorkId());
-            applyDtos.add(new MyApplyDto2(apply.getTime(), work.getName(), "等待面试"));
+            applyDtos.add(new MyApplyDto2(apply.getTime(), work.getName(), apply.getState()));
 
         }
         model.addAttribute("apply_list",applyDtos);

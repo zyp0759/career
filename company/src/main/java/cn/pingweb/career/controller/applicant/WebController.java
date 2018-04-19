@@ -20,15 +20,6 @@ public class WebController {
 //        return "user";
 //    }
 
-    @RequestMapping("/myapply")
-    @ResponseBody
-    public List<Job> getMyApply(){
-        List<Job> jobs = new ArrayList<>();
-        jobs.add(new Job("1","2","3"));
-        jobs.add(new Job("2","2","3"));
-        jobs.add(new Job("3","2","3"));
-        return jobs;
-    }
 
     @RequestMapping("/home")
     public String getHomePage(){
@@ -105,43 +96,4 @@ public class WebController {
         return "member_pwd";
     }
 
-}
-
-class Job {
-    public String job_name;
-    public String create_time;
-    public String state;
-
-    public Job() {
-    }
-
-    public Job(String job_name, String create_time, String state) {
-        this.job_name = job_name;
-        this.create_time = create_time;
-        this.state = state;
-    }
-
-    public String getJob_name() {
-        return job_name;
-    }
-
-    public void setJob_name(String job_name) {
-        this.job_name = job_name;
-    }
-
-    public String getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
 }

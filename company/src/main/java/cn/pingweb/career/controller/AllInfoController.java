@@ -81,8 +81,8 @@ public class AllInfoController {
         map.put("scholarships", scholarships);
         map.put("matches", matches);
         map.put("otherInfos", otherInfos);
-        map.put("skillDescrition", skills);
-        map.put("selfDescritpion", selfDescriptions);
+        map.put("skillDescription", skills);
+        map.put("selfDescription", selfDescriptions);
 
         return new VO(200, "success", map);
 
