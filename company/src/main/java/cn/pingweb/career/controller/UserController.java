@@ -1,4 +1,4 @@
-package cn.pingweb.career.controller.applicant;
+package cn.pingweb.career.controller;
 
 import cn.pingweb.career.dto.UserDto;
 import cn.pingweb.career.model.Staff;
@@ -8,10 +8,8 @@ import cn.pingweb.career.util.MyUtil;
 import cn.pingweb.career.util.TokenUtil;
 import cn.pingweb.career.vo.VO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -96,6 +94,27 @@ public class UserController {
         UserDto dto = new UserDto(staff.getEmail(), staff.getType());
         VO vo = new VO(200, token, dto);
         return vo;
+    }
+
+    @RequestMapping(value = "/user/resetPwd", method = RequestMethod.POST)
+    public VO resetPwd(@RequestParam("old_pwd") String pwd,
+                       @RequestParam("new_pwd") String newPwd,
+                       @RequestAttribute("userId") String userId) {
+        if (StringUtils.isEmpty(pwd) || StringUtils.isEmpty(newPwd)) {
+            return new VO(4003, "输入不能为空", null);
+        }
+
+        Staff staff = staffService.getStaffById(userId);
+
+        if (staff == null) {
+            return new VO(4005, "异常", null);
+        }
+        if (!staff.getPwd().equals(pwd)) {
+            return new VO(4005, "旧密码不对", null);
+        }
+        staff.setPwd(newPwd);
+        staffService.saveStaff(staff);
+        return VO.SUCCESS;
     }
 
 }

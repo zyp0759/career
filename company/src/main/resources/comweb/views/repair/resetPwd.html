@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<meta charset="utf-8"/>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+<link type="text/css" href="./css/bootstrap-pagination.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="./css/index.css"/>
+<link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="./js/main.js"></script>
+
+<div class="login-box">
+    <h3 class="login_welcome">更改密码</h3>
+    <div class="right_login" style="border:none;z-index: 9999">
+        <div>
+            <form id="reset_form">
+                <div>
+                    <div class="login-item">
+                        <span class="span_user glyphicon glyphicon-lock"></span>
+                        <input type="password" class="form-input" id="old_password" maxlength="18" placeholder="旧密码"
+                               name="password" value="">
+                    </div>
+                </div>
+                <div>
+                    <div class="login-item">
+                        <span class="span_user glyphicon glyphicon-lock"></span>
+                        <input type="password" class="form-input" id="new_password" maxlength="18" placeholder="新密码"
+                               name="password" value="">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="login-item">
+                        <span class="span_user glyphicon glyphicon-lock"></span>
+                        <input type="password" class="form-input" id="again_password" maxlength="18" placeholder="确认密码"
+                               name="password" value="">
+                    </div>
+                </div>
+
+                <input type="button" id="reset_b" class="formBtn-login" value="提 交"/>
+                <!--<div>-->
+                <!--<p style="text-align: center"><a href="./">点 我 登 录</a>-->
+                <!--</p>-->
+                <!--</div>-->
+
+            </form>
+        </div>
+        <div class="clear"></div>
+        <div class="errorMsg" hidden>
+
+            <center>
+                <div class="ts"><img src="./images/ts.png">
+                </div>
+            </center>
+
+            <!-- <div class="forgotpassword">
+                 <a href="#" onclick="link()">忘记密码？</a>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+</html>

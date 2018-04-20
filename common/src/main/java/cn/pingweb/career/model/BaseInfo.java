@@ -12,7 +12,7 @@ public class BaseInfo {
 
     private String name = "未完善";
 
-    private String gender = "男";
+    private String gender = "1";
 
     private String birthday = "0000-00-00";
 

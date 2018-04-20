@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/job")
@@ -34,6 +35,13 @@ public class JobController {
         Work work = workService.findById(workId);
         if(work == null) {
             return VO.INVALID_TOKEN;
+        }
+
+        List<Apply> applyList = applyService.findByUserId(userId);
+        for(Apply temp : applyList) {
+            if (temp.getWorkId().equals(workId)) {
+                return new VO(300, "不可以重复投递", null);
+            }
         }
 
         Apply apply = new Apply(MyUtil.getKeyId(userId), userId, workId, new Date());

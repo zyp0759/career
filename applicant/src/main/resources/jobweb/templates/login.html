@@ -49,7 +49,7 @@ $(document).ready(function(){
             param.zidong = 1;
         }
         var flag = 0;
-        if(param.emailAddr == "手机号/邮箱" || param.emailAddr.replace(/(^\s*)|(\s*$)/g,"") == "")
+        if(param.emailAddr == "邮箱" || param.emailAddr.replace(/(^\s*)|(\s*$)/g,"") == "")
         {
             //$(".username_msg").show();
             $(".username_msg").html("请填写用户名");
@@ -162,7 +162,7 @@ $(document).ready(function(){
     <div class="denglu_pages">
       <div class="denglu_pages_left left">        
         <form style="width:100%; overflow:hidden;" accept-charset="utf-8">
-          <input type="text" class="bsie7" onkeydown="enterlogin()" placeholder="手机号/邮箱" value="" name="" id="tbUserName">
+          <input type="text" class="bsie7" onkeydown="enterlogin()" placeholder="邮箱" value="" name="" id="tbUserName">
           <div style="text-indent:5px;" class="baocuo username_msg"></div>
           <input type="password" class="bsie7" onkeydown="enterlogin()" placeholder="密码" value="" name="" id="tbPassword">
           <div style="text-indent:5px;" class="baocuo password_msg"></div>

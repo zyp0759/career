@@ -76,6 +76,39 @@ $("#register_b").click(function () {
 
 });
 
+// 重置密码
+$("#reset_b").click(function () {
+    var old_pwd = $("#old_password").val();
+    var new_pwd = $("#new_password").val();
+    var again_pwd = $("#again_password").val();
+
+    if ( old_pwd == null || new_pwd == null || again_pwd == null) {
+        alert("请填写完整信息")
+    } else if (new_pwd != again_pwd) {
+        alert("两次密码不同")
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "./user/resetPwd",
+            data: {"new_pwd": new_pwd, "old_pwd": old_pwd},
+            dataType: "json",
+            success: function (resp) {
+                if (resp.status == 200) {
+                    alert("重置成功");
+                    $("#main").load("./views/repair/resetPwd.html");
+                } else {
+                    alert(resp.msg);
+                }
+            },
+            error: function (resp) {
+                $(".errorMsg").show();
+                $(".ts").html($(".ts").html() + "访问出错！");
+            }
+        });
+    }
+
+});
+
 //查看所有招聘信息
 function allRecruitment() {
 
@@ -143,6 +176,13 @@ function addStaff() {
 
     $("#main").load("./views/repair/addStaff.html");
 }
+
+//重置密码
+function resetPwd() {
+
+    $("#main").load("./views/repair/resetPwd.html");
+}
+
 
 
 
